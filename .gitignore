@@ -2,4 +2,5 @@
 *.bam
 *.sam
 *.bai
+*.fai
 *pileup.txt
