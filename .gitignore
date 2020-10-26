@@ -1,0 +1,5 @@
+*.fasta
+*.bam
+*.sam
+*.bai
+*pileup.txt
