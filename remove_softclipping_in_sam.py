@@ -42,12 +42,12 @@ with open(IN_FILENAME, "r") as sam_file:
         # every line). As a silly compromise, every 10,000 lines (that will be
         # included in the output), we write to the output file.
         if i > 10000:
-            with open(OUT_FILENAME, "w") as out_file:
+            with open(OUT_FILENAME, "a") as out_file:
                 out_file.write(out_text)
             out_text = ""
             i = 0
 
     # Take care of remaining stuff
     if i > 0:
-        with open(OUT_FILENAME, "w") as out_file:
+        with open(OUT_FILENAME, "a") as out_file:
             out_file.write(out_text)
