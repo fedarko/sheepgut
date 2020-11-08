@@ -2,7 +2,14 @@
 IN_FILENAME = "/Poppy/mkolmogo/sheep_meta/flye_2.8_haplo/assembly_graph.gfa"
 OUT_FILENAME = "/Poppy/mfedarko/sheep_metagenome/selected_edges.fasta"
 
-edges_to_keep = ["7998", "166", "6018", "14948", "1809", "6017", "6021", "6019", "2069"]
+# TODO: either take in these from a file, or load using argparse
+edges_to_keep = [
+    "7998",
+    "166",
+    "6018", "14948", "1809", "6017", "6021", "6019",
+    "2069",
+    "1829", "1879", "3735", "3736", "8360", "17289", "22832", "22833", "22834", "23160", "24017", "25923", "26447", "35242", "35953"
+]
 
 fasta_out = ""
 with open(IN_FILENAME, "r") as gfa_file:
