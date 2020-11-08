@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 import re
 
-IN_FILENAME = "/Poppy/mfedarko/sheep_metagenome/selected_alignment.sam"
-OUT_FILENAME = "/Poppy/mfedarko/sheep_metagenome/selected_alignment_less_soft_clipping.sam"
+IN_FILENAME = "/Poppy/mfedarko/sheep_metagenome/5xalignment.sam"
+OUT_FILENAME = "/Poppy/mfedarko/sheep_metagenome/5xalignment_less_soft_clipping.sam"
 
 # Old version: require that both ends are soft clipped.
 #has_softclipping = re.compile("^(\d+)S(\d+[MIDNHP=X])*(\d+)S$")
