@@ -4,18 +4,6 @@ import re
 IN_FILENAME = "/Poppy/mfedarko/sheep_metagenome/5xalignment.sam"
 OUT_FILENAME = "/Poppy/mfedarko/sheep_metagenome/5xalignment_less_soft_clipping.sam"
 
-# Old version: require that both ends are soft clipped.
-#has_softclipping = re.compile("^(\d+)S(\d+[MIDNHP=X])*(\d+)S$")
-#with open(IN_FILENAME, "r") as sam_file:
-#    for line in sam_file:
-#        # ignore the header lines
-#        if not line.startswith("@"):
-#            cigar = line.split("\t")[5]
-#            match = has_softclipping.match(cigar)
-#            if match:
-#                print(cigar, match.group(1, 3))
-#                break
-
 softclipping = re.compile("(\d+)S")
 with open(IN_FILENAME, "r") as sam_file:
     out_text = ""
