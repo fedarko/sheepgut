@@ -88,6 +88,9 @@ with open("pileup.txt", "r") as pf:
             raise ValueError(
                 "Found uncovered position: pos {} in {}".format(pos, seq)
             )
+        # Update prev pos and prev seq
+        prev_pos = pos
+        prev_seq = seq
         i += 1
         if i % 500000 == 0:
             print("On line {}".format(i))
