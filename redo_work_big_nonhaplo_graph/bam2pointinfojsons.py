@@ -46,13 +46,11 @@ for seq in SEQ2LEN.keys():
     # We use start=0 and end=(sequence length) because the start and end params
     # of pysamstats.stat_variation() are 0-indexed (although the normal
     # samtools pileup format's coordinates are 1-indexed).
-    # Also, we set max_depth just to get around the default 8,000 maximum
-    # "number of reads in a pileup column" (see pysamstats docs). The actual
-    # max coverage of these three sequences is under 10,000, but we might as
-    # well be extra safe...
+    # Also, we set max_depth at 100k because having it low enough silently
+    # limits coverage, I guess???? asodfij. See pysamstats docs.
     for i, rec in enumerate(pysamstats.stat_variation(
         bf, chrom=seq, fafile="newseqs.fasta", start=0, end=SEQ2LEN[seq],
-        truncate=True, max_depth=15000
+        truncate=True, max_depth=100000
     ), 1):
         if rec["N"] > 0:
             raise ValueError("Hang on, there shouldn't be any Ns in this data")
