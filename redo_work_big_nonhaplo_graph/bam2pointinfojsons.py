@@ -17,15 +17,7 @@ SEQ2LEN = {
 }
 
 # Coverage from the alignment -- includes ALL stuff from the alignment, except
-# for stuff we manually filtered before producing the BAM file (i.e.
-# partially-mapped reads).
-#
-# So this means that insertions / deletions are included here. We COULD just
-# use matches + mismatches to determine this, but I don't think that makes
-# sense...?
-# This does mean that we can no longer infer mismatches from just (coverage)
-# and (match count), hence why we have added an additional dict for
-# seq2pos2mismatchct. I think this is a reasonable way of handling this.
+# for stuff we manually filtered before producing the BAM file.
 seq2pos2totalcov = defaultdict(dict)
 
 # The number of matches aligned to a position.
@@ -46,11 +38,11 @@ for seq in SEQ2LEN.keys():
     # We use start=0 and end=(sequence length) because the start and end params
     # of pysamstats.stat_variation() are 0-indexed (although the normal
     # samtools pileup format's coordinates are 1-indexed).
-    # Also, we set max_depth at 100k because having it low enough silently
+    # Also, we set max_depth at 1 mil because having it low enough silently
     # limits coverage, I guess???? asodfij. See pysamstats docs.
     for i, rec in enumerate(pysamstats.stat_variation(
         bf, chrom=seq, fafile="newseqs.fasta", start=0, end=SEQ2LEN[seq],
-        truncate=True, max_depth=100000
+        truncate=True, max_depth=1000000
     ), 1):
         if rec["N"] > 0:
             raise ValueError("Hang on, there shouldn't be any Ns in this data")
@@ -65,9 +57,13 @@ for seq in SEQ2LEN.keys():
             )
         pos = i
 
-        seq2pos2totalcov[seq][pos] = rec["reads_all"]
-        seq2pos2matchct[seq][pos] = rec["matches"]
-        seq2pos2mismatchct[seq][pos] = rec["mismatches"]
+        matches = rec["matches"]
+        mismatches = rec["mismatches"]
+        # COULD set this to reads_all, but for the sake of simplicity
+        # we just define it as matches + mismatches (ignoring deletions).
+        seq2pos2totalcov[seq][pos] = matches + mismatches
+        seq2pos2matchct[seq][pos] = matches
+        seq2pos2mismatchct[seq][pos] = mismatches
 
         non_matches = {}
         possible_non_matches = set("ACGT") - set(rec["ref"])
@@ -76,6 +72,7 @@ for seq in SEQ2LEN.keys():
                 non_matches[poss_non_match] = rec[poss_non_match]
         seq2pos2mismatches[seq][pos] = non_matches
 
+        # Print occasional status updates for my own sanity
         if i % 100000 == 0:
             print("Just processed {} positions in {}".format(i, seq))
 
