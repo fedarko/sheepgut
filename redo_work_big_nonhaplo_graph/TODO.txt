@@ -1,0 +1,45 @@
+-Go through pileup
+-Create files named [seq]_totalaligned_and_matches.tsv
+ for each of the three sequences (contig_1371, etc)
+-For each position, get the total number of aligned reads to this position MINUS
+ the number of indels.
+
+ I am unsure if indels are "reflected" in later positions in the pileup. It
+ does not look like it -- see, e.g. line 301 in the pileup, at position 301 for
+ contig_1371. There is an insertion of +4CATG, but the next position (with
+ reference T) does not have any mention of a C (or an A, for that matter). To
+ me this implies that indels can be ignored by simply just uh ignoring the
+ "+4CATG" or "-2GG" or whatever in each line and just looking at numbers
+ of matches. So, effectively, what we were doing before, since the number of
+ total aligned reads seems to not be influenced by indels...?
+
+ This format is very confusing.
+
+ If indels WOULD impact future positions' values in the pileup file, we'd need
+ to maintain a list of, uhh, "things to change" for future positions. So that
+ if there's e.g. +4CATG then for the next position we'd remove 1 "C", then for
+ the position after we'd remove 1 "A", etc. (taking care to check if these
+ are the reference or not for this position)...?
+
+ But I do not think this is necessary, at least for this first pass. For the
+ paper be VERY EXPLICIT about what you are doing.
+
+ For reference, see https://stackoverflow.com/a/40231190, which seems to
+ corroborate that we can just ignore indel declarations and leave it at that.
+
+ May be doable by looking at strip.split [3]
+ and subtracting the number of things in strip.split [4] (read bases)...
+
+
+
+    Actually, the whole way indels are structured in pileup files is insanely
+    complicated, with a lot of apparent ambiguity. For example, how would a
+     scenario where the very first position of a sequence is an insertion or
+     deletion be encoded in pileup format?
+
+    I worry that if I were to try to set up code to parse the pileup file while
+    ignoring indels I would mess something up, and because this is like a
+    multi-GB file I feel it would be difficult to notice this error.
+
+    It would be best to just ... not have indels here in the first place. But
+     samtools only supports that when outputting to a BCF file?

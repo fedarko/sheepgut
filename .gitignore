@@ -1,7 +1,12 @@
 *.fasta
+*.gfa
 *.bam
 *.sam
 *.bai
 *.fai
+*.faa
 *pileup.txt
 *pileup.tar.gz
+prodigal_out/
+prokka_out/
+__pycache__/
