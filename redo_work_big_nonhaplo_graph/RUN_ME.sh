@@ -15,4 +15,5 @@ echo "Did v/s/i."
 #./compute_mutations.sh
 #echo "Computed pileup."
 #./pileup2pointinfo.py
+./zip_jsons.sh
 echo "Done."

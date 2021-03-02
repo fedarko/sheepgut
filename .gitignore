@@ -7,6 +7,8 @@
 *.faa
 *pileup.txt
 *pileup.tar.gz
+*.json
+*.zip
 prodigal_out/
 prokka_out/
 __pycache__/
