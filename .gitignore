@@ -9,6 +9,8 @@
 *pileup.tar.gz
 *.json
 *.zip
+edges/
 prodigal_out/
 prokka_out/
+checkm_edges_output/
 __pycache__/
