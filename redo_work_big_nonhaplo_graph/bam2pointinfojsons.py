@@ -3,6 +3,12 @@
 # These JSON files are much smaller than either the plaintext pileup output
 # produced by "samtools mpileup" or the original BAM file, so they're a lot
 # easier to download from the server (as well as to read).
+#
+# That being said they could still be compressed A LOT: storing each of
+# these values in arrays would be easier. A quibble with that is we'd
+# probs need to shift from 1- to 0-indexing, which would be kinda a headache.
+# ... Or we could just use artificially-1-indexed arrays by just making the
+# first element None or something, but that seems gross to me somehow...
 
 import json
 from collections import defaultdict
@@ -11,7 +17,7 @@ import pysamstats
 
 # Hard-coded stuff. Ideally this'd be extracted from a FASTA file or something.
 SEQ2LEN = {
-    "edge_1371": 1634973,
+    "edge_1671": 2153394,
     "edge_2358": 2806161,
     "edge_6104": 1289244,
 }
@@ -32,7 +38,7 @@ seq2pos2mismatchct = defaultdict(dict)
 # alignment at a position. 0s are omitted for the sake of filesize.
 seq2pos2mismatches = defaultdict(dict)
 
-bf = pysam.AlignmentFile("aln-sorted.bam")
+bf = pysam.AlignmentFile("fully-filtered-and-sorted-aln.bam")
 
 for seq in SEQ2LEN.keys():
     # We use start=0 and end=(sequence length) because the start and end params
@@ -41,7 +47,7 @@ for seq in SEQ2LEN.keys():
     # Also, we set max_depth at 1 mil because having it low enough silently
     # limits coverage, I guess???? asodfij. See pysamstats docs.
     for i, rec in enumerate(pysamstats.stat_variation(
-        bf, chrom=seq, fafile="newseqs.fasta", start=0, end=SEQ2LEN[seq],
+        bf, chrom=seq, fafile="all_edges.fasta", start=0, end=SEQ2LEN[seq],
         truncate=True, max_depth=1000000
     ), 1):
         if rec["N"] > 0:

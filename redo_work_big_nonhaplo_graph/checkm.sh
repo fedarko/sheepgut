@@ -7,4 +7,4 @@
 # -- may be overkill since I really just want QA, but ok with me.
 #
 # Also, use of -t 10 based on Misha's use of CheckM on the sheep gut dataset.
-checkm lineage_wf -t 10 edges/ checkm_edges_output/
+checkm lineage_wf -t 10 edges/ checkm_edges_output_new/

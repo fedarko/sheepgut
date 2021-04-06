@@ -60,6 +60,7 @@
 # we want to focus on and 30% to another edge we want to focus on, etc.
 
 import re
+import sys
 import pysam
 import skbio
 from collections import defaultdict
@@ -118,7 +119,7 @@ bf = pysam.AlignmentFile("aln-sorted.bam", "rb")
 # These alignments will in turn be further filtered to alignments where a read
 # was almost entirely mapped to a single edge or its component, to limit
 # spurious mutations.
-of = pysam.AlignmentFile("filtered-aln-sorted.bam", "wb", template=bf)
+of = pysam.AlignmentFile("pmread-filtered-aln.bam", "wb", template=bf)
 
 # Per the SAM v1 specification, top of page 8:
 # "Sum of lengths of the M/I/S/=/X operations shall equal the length of SEQ."
