@@ -59,7 +59,7 @@
 # an edge, then the same read could totally be aligned 30% to one edge
 # we want to focus on and 30% to another edge we want to focus on, etc.
 
-
+import re
 import pysam
 import skbio
 from collections import defaultdict
@@ -150,16 +150,21 @@ def check_and_update_alignment(
     read, readname2len, readname2num_matches_in_cc, edge_name
 ):
     # Ensure that read length is consistent across all alignments involving
-    # this read; also, make a record of previously unseen reads' lengths
+    # this read; also, make a record of previously unseen reads' lengths.
+    # (Apparently query length is dependent on the actual alignment of this
+    # read, so we use infer_read_length() instead because we care about the
+    # actual length of the read)
     if read.query_name in readname2len:
-        if readname2len[read.query_name] != read.query_length:
+        if readname2len[read.query_name] != read.infer_read_length():
             raise ValueError(
-                "Inconsistent read lengths across alignments: {}".format(
-                    read.query_name
+                "Inconsistent read lengths across alignments: {}: {}, {}".format(
+                    read.query_name, 
+                    readname2len[read.query_name],
+                    read.infer_read_length()
                 )
             )
     else:
-        readname2len[read.query_name] = read.query_length
+        readname2len[read.query_name] = read.infer_read_length()
 
     # Each AlignedSegment returned by fetch(edge) should pertain to that
     # specific edge sequence -- this lets know that the CIGAR string of
@@ -194,6 +199,7 @@ def check_and_update_alignment(
 
 # Figure out all reads that are aligned to each edge to focus on
 for edge_to_focus_on in edges_to_focus_on:
+    print("Looking at edge {}.".format(edge_to_focus_on))
     # Maps read name to read length (which should be constant across all
     # alignments of that read). This variable is used both to store this info
     # and as a crude indication of "have we seen this read yet?"
@@ -203,10 +209,13 @@ for edge_to_focus_on in edges_to_focus_on:
     # in edges_in_ccs[edge_to_focus_on].
     readname2num_matches_in_cc = defaultdict(int)
 
+    i = 0
     for read in bf.fetch(edge_to_focus_on):
         check_and_update_alignment(
             read, readname2len, readname2num_matches_in_cc, edge_to_focus_on
         )
+        i += 1
+    print("{} alignments for this edge.".format(i))
     # Go through other edges in this component, if present; add to the number
     # of matches in cc for any reads that we see that we've already seen in
     # the edge to focus on. (We implicitly ignore any reads aligned to these
@@ -236,6 +245,8 @@ for edge_to_focus_on in edges_to_focus_on:
     # multiple times. In this case we either output all of these alignments for
     # a given read (if that read passes the percentage filter) or none of them
     # (if that read does not pass the percentage filter).
+    p = 0
+    n = 0
     for read in bf.fetch(edge_to_focus_on):
         if read.query_name not in readname2len:
             raise ValueError("We should have seen this read earlier!")
@@ -249,9 +260,28 @@ for edge_to_focus_on in edges_to_focus_on:
 
         read_num_matches_in_cc = readname2num_matches_in_cc[read.query_name]
 
-        perc = readname2num_matches_in_cc / read_len
+        perc = read_num_matches_in_cc / read_len
+        # small sanity check, print out first 10 alignments for each read
+        if n < 10:
+            print(
+                "FYI: alignment of read {} has {} matches, len {}, {}%".format(
+                    read.query_name, read_num_matches_in_cc, read_len,
+                    perc * 100
+            ), end="")
         if perc >= MIN_PERCENT_ALIGNED:
             of.write(read)
+            if n < 10:
+                print("; passed!")
+            p += 1
+        else:
+            if n < 10:
+                print("; failed!")
+        n += 1
+    print(
+        "{} / {} ({:.2f}%) of alignments in edge {} passed the filter.".format(
+            p, i, (p/i) * 100, edge_to_focus_on
+        )
+    )
 
 bf.close()
 of.close()
