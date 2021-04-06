@@ -14,3 +14,6 @@ prodigal_out/
 prokka_out/
 checkm_edges_output/
 __pycache__/
+minimap2-bug-replication/
+partiallymappedreadstesting-pysam.py
+read-mutcts-in-gene.txt
