@@ -46,9 +46,14 @@ for seq in SEQ2LEN.keys():
     # samtools pileup format's coordinates are 1-indexed).
     # Also, we set max_depth at 1 mil because having it low enough silently
     # limits coverage, I guess???? asodfij. See pysamstats docs.
+    # Lastly, we use pad=True so that even uncovered positions are included --
+    # edge 1671 has some regions in the middle that are uncovered after read
+    # filtering, at least as of writing. In the output, these positions
+    # should just have 0s for coverage, match ct, mismatch ct, and an empty
+    # collection for mismatches.
     for i, rec in enumerate(pysamstats.stat_variation(
         bf, chrom=seq, fafile="all_edges.fasta", start=0, end=SEQ2LEN[seq],
-        truncate=True, max_depth=1000000
+        truncate=True, max_depth=1000000, pad=True
     ), 1):
         if rec["N"] > 0:
             raise ValueError("Hang on, there shouldn't be any Ns in this data")
