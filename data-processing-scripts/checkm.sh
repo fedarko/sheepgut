@@ -9,4 +9,9 @@ OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
 # -- may be overkill since I really just want QA, but ok with me.
 #
 # Also, use of -t 10 based on Misha's use of CheckM on the sheep gut dataset.
+#
+# edge_fna/ should be a directory containing the sequences of interest; these
+# seqs should have .fna extensions. (The reason we don't just tell CheckM to
+# look at all FASTA files in the output directory is that there could be lots
+# of other stuff in there...)
 checkm lineage_wf -t 10 $OUTDIR/edge_fna/ $OUTDIR/checkm_out/
