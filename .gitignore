@@ -11,9 +11,10 @@
 *.json
 *.zip
 edges/
-prodigal_out/
-prokka_out/
-checkm_edges_output/
+output/
+prodigal/
+prokka/
+checkm/
 __pycache__/
 minimap2-bug-replication/
 partiallymappedreadstesting-pysam.py

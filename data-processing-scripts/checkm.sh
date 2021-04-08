@@ -14,4 +14,4 @@ OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
 # seqs should have .fna extensions. (The reason we don't just tell CheckM to
 # look at all FASTA files in the output directory is that there could be lots
 # of other stuff in there...)
-checkm lineage_wf -t 10 $OUTDIR/edge_fna/ $OUTDIR/checkm_out/
+checkm lineage_wf -t 10 $OUTDIR/edge_fna/ $OUTDIR/checkm/

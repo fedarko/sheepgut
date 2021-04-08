@@ -4,7 +4,7 @@
 # Prodigal wiki's advice --
 # https://github.com/hyattpd/prodigal/wiki/advice-by-input-type.
 OUT=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
-PROUT=$OUT/prodigal_out
+PROUT=$OUT/prodigal
 
 prodigal -i $OUT/edge_1671.fasta -o $POUT/edge_1671_genes.sco -a $POUT/edge_1671_proteins.faa -f sco
 prodigal -i $OUT/edge_2358.fasta -o $POUT/edge_2358_genes.sco -a $POUT/edge_2358_proteins.faa -f sco
