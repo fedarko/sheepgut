@@ -4,6 +4,10 @@
 # collection of "edges to focus on" (in our case, the three "genomes"
 # discussed in our paper).
 #
+# This includes both filtering out "partially-mapped reads", which will
+# mess with the mutation analyses, as well as just filtering out reads
+# entirely(ish) mapped to other edges in the graph that we don't care about.
+#
 # THIS ASSUMES THAT SECONDARY ALIGNMENTS HAVE ALREADY BEEN FILTERED OUT.
 # Supplementary alignments should have been left in, but secondary alignments
 # will mess this up!!!
@@ -70,6 +74,8 @@ from collections import defaultdict
 # the BAM file.
 MIN_PERCENT_ALIGNED = 0.9
 
+print("Filtering out reads mapped to other edges and partially-mapped reads...")
+
 edges_to_focus_on = ["edge_1671", "edge_2358", "edge_6104"]
 
 # Edges 1671 and 2358 are in isolated components; however, edge 6104
@@ -114,12 +120,12 @@ edges_in_ccs = {
 }
 
 # Input BAM file (contains read alignments to all edges in the graph)
-bf = pysam.AlignmentFile("aln-sorted.bam", "rb")
+bf = pysam.AlignmentFile("output/aln-sorted.bam", "rb")
 # Output BAM file (will just contain alignments to the edges we're focusing on)
 # These alignments will in turn be further filtered to alignments where a read
 # was almost entirely mapped to a single edge or its component, to limit
 # spurious mutations.
-of = pysam.AlignmentFile("pmread-filtered-aln.bam", "wb", template=bf)
+of = pysam.AlignmentFile("output/pmread-filtered-aln.bam", "wb", template=bf)
 
 # Per the SAM v1 specification, top of page 8:
 # "Sum of lengths of the M/I/S/=/X operations shall equal the length of SEQ."
@@ -286,3 +292,5 @@ for edge_to_focus_on in edges_to_focus_on:
 
 bf.close()
 of.close()
+
+print("Filtered to fully (ish) aligned reads.")

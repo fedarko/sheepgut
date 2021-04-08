@@ -13,3 +13,5 @@ with open(IN_FILENAME, "r") as gfa_file:
 
 with open(OUT_FILENAME, "w") as fasta_file:
     fasta_file.write(fasta_out)
+
+print("Created FASTA of all edges in the assembly graph.")

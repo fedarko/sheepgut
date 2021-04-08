@@ -4,7 +4,7 @@ import pysam
 import skbio
 from itertools import combinations
 
-bf = pysam.AlignmentFile("aln-sorted.bam")
+bf = pysam.AlignmentFile("output/fully-filtered-and-sorted-aln.bam", "rb")
 
 # The gene's coordinates (1-indexed) are [1,208,927, 1,210,075] (that's an
 # inclusive range).
@@ -33,7 +33,7 @@ mutated_positions = [p - 1 for p in mutated_positions_1indexed]
 
 # Extract the reference sequence of the gene. This will let us figure out
 # easily (ish) which reads are mutated at which positions.
-camp = skbio.DNA.read("edge_6104.fasta")
+camp = skbio.DNA.read("output/edge_6104.fasta")
 geneseq = camp[g1[0]:g1[1]]
 
 # Go through all pairs of mutated positions (ignoring ordering). There will be

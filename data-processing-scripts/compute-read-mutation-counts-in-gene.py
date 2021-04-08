@@ -2,7 +2,7 @@
 import pysam
 import skbio
 
-bf = pysam.AlignmentFile("aln-sorted.bam")
+bf = pysam.AlignmentFile("output/fully-filtered-and-sorted-aln.bam", "rb")
 
 # The gene's coordinates (1-indexed) are [1,208,927, 1,210,075] (that's an
 # inclusive range).
@@ -11,7 +11,7 @@ bf = pysam.AlignmentFile("aln-sorted.bam")
 # so this really ranges to 1,210,074.
 g1 = (1208926, 1210075)
 
-camp = skbio.DNA.read("edge_6104.fasta")
+camp = skbio.DNA.read("output/edge_6104.fasta")
 
 # Figure out all reads that completely cover this gene (i.e. they are aligned
 # to start before/at the start of the gene and end after/at the end of the

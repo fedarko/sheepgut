@@ -15,6 +15,8 @@ from collections import defaultdict
 import pysam
 import pysamstats
 
+print("Converting the BAM file to JSONs for further analysis...")
+
 # Hard-coded stuff. Ideally this'd be extracted from a FASTA file or something.
 SEQ2LEN = {
     "edge_1671": 2153394,
@@ -90,14 +92,16 @@ for seq in SEQ2LEN.keys():
     print("Just processed seq {}".format(seq))
 
 # ...yes i know this is extremely lazy
-with open("seq2pos2totalcov.json", "w") as jf:
+with open("output/seq2pos2totalcov.json", "w") as jf:
     jf.write(json.dumps(seq2pos2totalcov))
 
-with open("seq2pos2matchct.json", "w") as jf:
+with open("output/seq2pos2matchct.json", "w") as jf:
     jf.write(json.dumps(seq2pos2matchct))
 
-with open("seq2pos2mismatchct.json", "w") as jf:
+with open("output/seq2pos2mismatchct.json", "w") as jf:
     jf.write(json.dumps(seq2pos2mismatchct))
 
-with open("seq2pos2mismatches.json", "w") as jf:
+with open("output/seq2pos2mismatches.json", "w") as jf:
     jf.write(json.dumps(seq2pos2mismatches))
+
+print("Created JSONs.")

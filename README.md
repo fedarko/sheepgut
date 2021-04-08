@@ -1,11 +1,14 @@
-# SheepGut Analysis Scripts/Notebooks
+# SheepGut analysis scripts/notebooks
 
 This repository contains various code files used in the analysis of metagenome-assembled genomes in a high-coverage sheep gut metagenome.
 
-Note that many of these files will not work on other systems since we have not
-provided the raw data files (which are over 100 GB) in this repository.
-However, we've tried to document things clearly; if you have any questions,
-please feel free to reach out.
+Note that many of these files will not work on other systems "out of the box"
+(i.e. without some configuration) since we have not
+provided the raw data files (which are over 100 GB) in this repository, and
+since many scripts assume that they are being run on our computing server.
+
+If you have any questions about getting things running or how things in this
+repository work, please feel free to reach out.
 
 ## `data-processing-scripts/`
 
@@ -15,18 +18,17 @@ The basic workflow used involves the following steps:
 - Creating a FASTA file of all the edge sequences in a metagenome assembly graph
 
 - Aligning the raw sequencing data (i.e. reads) back to the edge sequences in
-  the metagenome assembly graph
+  the metagenome assembly graph, creating a SAM file
 
-- Filtering the resulting alignment to remove:
-  - Secondary alignments
-  - Reads mapped to the edge sequences we are interested in that are only
-    partially mapped to a particular edge sequence of interest (or to another
-    edge in the same component of the assembly graph, if a sequence we are
-    interested in is not in its own isolated component of the assembly graph)
+- Filtering the resulting SAM file to remove secondary alignments (but not supplementary alignments!), and converting it to a BAM file
 
-- Sorting and indexing the alignment
+- Sorting and indexing the BAM file
 
-- Converting the alignment to a collection of simple
+- Filtering the BAM file to remove partially-mapped reads, and reads mapped completely or almost completely to other edge sequences we are not interested in
+
+- Sorting and indexing the filtered BAM file
+
+- Converting the final BAM file to a collection of simple
   [JSON](https://en.wikipedia.org/wiki/JSON) files representing the number
   of matches, mismatches, etc. at each position within the sequences of
   interest
