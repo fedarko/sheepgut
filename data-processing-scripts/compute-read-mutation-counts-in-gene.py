@@ -1,4 +1,14 @@
 #! /usr/bin/env python3
+# Similar to phase-mutated-position-pairs-in-gene.py, this takes an in-depth
+# look at a single gene. This produces a list of the numbers of mutations
+# within this gene from all of the spanning reads.
+#
+# TODO: this has the same problems as the phasing script.
+# 1. make sure reads actually do FULLY cover the position
+# 2. These aren't reads they're alignments -- there could be the same read
+#    here multiple times, or reads aligned elsewhere due to supplemental
+#    alignment, etc. (tho that case is probs ok). make note of this in paper
+#    text/comments etc.
 import pysam
 import skbio
 

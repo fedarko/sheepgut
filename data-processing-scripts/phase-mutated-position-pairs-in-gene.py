@@ -1,4 +1,20 @@
 #! /usr/bin/env python3
+# This performs the (main) analysis described in the section "Phasing gene G1":
+# we find all reads completely covering the gene and figure out how many
+# reads support pairs of mutations in the particularly "mutated" positions.
+#
+# TODO:
+# -Check that mutated positions are exactly those listed here -- ideally look
+#  at the JSONs to retrieve them directly. Relying on a manual list here is
+#  clunky and error-prone.
+# -Check that these reads ENTIRELY span the gene -- is it ok if they have e.g.
+#  soft-clipping in the middle of the gene? Probably, but be explicit about
+#  this.
+# -CRITICALLY: these are not necessarily reads -- these are alignments of
+#  reads. Alter the paper text + code comments to make note of this, and check
+#  to make sure that we're not considering the same read twice here? Like,
+#  these are PROBS all different reads, but there is a chance that supplemental
+#  alignments/etc could mess with things.
 import statistics
 import pysam
 import skbio
