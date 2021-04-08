@@ -34,10 +34,11 @@ involves the following general steps:
   of matches, mismatches, etc. at each position within the sequences of
   interest
 
-The JSON files are, as of writing, the primary output from these scripts.
-However, there are other scripts included within this directory that generate
-some other data (e.g. running Prodigal; running CheckM; analyzing certain
-regions of these sequences as needed for the paper).
+The JSON files are the primary output from this "main workflow."
+However, there are other scripts included within this directory (not part of
+the main workflow) that generate other files / perform other analyses (e.g.
+running Prodigal; running CheckM; analyzing certain regions of these sequences
+as needed for the paper).
 
 ## `analysis-notebooks/`
 
