@@ -13,6 +13,8 @@
 
 OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
 
+echo "Starting main analysis workflow."
+
 ./gfa-to-fasta.py
 
 ./align-reads-to-edges.sh
@@ -33,4 +35,4 @@ OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
 
 ./bam-to-jsons.py
 
-echo "Done!"
+echo "Done with the main analysis workflow!"

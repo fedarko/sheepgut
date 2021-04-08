@@ -2,6 +2,8 @@
 IN_FILENAME = "/Poppy/mkolmogo/sheep_meta/flye_big_2.8/assembly_graph.gfa"
 OUT_FILENAME = "output/all_edges.fasta"
 
+print("Creating FASTA of all edges in the assembly graph...")
+
 fasta_out = ""
 with open(IN_FILENAME, "r") as gfa_file:
     for line in gfa_file:
@@ -14,4 +16,4 @@ with open(IN_FILENAME, "r") as gfa_file:
 with open(OUT_FILENAME, "w") as fasta_file:
     fasta_file.write(fasta_out)
 
-print("Created FASTA of all edges in the assembly graph.")
+print("FASTA created.")
