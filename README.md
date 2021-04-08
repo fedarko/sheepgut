@@ -1,6 +1,6 @@
 # SheepGut Analysis Scripts/Notebooks
 
-This repository contains various code files used in the analysis of metagenome-assembled genomes in a high-coverage sheep gut metagenome sample.
+This repository contains various code files used in the analysis of metagenome-assembled genomes in a high-coverage sheep gut metagenome.
 
 Note that many of these files will not work on other systems since we have not
 provided the raw data files (which are over 100 GB) in this repository.
