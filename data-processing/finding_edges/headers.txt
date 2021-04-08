@@ -1,3 +1,0 @@
->edge_166_len1302342_cov557
->edge_6018_len2232606_cov538
->edge_7998_len1634900_cov853
