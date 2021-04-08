@@ -17,3 +17,5 @@ __pycache__/
 minimap2-bug-replication/
 partiallymappedreadstesting-pysam.py
 read-mutcts-in-gene.txt
+.ipynb_checkpoints/*
+__pycache__/*
