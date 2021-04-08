@@ -13,7 +13,8 @@ repository work, please feel free to reach out.
 ## `data-processing-scripts/`
 
 This directory contains various scripts that work with the raw data.
-The basic workflow used involves the following steps:
+The basic workflow used, which is performed by `RUN-ME.sh` in this directory,
+involves the following general steps:
 
 - Creating a FASTA file of all the edge sequences in a metagenome assembly graph
 
@@ -26,7 +27,7 @@ The basic workflow used involves the following steps:
 
 - Filtering the BAM file to remove partially-mapped reads, and reads mapped completely or almost completely to other edge sequences we are not interested in
 
-- Sorting and indexing the filtered BAM file
+- Sorting and indexing the (filtered) BAM file
 
 - Converting the final BAM file to a collection of simple
   [JSON](https://en.wikipedia.org/wiki/JSON) files representing the number
