@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 IN_FILENAME = "/Poppy/mkolmogo/sheep_meta/flye_big_2.8/assembly_graph.gfa"
-OUT_FILENAME = "all_edges.fasta"
+OUT_FILENAME = "output/all_edges.fasta"
 
 fasta_out = ""
 with open(IN_FILENAME, "r") as gfa_file:

@@ -5,6 +5,7 @@
 *.bai
 *.fai
 *.faa
+*.fna
 *pileup.txt
 *pileup.tar.gz
 *.json
