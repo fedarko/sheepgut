@@ -44,12 +44,18 @@ as needed for the paper).
 
 This directory contains [Jupyter notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook) that create various plots, files, etc. of the data.
 
+Figures are output to a directory named `analysis-notebooks/figs/`.
+Mutation profile tables are output to a directory named
+`analysis-notebooks/mutation-profiles/`.
+
 Many of these notebooks rely entirely or almost entirely on the JSON files
 created by the data processing scripts above. The initial structure of this
 repository was as two separate codebases, where I would create the JSONs on a
 computing server and then download them to my laptop for further analysis;
 however, eventually the JSONs became too large to load in memory on my poor
 laptop, so I elected to run the notebooks on the server as well.
+
+For reference, a script that runs these notebooks is located at `analysis-notebooks/RUN-NOTEBOOKS.py`.
 
 ## `find-edges-in-other-graph/`
 
