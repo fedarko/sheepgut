@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
+OUTDIR=/Poppy/mfedarko/sheepgut/main-workflow/output
 
 echo "Filtering secondary alignments and converting to BAM..."
 

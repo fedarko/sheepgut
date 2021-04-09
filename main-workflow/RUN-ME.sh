@@ -11,7 +11,7 @@
 # this, since having later version of samtools (1.7 as of writing) plus
 # pysam/etc. is needed
 
-OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
+OUTDIR=/Poppy/mfedarko/sheepgut/main-workflow/output
 
 echo "Starting main analysis workflow."
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-OUTDIR=/Poppy/mfedarko/sheepgut/data-processing-scripts/output
+OUTDIR=/Poppy/mfedarko/sheepgut/main-workflow/output
 REF_FILE=$OUTDIR/all_edges.fasta
 # This contains the "smaller" dataset; we also include the "larger" dataset
 # (~5x as much data) in the alignment operation below.
