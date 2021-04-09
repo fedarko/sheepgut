@@ -2,17 +2,25 @@
 
 This repository contains various code files used in the analysis of metagenome-assembled genomes in a high-coverage sheep gut metagenome.
 
-Note that many of these files will not work on other systems "out of the box"
-(i.e. without some configuration). There are two main reasons for this.
-First, we have not provided many of the input data files (which are well over
-GitHub's 100 MB filesize limit as of writing) in this repository; and second,
-many of these scripts assume that they are being run on our computing server,
-and therefore use some things like hardcoded file paths that will break on
-other systems.
+Broadly, the "inputs" to these analyses are:
 
-In spite of this, we've tried to make things clear; if you have any questions
-about getting things running or how things in this repository work, please feel
-free to reach out.
+1. An assembly graph (in GFA format)
+2. The reads used to generate the assembly graph (in FASTQ and/or FASTA format)
+
+## Reproducing these analyses on your own system
+
+To see the exact versions of the programs we used while running these
+analyses, please consult the `conda-environment.yml` file specifying the
+[conda](https://conda.io/) environment the analyses were
+ran within. (This file was created using [`conda env
+export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).
+
+Note that we have not provided the input data files (or many of the
+"intermediate" data files) in this repository due to GitHub's filesize limits.
+__TODO: Add instructions for what exactly to modify accordingly...__
+
+If you have any questions about getting things running or how things in this
+repository work, please feel free to reach out.
 
 ## `main-workflow/`
 
