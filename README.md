@@ -35,10 +35,19 @@ involves the following general steps:
   interest
 
 The JSON files are the primary output from this "main workflow."
-However, there are other scripts included within this directory (not part of
-the main workflow) that generate other files / perform other analyses (e.g.
-running Prodigal; running CheckM; analyzing certain regions of these sequences
-as needed for the paper).
+
+## `assess-seqs/`
+
+This directory contains scripts that perform some tasks outside of the
+"main workflow" that are still essential for lots of the paper. Currently this
+includes scripts for:
+
+1. Running Prodigal to predict protein-coding genes within these sequences
+2. Running CheckM
+
+Note that, unlike the JSON files and other outputs of the "main workflow"
+scripts above, these results are included in the repository since they're
+both 1) relatively small files and 2) useful to have around in version control.
 
 ## `analysis-notebooks/`
 
