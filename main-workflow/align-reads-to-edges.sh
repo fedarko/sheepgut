@@ -12,7 +12,7 @@ REF_FILE=output/all_edges.fasta
 # see https://unix.stackexchange.com/a/314810.
 read READS_FILES < ../config/input-reads
 echo "The input reads files are $READS_FILES."
-echo "(It looks like there are a total of `echo $READS_FILES | wc -w` files included.)"
+echo "(After expansion, it looks like there are a total of `echo $READS_FILES | wc -w` files included.)"
 
 echo "Aligning reads to edges..."
 
