@@ -40,7 +40,7 @@ seq2pos2mismatchct = defaultdict(dict)
 # alignment at a position. 0s are omitted for the sake of filesize.
 seq2pos2mismatches = defaultdict(dict)
 
-bf = pysam.AlignmentFile("fully-filtered-and-sorted-aln.bam")
+bf = pysam.AlignmentFile("output/fully-filtered-and-sorted-aln.bam")
 
 for seq in SEQ2LEN.keys():
     # We use start=0 and end=(sequence length) because the start and end params
@@ -54,7 +54,7 @@ for seq in SEQ2LEN.keys():
     # should just have 0s for coverage, match ct, mismatch ct, and an empty
     # collection for mismatches.
     for i, rec in enumerate(pysamstats.stat_variation(
-        bf, chrom=seq, fafile="all_edges.fasta", start=0, end=SEQ2LEN[seq],
+        bf, chrom=seq, fafile="output/all_edges.fasta", start=0, end=SEQ2LEN[seq],
         truncate=True, max_depth=1000000, pad=True
     ), 1):
         if rec["N"] > 0:
