@@ -1,4 +1,3 @@
-*.fasta
 *.gfa
 *.bam
 *.sam
@@ -19,5 +18,4 @@ __pycache__/
 minimap2-bug-replication/
 partiallymappedreadstesting-pysam.py
 read-mutcts-in-gene.txt
-.ipynb_checkpoints/*
-__pycache__/*
+.ipynb_checkpoints/
