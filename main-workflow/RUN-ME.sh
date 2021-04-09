@@ -1,17 +1,15 @@
 #! /usr/bin/env bash
-
-# NOTE: Since the alignment process works against ALL edges, if it's desired
-# to rerun this analysis while focusing on different edges in the graph,
-# the only parts that need to be rerun are the stuff starting at and below
-# ./filter-partially-mapped-reads.py.
+# Runs the "main workflow" scripts, detailed in more depth in the README.
 #
-# Ideally I'd make the edge sequences configurable in this script or something.
-#
-# NOTE 2: The mut-analyses conda env should be activated before running
-# this, since having later version of samtools (1.7 as of writing) plus
-# pysam/etc. is needed
+# This takes a while (longest step will likely be the second, in which reads
+# are aligned to all edges in the assembly graph).
 
-OUTDIR=/Poppy/mfedarko/sheepgut/main-workflow/output
+# Attempt to create an output directory if it doesn't exist. The "output" name
+# for this directory is used a lot throughout this repository, so I do not
+# recommend changing this. (We could make it configurable, like the input file
+# paths, but I'm not sure that would be worth the effort.)
+OUTDIR=output/
+mkdir -p $OUTDIR
 
 echo "Starting main analysis workflow."
 

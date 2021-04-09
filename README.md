@@ -9,18 +9,45 @@ Broadly, the "inputs" to these analyses are:
 
 ## Reproducing these analyses on your own system
 
-To see the exact versions of the programs we used while running these
-analyses, please consult the `conda-environment.yml` file specifying the
-[conda](https://conda.io/) environment the analyses were
-ran within. (This file was created using [`conda env
-export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).
+If you have any questions about getting things running or how things in this
+repository work, please feel free to reach out. This guide should work on most
+Linux / macOS systems; it's been tested on Ubuntu 16.04.
+
+### Basic walkthrough
+
+1. Download assembly graph; update the path in `config/input-graph` accordingly
+2. Download reads; update the path in `config/input-reads` accordingly
+3. Run the following commands in bash:
+
+```bash
+# Run "main workflow" (do alignment, etc.)
+cd main-workflow/
+./RUN-ME.sh
+
+# Run various sequence-level analyses
+cd ../inspect-seqs/
+./checkm.sh
+./prodigal.sh
+
+# Create figures for the paper
+cd ../notebooks
+./RUN-NOTEBOOKS.py
+```
+
+### Input file locations
 
 Note that we have not provided the input data files (or many of the
 "intermediate" data files) in this repository due to GitHub's filesize limits.
-__TODO: Add instructions for what exactly to modify accordingly...__
+You'll need to download them yourself and update some paths accordingly (see
+above).
 
-If you have any questions about getting things running or how things in this
-repository work, please feel free to reach out.
+### Program versions
+
+To see the exact versions of the programs we used while running these
+analyses, please consult the `conda-environment.yml` file in this repository.
+This details the [conda](https://conda.io/) environment the analyses were
+ran within. (This file was created using [`conda env export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).)
+
 
 ## `main-workflow/`
 
