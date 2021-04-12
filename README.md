@@ -27,7 +27,7 @@ cd main-workflow/
 # Run various sequence-level analyses
 cd ../inspect-seqs/
 ./checkm.sh
-./prodigal.sh
+./prodigal.py
 
 # Create figures for the paper
 cd ../notebooks
