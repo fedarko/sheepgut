@@ -5,6 +5,10 @@
 import os
 import subprocess
 
+# Notebooks we don't (explicitly) run here. Many of these are notebooks
+# that exist only to be run by other notebooks (e.g. header, gene utils,
+# load mutation JSON data); this could also be used for unfinished notebooks,
+# stuff that I don't need to frequently rerun, etc.
 EXCLUDED_NOTEBOOKS = [
     "Header.ipynb",
     "GraphCoverageAndConnectivityAnalysis.ipynb",
