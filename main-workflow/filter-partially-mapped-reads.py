@@ -64,9 +64,7 @@
 # we want to focus on and 30% to another edge we want to focus on, etc.
 
 import re
-import sys
 import pysam
-import skbio
 from collections import defaultdict
 
 # This is a percentage (value in [0, 1]). Reads where less than this
