@@ -16,11 +16,10 @@ for de in os.scandir("../seqs"):
         fn = de.name
         if fn.lower().endswith(".fasta"):
             in_file_path = os.path.join("..", "seqs", fn)
-            # We use the [:-5] to trim off the "fasta", so that the
-            # output files (containing predicted genes in SCO format) are
-            # just labelled e.g. "edge_1671.sco".
-            out_file_path = os.path.join(
-                "..", "seqs", "genes", fn[:-5] + "sco"
+            # We use the [:-5] to trim off the ".fasta" to make using
+            # different file suffixes easier
+            out_file_path_base = os.path.join(
+                "..", "seqs", "genes", fn[:-6]
             )
             print("Running Prodigal on sequence {}".format(fn))
             subprocess.run([
@@ -28,7 +27,9 @@ for de in os.scandir("../seqs"):
                 "-i",
                 in_file_path,
                 "-o",
-                out_file_path,
+                out_file_path_base + ".sco",
+                "-a",
+                out_file_path_base + "_aa.fasta",
                 "-f",
                 "sco"
             ])
