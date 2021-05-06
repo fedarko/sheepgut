@@ -14,8 +14,8 @@ repository work, please feel free to reach out. This guide should work on most
 Linux / macOS systems; it's been tested on Ubuntu 16.04.
 
 ### Setting up your environment
-Most of the relevant software to these analyses we used (e.g. minimap2,
-samtools, Pysam, ...) was installed using [conda](https://conda.io/) (and
+Most of the relevant software for these analyses we used (e.g. minimap2,
+samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
 [pip](https://pip.pypa.io/) inside of conda, in some cases).
 
 The `conda-environment.yml` file in this repository details the conda
