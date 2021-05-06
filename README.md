@@ -20,10 +20,13 @@ samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
 
 The `conda-environment.yml` file in this repository details the conda
 environment that the analyses were ran within.
-(This file was created using [`conda env export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).)
+(This file was created using [`conda env
+export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment),
+using the `Makefile` contained in this repo.)
 
-You should be able to replicate this environment from the YML file directly
-(see [the conda docs on how to do this](https://docs.conda.io/projects/conda/en/master/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)).
+You should be able to replicate this environment from the YML file directly,
+using `conda env create`:
+see [the conda docs on how to do this](https://docs.conda.io/projects/conda/en/master/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
 
 **NOTE: The conda environment in the YML file is pretty bloated -- there are a
 few things in there that are not needed for these analyses. This envirnoment
