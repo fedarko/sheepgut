@@ -18,9 +18,9 @@ dependencies:
   - bleach=3.3.0=pyh44b312d_0
   - blosc=1.20.1=hd408876_0
   - bzip2=1.0.8=h7b6447c_0
-  - ca-certificates=2020.10.14=0
+  - ca-certificates=2021.4.13=h06a4308_1
   - cairo=1.14.12=he6fea26_5
-  - certifi=2020.6.20=py37_0
+  - certifi=2020.12.5=py37h06a4308_0
   - cffi=1.14.5=py37h261ae71_0
   - clustalw=2.1=hc9558a2_5
   - curl=7.71.1=hbc83047_1
@@ -54,6 +54,7 @@ dependencies:
   - jupyter_client=6.1.12=pyhd8ed1ab_0
   - jupyter_core=4.7.1=py37h89c1867_0
   - jupyterlab_pygments=0.1.2=pyh9f0ad1d_0
+  - k8=0.2.5=he513fc3_0
   - krb5=1.18.2=h173b8e3_0
   - ld_impl_linux-64=2.33.1=h53a641e_7
   - libcurl=7.71.1=h20c2e04_1
@@ -82,6 +83,7 @@ dependencies:
   - lzo=2.10=h7b6447c_2
   - markupsafe=1.1.1=py37hb5d75c8_2
   - minced=0.4.2=0
+  - minimap2=2.17=hed695b0_3
   - mistune=0.8.4=py37h4abf009_1002
   - mkl=2020.2=256
   - mkl-service=2.3.0=py37he8ac12f_0
@@ -98,7 +100,7 @@ dependencies:
   - numpy=1.19.2=py37h54aff64_0
   - numpy-base=1.19.2=py37hfa32c7d_0
   - openjdk=11.0.1=h516909a_1016
-  - openssl=1.1.1h=h7b6447c_0
+  - openssl=1.1.1k=h27cfd23_0
   - packaging=20.9=pyh44b312d_0
   - paml=4.9=h516909a_5
   - pandoc=2.12=h7f98852_0
@@ -392,8 +394,10 @@ dependencies:
     - msgpack==1.0.2
     - natsort==7.1.1
     - nbdime==2.1.0
+    - networkx==2.5.1
     - pandas==1.2.3
     - pillow==8.0.1
+    - python-codon-tables==0.1.10
     - pytz==2021.1
     - requests==2.25.1
     - scikit-bio==0.5.6
