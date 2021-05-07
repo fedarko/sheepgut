@@ -13,6 +13,29 @@ If you have any questions about getting things running or how things in this
 repository work, please feel free to reach out. This guide should work on most
 Linux / macOS systems; it's been tested on Ubuntu 16.04.
 
+### Setting up your environment
+Most of the relevant software for these analyses we used (e.g. minimap2,
+samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
+[pip](https://pip.pypa.io/) inside of conda, in some cases).
+
+The `conda-environment.yml` file in this repository details the conda
+environment that the analyses were ran within.
+(This file was created using [`conda env
+export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment),
+using the `Makefile` contained in this repo.)
+
+You should be able to replicate this environment from the YML file directly,
+using `conda env create`:
+see [the conda docs on how to do this](https://docs.conda.io/projects/conda/en/master/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
+
+**NOTE: The conda environment in the YML file is pretty bloated -- there are a
+few things in there that are not needed for these analyses. This envirnoment
+should be replaced with a smaller, minimal one.**
+
+You could also create a fresh Python 3.7 environment and install specific
+needed packages individually. However, that might be tedious and prone to
+errors.
+
 ### Basic walkthrough
 
 1. Download assembly graph; update the path in `config/input-graph` accordingly
@@ -40,14 +63,6 @@ Note that we have not provided the input data files (or many of the
 "intermediate" data files) in this repository due to GitHub's filesize limits.
 You'll need to download them yourself and update some paths accordingly (see
 above).
-
-### Program versions
-
-To see the exact versions of the programs we used while running these
-analyses, please consult the `conda-environment.yml` file in this repository.
-This details the [conda](https://conda.io/) environment the analyses were
-ran within. (This file was created using [`conda env export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).)
-
 
 ## `main-workflow/`
 
