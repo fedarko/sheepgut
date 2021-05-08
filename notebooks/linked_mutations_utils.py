@@ -48,5 +48,8 @@ def find_mutated_positions(seq, seq2pos2matchct, seq2pos2mismatchct):
             # these analyses (albeit maybe with different values of MINFREQ).
             # Of course, this isn't the only way to do this.
             if (mismatchct / cov) > MINFREQ:
-                mutated_positions.append(int(pos))
+                # We need 0-indexed positions so we can work with skbio /
+                # pysam. We therefore decrease these by 1, since the JSONs are
+                # 1-indexed.
+                mutated_positions.append(int(pos) - 1)
     return mutated_positions
