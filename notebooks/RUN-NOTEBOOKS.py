@@ -10,12 +10,13 @@ import subprocess
 #  (e.g. header, gene utils, load mutation JSON data)
 # -Notebooks that take a super long time to rerun, and should therefore be
 #  rerun only when definitely needed
-#  (e.g. codon/aa mutation matrices)
+#  (e.g. codon/aa mutation matrices, linked mutation read classification)
 EXCLUDED_NOTEBOOKS = [
     "Header.ipynb",
     "LoadMutationJSONData.ipynb",
     "GeneUtils.ipynb",
     "Codon_AminoAcid_MutationMatrices.ipynb",
+    "LinkedMutations-ClassifyReads.ipynb",
 ]
 
 cwd_files = os.listdir()
