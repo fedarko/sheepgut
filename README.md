@@ -53,6 +53,8 @@ cd ../inspect-seqs/
 ./prodigal.py
 
 # Create figures for the paper
+# (Note that this won't run all of the notebooks, since some of them
+# take a relatively long time to run; see the script's comments for details)
 cd ../notebooks
 ./RUN-NOTEBOOKS.py
 ```
@@ -111,7 +113,7 @@ both 1) relatively small files and 2) useful to have around in version control.
 
 ## `notebooks/`
 
-This directory contains [Jupyter notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook) that create various plots, files, etc. of the data.
+This directory contains [Jupyter Notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook) that create various plots, files, etc. of the data.
 
 Figures are output to a directory named `notebooks/figs/`.
 Mutation profile tables are output to a directory named
@@ -124,7 +126,8 @@ computing server and then download them to my laptop for further analysis;
 however, eventually the JSONs became too large to load in memory on my poor
 laptop, so I elected to run the notebooks on the server as well.
 
-For reference, a script that runs these notebooks is located at `notebooks/RUN-NOTEBOOKS.py`.
+For reference, a script that runs some of these
+notebooks is located at `notebooks/RUN-NOTEBOOKS.py`.
 
 ## `find-edges-in-other-graph/`
 
