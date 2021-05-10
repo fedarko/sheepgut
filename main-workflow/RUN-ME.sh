@@ -17,7 +17,7 @@ echo "Starting main analysis workflow."
 
 ./align-reads-to-edges.sh
 
-./filter-secondary-alignments.sh
+./sam-to-bam.sh
 
 # We need to have indexed the BAM file in order to use fetch() in Pysam
 # in the partially-mapped reads filtering script below. (And, at least
