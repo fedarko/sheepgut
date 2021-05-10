@@ -1,6 +1,7 @@
 graph BACTERIA_cc8 {
-	K = 2.0;
-	overlap="prism2";	"2,105,350" [style="filled", fillcolor="#ffbb78", fontcolor="#000000"];
+	overlap="prism50";
+	outputorder="edgesfirst";
+	"2,105,350" [style="filled", fillcolor="#ffbb78", fontcolor="#000000"];
 	"2,105,356" [style="filled", fillcolor="#ffbb78", fontcolor="#000000"];
 	"2,115,599" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
 	"2,125,859" [style="filled", fillcolor="#dbdb8d", fontcolor="#000000"];

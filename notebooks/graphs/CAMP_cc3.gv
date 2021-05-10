@@ -1,6 +1,7 @@
 graph CAMP_cc3 {
-	K = 2.0;
-	overlap="prism2";	"1,053,702" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
+	overlap="prism50";
+	outputorder="edgesfirst";
+	"1,053,702" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
 	"1,053,706" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
 	"1,053,967" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
 	"1,054,114" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];

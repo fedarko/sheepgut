@@ -1,6 +1,7 @@
 graph BACTEROIDALES_cc4 {
-	K = 2.0;
-	overlap="prism2";	"499,969" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	overlap="prism50";
+	outputorder="edgesfirst";
+	"499,969" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"499,972" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"500,491" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"499,982" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];

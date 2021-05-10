@@ -1,6 +1,7 @@
 graph BACTEROIDALES_cc6 {
-	K = 2.0;
-	overlap="prism2";	"1,797,891" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	overlap="prism50";
+	outputorder="edgesfirst";
+	"1,797,891" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"1,797,893" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"1,797,789" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"1,797,897" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
