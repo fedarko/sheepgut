@@ -1,6 +1,6 @@
 graph CAMP_cc9 {
 	K = 2.0;
-	986216 [style="filled", fillcolor="#cc0000"];
-	986214 [style="filled", fillcolor="#cc0000"];
-	986216 -- 986214;
+	overlap="prism2";	"986,216" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"986,214" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"986,216" -- "986,214";
 }

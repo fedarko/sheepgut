@@ -1,9 +1,9 @@
 graph BACTEROIDALES_cc10 {
 	K = 2.0;
-	436409 [style="filled", fillcolor="#cc0000"];
-	436406 [style="filled", fillcolor="#cc0000"];
-	436407 [style="filled", fillcolor="#cc0000"];
-	436409 -- 436406;
-	436409 -- 436407;
-	436406 -- 436407;
+	overlap="prism2";	"436,409" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,406" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,407" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,409" -- "436,406";
+	"436,409" -- "436,407";
+	"436,406" -- "436,407";
 }

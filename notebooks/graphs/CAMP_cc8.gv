@@ -1,9 +1,9 @@
 graph CAMP_cc8 {
 	K = 2.0;
-	1057403 [style="filled", fillcolor="#cc0000"];
-	1057395 [style="filled", fillcolor="#cc0000"];
-	1057390 [style="filled", fillcolor="#cc0000"];
-	1057403 -- 1057390;
-	1057403 -- 1057395;
-	1057395 -- 1057390;
+	overlap="prism2";	"1,057,403" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
+	"1,057,395" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
+	"1,057,390" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
+	"1,057,403" -- "1,057,390";
+	"1,057,403" -- "1,057,395";
+	"1,057,395" -- "1,057,390";
 }

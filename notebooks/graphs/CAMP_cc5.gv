@@ -1,9 +1,9 @@
 graph CAMP_cc5 {
 	K = 2.0;
-	371153 [style="filled", fillcolor="#cc0000"];
-	371206 [style="filled", fillcolor="#cc0000"];
-	371230 [style="filled", fillcolor="#cc0000"];
-	371153 -- 371206;
-	371153 -- 371230;
-	371206 -- 371230;
+	overlap="prism2";	"371,153" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,206" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,230" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,153" -- "371,206";
+	"371,153" -- "371,230";
+	"371,206" -- "371,230";
 }
