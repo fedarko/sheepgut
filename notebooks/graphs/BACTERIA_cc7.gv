@@ -1,6 +1,9 @@
 graph BACTERIA_cc7 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="BACTERIA, component 7: 497 nodes, 5,559 edges";
+	labelloc="t";
+	fontsize=24;
 	"520,195" [style="filled", fillcolor="#8c564b", fontcolor="#000000"];
 	"489,479" [style="filled", fillcolor="#ff9896", fontcolor="#000000"];
 	"514,075" [style="filled", fillcolor="#d62728", fontcolor="#000000"];

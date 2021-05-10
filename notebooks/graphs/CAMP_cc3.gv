@@ -1,6 +1,9 @@
 graph CAMP_cc3 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="CAMP, component 3: 24 nodes, 136 edges";
+	labelloc="t";
+	fontsize=24;
 	"1,053,703" [style="filled", fillcolor="#f7b6d2", fontcolor="#000000"];
 	"1,053,707" [style="filled", fillcolor="#f7b6d2", fontcolor="#000000"];
 	"1,053,968" [style="filled", fillcolor="#f7b6d2", fontcolor="#000000"];

@@ -1,6 +1,9 @@
 graph BACTEROIDALES_cc10 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="BACTEROIDALES, component 10: 3 nodes, 3 edges";
+	labelloc="t";
+	fontsize=24;
 	"436,408" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"436,410" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"436,407" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];

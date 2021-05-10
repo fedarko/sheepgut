@@ -1,6 +1,9 @@
 graph CAMP_cc5 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="CAMP, component 5: 3 nodes, 3 edges";
+	labelloc="t";
+	fontsize=24;
 	"371,154" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
 	"371,231" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
 	"371,207" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];

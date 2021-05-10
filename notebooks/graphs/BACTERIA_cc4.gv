@@ -1,6 +1,9 @@
 graph BACTERIA_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="BACTERIA, component 4: 617 nodes, 13,418 edges";
+	labelloc="t";
+	fontsize=24;
 	"1,599,494" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
 	"1,585,163" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
 	"1,542,162" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];

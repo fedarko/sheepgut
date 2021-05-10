@@ -1,6 +1,9 @@
 graph BACTEROIDALES_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	label="BACTEROIDALES, component 4: 26 nodes, 325 edges";
+	labelloc="t";
+	fontsize=24;
 	"499,970" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"499,973" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
 	"500,492" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
