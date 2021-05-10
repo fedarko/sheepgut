@@ -1,0 +1,9 @@
+graph CAMP_cc7 {
+	K = 2.0;
+	1056996 [style="filled", fillcolor="#cc0000"];
+	1057004 [style="filled", fillcolor="#cc0000"];
+	1056918 [style="filled", fillcolor="#cc0000"];
+	1056996 -- 1056918;
+	1056996 -- 1057004;
+	1057004 -- 1056918;
+}

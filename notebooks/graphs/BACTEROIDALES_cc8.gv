@@ -1,0 +1,9 @@
+graph BACTEROIDALES_cc8 {
+	K = 2.0;
+	276993 [style="filled", fillcolor="#cc0000"];
+	276986 [style="filled", fillcolor="#cc0000"];
+	277061 [style="filled", fillcolor="#cc0000"];
+	276993 -- 276986;
+	276993 -- 277061;
+	276986 -- 277061;
+}
