@@ -11,12 +11,17 @@ import subprocess
 # -Notebooks that take a super long time to rerun, and should therefore be
 #  rerun only when definitely needed
 #  (e.g. codon/aa mutation matrices, linked mutation read classification)
+# -Notebooks that rely on Graphviz' sfdp utility and the PRISM overlap
+#  removal method -- which in turn relies on the "gts" library -- which I
+#  have not been able to get installed on our cluster yet, so I've just been
+#  running this notebook on my laptop for now (linked mutation call&plot)
 EXCLUDED_NOTEBOOKS = [
     "Header.ipynb",
     "LoadMutationJSONData.ipynb",
     "GeneUtils.ipynb",
     "Codon_AminoAcid_MutationMatrices.ipynb",
     "LinkedMutations-ClassifyReads.ipynb",
+    "LinkedMutations-CallAndPlot.ipynb",
 ]
 
 cwd_files = os.listdir()
