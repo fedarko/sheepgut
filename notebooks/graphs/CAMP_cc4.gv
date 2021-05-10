@@ -1,16 +1,16 @@
 graph CAMP_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	"1,056,390" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,582" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,552" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,775" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,394" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,871" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,554" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,556" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,655" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
-	"1,056,703" [style="filled", fillcolor="#bcbd22", fontcolor="#000000"];
+	"1,056,390" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,582" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,552" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,775" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,394" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,871" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,554" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,556" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,655" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,056,703" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
 	"1,056,390" -- "1,056,394";
 	"1,056,390" -- "1,056,552";
 	"1,056,390" -- "1,056,582";

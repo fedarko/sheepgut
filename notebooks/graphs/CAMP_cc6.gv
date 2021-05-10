@@ -1,9 +1,9 @@
 graph CAMP_cc6 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	"919,834" [style="filled", fillcolor="#8c564b", fontcolor="#000000"];
-	"919,836" [style="filled", fillcolor="#8c564b", fontcolor="#000000"];
-	"919,837" [style="filled", fillcolor="#8c564b", fontcolor="#000000"];
+	"919,834" [style="filled", fillcolor="#c49c94", fontcolor="#000000"];
+	"919,836" [style="filled", fillcolor="#c49c94", fontcolor="#000000"];
+	"919,837" [style="filled", fillcolor="#c49c94", fontcolor="#000000"];
 	"919,834" -- "919,836";
 	"919,836" -- "919,837";
 }
