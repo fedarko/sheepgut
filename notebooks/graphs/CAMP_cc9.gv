@@ -1,7 +1,7 @@
 graph CAMP_cc9 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	"986,216" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
-	"986,214" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
-	"986,216" -- "986,214";
+	"986,217" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"986,215" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"986,217" -- "986,215";
 }

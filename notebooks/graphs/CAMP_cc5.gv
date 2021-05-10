@@ -1,10 +1,10 @@
 graph CAMP_cc5 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	"371,153" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
-	"371,206" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
-	"371,230" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
-	"371,153" -- "371,206";
-	"371,153" -- "371,230";
-	"371,206" -- "371,230";
+	"371,154" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,231" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,207" [style="filled", fillcolor="#98df8a", fontcolor="#000000"];
+	"371,154" -- "371,207";
+	"371,154" -- "371,231";
+	"371,231" -- "371,207";
 }
