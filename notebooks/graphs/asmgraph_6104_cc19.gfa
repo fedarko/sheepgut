@@ -1,0 +1,262 @@
+S	edge_10465	*	LN:i:52492	dp:i:4823
+S	edge_18000	*	LN:i:75045	dp:i:5250
+S	edge_11375	*	LN:i:558	dp:i:9658
+S	edge_18097	*	LN:i:910	dp:i:9595
+S	edge_18010	*	LN:i:518	dp:i:4933
+S	edge_18004	*	LN:i:655	dp:i:4948
+S	edge_18007	*	LN:i:517	dp:i:4621
+S	edge_11372	*	LN:i:1327	dp:i:4972
+S	edge_11369	*	LN:i:500	dp:i:28353
+S	edge_18006	*	LN:i:514	dp:i:69650
+S	edge_6104	*	LN:i:1289244	dp:i:4166
+S	edge_11365	*	LN:i:15193	dp:i:4947
+S	edge_38487	*	LN:i:589	dp:i:5537
+S	edge_11362	*	LN:i:623	dp:i:7839
+S	edge_11371	*	LN:i:500	dp:i:8116
+S	edge_18009	*	LN:i:761	dp:i:45532
+S	edge_11370	*	LN:i:500	dp:i:7045
+S	edge_9340	*	LN:i:787	dp:i:11463
+S	edge_18008	*	LN:i:574	dp:i:5506
+S	edge_11379	*	LN:i:529	dp:i:4811
+S	edge_18002	*	LN:i:514	dp:i:4694
+S	edge_11384	*	LN:i:665	dp:i:4923
+S	edge_74421	*	LN:i:1593	dp:i:4940
+S	edge_18005	*	LN:i:1564	dp:i:4883
+S	edge_9339	*	LN:i:33548	dp:i:5501
+S	edge_18087	*	LN:i:921	dp:i:4859
+S	edge_18003	*	LN:i:514	dp:i:60508
+S	edge_11364	*	LN:i:740	dp:i:4941
+S	edge_11368	*	LN:i:13323	dp:i:4914
+S	edge_11380	*	LN:i:2611	dp:i:2227
+S	edge_11363	*	LN:i:740	dp:i:4950
+S	edge_9342	*	LN:i:59475	dp:i:5323
+L	edge_18000	+	edge_9339	+	0M
+L	edge_38487	+	edge_9339	+	0M
+L	edge_18000	+	edge_38487	+	0M
+L	edge_38487	+	edge_38487	+	0M
+L	edge_9342	+	edge_10465	-	0M
+L	edge_18087	+	edge_10465	-	0M
+L	edge_18097	+	edge_10465	-	0M
+L	edge_9342	+	edge_18087	+	0M
+L	edge_18087	+	edge_18087	+	0M
+L	edge_18097	+	edge_18087	+	0M
+L	edge_9342	+	edge_18097	+	0M
+L	edge_18087	+	edge_18097	+	0M
+L	edge_18097	+	edge_18097	+	0M
+L	edge_11362	-	edge_11362	-	0M
+L	edge_11363	-	edge_11362	-	0M
+L	edge_11364	-	edge_11362	-	0M
+L	edge_11365	-	edge_11362	-	0M
+L	edge_11369	-	edge_11362	-	0M
+L	edge_11370	-	edge_11362	-	0M
+L	edge_11371	-	edge_11362	-	0M
+L	edge_11372	-	edge_11362	-	0M
+L	edge_11380	-	edge_11362	-	0M
+L	edge_74421	-	edge_11362	-	0M
+L	edge_11362	-	edge_11363	-	0M
+L	edge_11363	-	edge_11363	-	0M
+L	edge_11364	-	edge_11363	-	0M
+L	edge_11365	-	edge_11363	-	0M
+L	edge_11369	-	edge_11363	-	0M
+L	edge_11370	-	edge_11363	-	0M
+L	edge_11371	-	edge_11363	-	0M
+L	edge_11372	-	edge_11363	-	0M
+L	edge_11380	-	edge_11363	-	0M
+L	edge_74421	-	edge_11363	-	0M
+L	edge_11362	-	edge_11364	-	0M
+L	edge_11363	-	edge_11364	-	0M
+L	edge_11364	-	edge_11364	-	0M
+L	edge_11365	-	edge_11364	-	0M
+L	edge_11369	-	edge_11364	-	0M
+L	edge_11370	-	edge_11364	-	0M
+L	edge_11371	-	edge_11364	-	0M
+L	edge_11372	-	edge_11364	-	0M
+L	edge_11380	-	edge_11364	-	0M
+L	edge_74421	-	edge_11364	-	0M
+L	edge_11362	-	edge_11368	-	0M
+L	edge_11363	-	edge_11368	-	0M
+L	edge_11364	-	edge_11368	-	0M
+L	edge_11365	-	edge_11368	-	0M
+L	edge_11369	-	edge_11368	-	0M
+L	edge_11370	-	edge_11368	-	0M
+L	edge_11371	-	edge_11368	-	0M
+L	edge_11372	-	edge_11368	-	0M
+L	edge_11380	-	edge_11368	-	0M
+L	edge_74421	-	edge_11368	-	0M
+L	edge_11362	-	edge_11369	-	0M
+L	edge_11363	-	edge_11369	-	0M
+L	edge_11364	-	edge_11369	-	0M
+L	edge_11365	-	edge_11369	-	0M
+L	edge_11369	-	edge_11369	-	0M
+L	edge_11370	-	edge_11369	-	0M
+L	edge_11371	-	edge_11369	-	0M
+L	edge_11372	-	edge_11369	-	0M
+L	edge_11380	-	edge_11369	-	0M
+L	edge_74421	-	edge_11369	-	0M
+L	edge_11362	-	edge_11370	-	0M
+L	edge_11363	-	edge_11370	-	0M
+L	edge_11364	-	edge_11370	-	0M
+L	edge_11365	-	edge_11370	-	0M
+L	edge_11369	-	edge_11370	-	0M
+L	edge_11370	-	edge_11370	-	0M
+L	edge_11371	-	edge_11370	-	0M
+L	edge_11372	-	edge_11370	-	0M
+L	edge_11380	-	edge_11370	-	0M
+L	edge_74421	-	edge_11370	-	0M
+L	edge_11362	-	edge_11371	-	0M
+L	edge_11363	-	edge_11371	-	0M
+L	edge_11364	-	edge_11371	-	0M
+L	edge_11365	-	edge_11371	-	0M
+L	edge_11369	-	edge_11371	-	0M
+L	edge_11370	-	edge_11371	-	0M
+L	edge_11371	-	edge_11371	-	0M
+L	edge_11372	-	edge_11371	-	0M
+L	edge_11380	-	edge_11371	-	0M
+L	edge_74421	-	edge_11371	-	0M
+L	edge_11362	-	edge_11372	-	0M
+L	edge_11363	-	edge_11372	-	0M
+L	edge_11364	-	edge_11372	-	0M
+L	edge_11365	-	edge_11372	-	0M
+L	edge_11369	-	edge_11372	-	0M
+L	edge_11370	-	edge_11372	-	0M
+L	edge_11371	-	edge_11372	-	0M
+L	edge_11372	-	edge_11372	-	0M
+L	edge_11380	-	edge_11372	-	0M
+L	edge_74421	-	edge_11372	-	0M
+L	edge_11362	-	edge_11380	-	0M
+L	edge_11363	-	edge_11380	-	0M
+L	edge_11364	-	edge_11380	-	0M
+L	edge_11365	-	edge_11380	-	0M
+L	edge_11369	-	edge_11380	-	0M
+L	edge_11370	-	edge_11380	-	0M
+L	edge_11371	-	edge_11380	-	0M
+L	edge_11372	-	edge_11380	-	0M
+L	edge_11380	-	edge_11380	-	0M
+L	edge_74421	-	edge_11380	-	0M
+L	edge_11362	-	edge_74421	-	0M
+L	edge_11363	-	edge_74421	-	0M
+L	edge_11364	-	edge_74421	-	0M
+L	edge_11365	-	edge_74421	-	0M
+L	edge_11369	-	edge_74421	-	0M
+L	edge_11370	-	edge_74421	-	0M
+L	edge_11371	-	edge_74421	-	0M
+L	edge_11372	-	edge_74421	-	0M
+L	edge_11380	-	edge_74421	-	0M
+L	edge_74421	-	edge_74421	-	0M
+L	edge_6104	+	edge_18000	+	0M
+L	edge_18002	+	edge_18000	+	0M
+L	edge_18003	+	edge_18000	+	0M
+L	edge_18004	+	edge_18000	+	0M
+L	edge_18005	+	edge_18000	+	0M
+L	edge_18006	+	edge_18000	+	0M
+L	edge_18007	+	edge_18000	+	0M
+L	edge_18008	+	edge_18000	+	0M
+L	edge_18009	+	edge_18000	+	0M
+L	edge_18010	+	edge_18000	+	0M
+L	edge_6104	+	edge_18002	+	0M
+L	edge_18002	+	edge_18002	+	0M
+L	edge_18003	+	edge_18002	+	0M
+L	edge_18004	+	edge_18002	+	0M
+L	edge_18005	+	edge_18002	+	0M
+L	edge_18006	+	edge_18002	+	0M
+L	edge_18007	+	edge_18002	+	0M
+L	edge_18008	+	edge_18002	+	0M
+L	edge_18009	+	edge_18002	+	0M
+L	edge_18010	+	edge_18002	+	0M
+L	edge_6104	+	edge_18003	+	0M
+L	edge_18002	+	edge_18003	+	0M
+L	edge_18003	+	edge_18003	+	0M
+L	edge_18004	+	edge_18003	+	0M
+L	edge_18005	+	edge_18003	+	0M
+L	edge_18006	+	edge_18003	+	0M
+L	edge_18007	+	edge_18003	+	0M
+L	edge_18008	+	edge_18003	+	0M
+L	edge_18009	+	edge_18003	+	0M
+L	edge_18010	+	edge_18003	+	0M
+L	edge_6104	+	edge_18004	+	0M
+L	edge_18002	+	edge_18004	+	0M
+L	edge_18003	+	edge_18004	+	0M
+L	edge_18004	+	edge_18004	+	0M
+L	edge_18005	+	edge_18004	+	0M
+L	edge_18006	+	edge_18004	+	0M
+L	edge_18007	+	edge_18004	+	0M
+L	edge_18008	+	edge_18004	+	0M
+L	edge_18009	+	edge_18004	+	0M
+L	edge_18010	+	edge_18004	+	0M
+L	edge_6104	+	edge_18005	+	0M
+L	edge_18002	+	edge_18005	+	0M
+L	edge_18003	+	edge_18005	+	0M
+L	edge_18004	+	edge_18005	+	0M
+L	edge_18005	+	edge_18005	+	0M
+L	edge_18006	+	edge_18005	+	0M
+L	edge_18007	+	edge_18005	+	0M
+L	edge_18008	+	edge_18005	+	0M
+L	edge_18009	+	edge_18005	+	0M
+L	edge_18010	+	edge_18005	+	0M
+L	edge_6104	+	edge_18006	+	0M
+L	edge_18002	+	edge_18006	+	0M
+L	edge_18003	+	edge_18006	+	0M
+L	edge_18004	+	edge_18006	+	0M
+L	edge_18005	+	edge_18006	+	0M
+L	edge_18006	+	edge_18006	+	0M
+L	edge_18007	+	edge_18006	+	0M
+L	edge_18008	+	edge_18006	+	0M
+L	edge_18009	+	edge_18006	+	0M
+L	edge_18010	+	edge_18006	+	0M
+L	edge_6104	+	edge_18007	+	0M
+L	edge_18002	+	edge_18007	+	0M
+L	edge_18003	+	edge_18007	+	0M
+L	edge_18004	+	edge_18007	+	0M
+L	edge_18005	+	edge_18007	+	0M
+L	edge_18006	+	edge_18007	+	0M
+L	edge_18007	+	edge_18007	+	0M
+L	edge_18008	+	edge_18007	+	0M
+L	edge_18009	+	edge_18007	+	0M
+L	edge_18010	+	edge_18007	+	0M
+L	edge_6104	+	edge_18008	+	0M
+L	edge_18002	+	edge_18008	+	0M
+L	edge_18003	+	edge_18008	+	0M
+L	edge_18004	+	edge_18008	+	0M
+L	edge_18005	+	edge_18008	+	0M
+L	edge_18006	+	edge_18008	+	0M
+L	edge_18007	+	edge_18008	+	0M
+L	edge_18008	+	edge_18008	+	0M
+L	edge_18009	+	edge_18008	+	0M
+L	edge_18010	+	edge_18008	+	0M
+L	edge_6104	+	edge_18009	+	0M
+L	edge_18002	+	edge_18009	+	0M
+L	edge_18003	+	edge_18009	+	0M
+L	edge_18004	+	edge_18009	+	0M
+L	edge_18005	+	edge_18009	+	0M
+L	edge_18006	+	edge_18009	+	0M
+L	edge_18007	+	edge_18009	+	0M
+L	edge_18008	+	edge_18009	+	0M
+L	edge_18009	+	edge_18009	+	0M
+L	edge_18010	+	edge_18009	+	0M
+L	edge_6104	+	edge_18010	+	0M
+L	edge_18002	+	edge_18010	+	0M
+L	edge_18003	+	edge_18010	+	0M
+L	edge_18004	+	edge_18010	+	0M
+L	edge_18005	+	edge_18010	+	0M
+L	edge_18006	+	edge_18010	+	0M
+L	edge_18007	+	edge_18010	+	0M
+L	edge_18008	+	edge_18010	+	0M
+L	edge_18009	+	edge_18010	+	0M
+L	edge_18010	+	edge_18010	+	0M
+L	edge_10465	-	edge_11368	+	0M
+L	edge_11375	-	edge_11368	+	0M
+L	edge_11379	-	edge_11368	+	0M
+L	edge_10465	-	edge_11375	-	0M
+L	edge_11375	-	edge_11375	-	0M
+L	edge_11379	-	edge_11375	-	0M
+L	edge_10465	-	edge_11379	-	0M
+L	edge_11375	-	edge_11379	-	0M
+L	edge_11379	-	edge_11379	-	0M
+L	edge_11365	+	edge_6104	+	0M
+L	edge_11384	+	edge_6104	+	0M
+L	edge_11365	+	edge_11384	+	0M
+L	edge_11384	+	edge_11384	+	0M
+L	edge_9340	-	edge_9339	-	0M
+L	edge_9342	-	edge_9339	-	0M
+L	edge_9340	-	edge_9340	-	0M
+L	edge_9342	-	edge_9340	-	0M
