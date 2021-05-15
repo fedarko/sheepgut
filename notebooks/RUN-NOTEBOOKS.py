@@ -15,6 +15,9 @@ import subprocess
 #  removal method -- which in turn relies on the "gts" library -- which I
 #  have not been able to get installed on our cluster yet, so I've just been
 #  running this notebook on my laptop for now (linked mutation call&plot)
+# -Notebooks that are only here so I can test stuff locally for convenience's
+#  sake rather than pushing things up to the cluster (useful when messing with
+#  matplotlib) (the "local version" of the graph notebook)
 EXCLUDED_NOTEBOOKS = [
     "Header.ipynb",
     "LoadMutationJSONData.ipynb",
@@ -22,6 +25,7 @@ EXCLUDED_NOTEBOOKS = [
     "Codon_AminoAcid_MutationMatrices.ipynb",
     "LinkedMutations-ClassifyReads.ipynb",
     "LinkedMutations-CallAndPlot.ipynb",
+    "GraphNtbk_LocalVsn_ForTestingCovLenSummaryPlot.ipynb",
 ]
 
 cwd_files = os.listdir()
