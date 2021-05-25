@@ -1,7 +1,7 @@
 graph CAMP_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="CAMP, component 4: 10 nodes, 31 edges";
+	label="CAMP, component 4: 10 nodes, 31 edges, 482 bp span";
 	labelloc="t";
 	fontsize=24;
 	"1,056,390" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];

@@ -1,7 +1,7 @@
 graph BACTEROIDALES_cc8 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTEROIDALES, component 8: 3 nodes, 2 edges";
+	label="BACTEROIDALES, component 8: 3 nodes, 2 edges, 20,610 bp span";
 	labelloc="t";
 	fontsize=24;
 	"556,827" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];

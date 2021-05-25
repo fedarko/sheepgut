@@ -1,7 +1,7 @@
 graph BACTERIA_cc3 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTERIA, component 3: 21 nodes, 210 edges";
+	label="BACTERIA, component 3: 21 nodes, 210 edges, 10,741 bp span";
 	labelloc="t";
 	fontsize=24;
 	"1,087,364" [style="filled", fillcolor="#2ca02c", fontcolor="#000000"];
