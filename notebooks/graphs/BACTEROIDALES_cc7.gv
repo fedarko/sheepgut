@@ -4,10 +4,10 @@ graph BACTEROIDALES_cc7 {
 	label="BACTEROIDALES, component 7: 3 nodes, 3 edges";
 	labelloc="t";
 	fontsize=24;
-	"2,805,210" [style="filled", fillcolor="#aec7e8", fontcolor="#000000"];
-	"2,802,605" [style="filled", fillcolor="#9edae5", fontcolor="#000000"];
-	"2,802,663" [style="filled", fillcolor="#9edae5", fontcolor="#000000"];
-	"2,805,210" -- "2,802,605";
-	"2,805,210" -- "2,802,663";
-	"2,802,605" -- "2,802,663";
+	"436,408" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,410" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,407" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"436,408" -- "436,407";
+	"436,408" -- "436,410";
+	"436,410" -- "436,407";
 }
