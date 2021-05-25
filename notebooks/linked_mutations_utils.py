@@ -2,7 +2,7 @@
 # linked mutation analysis notebooks.
 
 # unless (pos j) - (pos i) < this, we do not consider i and j linked.
-MAX_DIST_BTWN_LINKED_POSITIONS_NONINCLUSIVE = 3000
+MAX_DIST_BTWN_LINKED_POSITIONS_NONINCLUSIVE = float("inf")
 
 
 # unless at least this many reads have mutations at both pos i and pos j,
