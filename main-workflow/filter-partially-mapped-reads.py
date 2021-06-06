@@ -31,9 +31,9 @@
 # | | Record or update the number of (mis)matching positions in an alignment
 # | | to the current edge that this read has; can be done by counting M/X/=
 # | | operations in the CIGAR string (including both matches and mismatches).
-# | | We can make the simplifying assumption that supplementary alignments to
-# | | the same edge do not have overlapping coordinates; this is not always
-# | | the case but is probably ok in practice.
+# | | We can assume supplementary alignments to the same edge do not have
+# | | overlapping coordinates, since we've already filtered the BAM to exclude
+# | | these.
 # |
 # | For all other edges in this edge's weakly connected component, if
 # | applicable:
@@ -45,9 +45,8 @@
 # |
 # | For each alignment of a read to the edge we want to focus on:
 # | | Now that we've seen all alignments of this read in this component,
-# | | compute the (approximate, due to that assumption we made about
-# | | supplementary alignments not overlapping) percentage of this read aligned
-# | | to edges in this component. If this percentage passes a defined cutoff,
+# | | compute the percentage of this read aligned to edges in this component.
+# | | If this percentage passes a defined cutoff,
 # | | write this alignment to an output BAM file; otherwise, don't. NOTE that
 # | | this decision will be the same across all alignments of a given read
 # | | (i.e. either all or none of the alignments of a read will be output to

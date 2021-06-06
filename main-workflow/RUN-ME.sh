@@ -24,6 +24,8 @@ echo "Starting main analysis workflow."
 # as far as I'm aware, we need to sort a BAM file before indexing it.)
 ./sort-and-index-bam.sh $OUTDIR/alignment.bam $OUTDIR/aln-sorted.bam
 
+#./filter-overlapping-supplementary-alignments.py
+
 ./filter-partially-mapped-reads.py
 
 # I'm not sure if sorting this BAM again is strictly necessary, but we err
