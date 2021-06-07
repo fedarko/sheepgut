@@ -7,7 +7,8 @@
 import skbio
 
 syn_verbose = False
-nonsense_verbose = True
+nonsense_verbose = False
+nonsense_per_codon_verbose = True
 
 codons = []
 for i in "ACGT":
@@ -22,6 +23,8 @@ nsi = 0
 for c in codons:
     aa = str(skbio.DNA.translate(skbio.DNA(c)))
     n = 0
+    codon_nnsi = 0
+    codon_nsi = 0
     for pos in (0, 1, 2):
         posnt = c[pos]
         for altnt in sorted(set("ACGT") - set(posnt)):
@@ -54,16 +57,21 @@ for c in codons:
                 if aa2 == "*":
                     # Nonsense mutation!
                     nsi += 1
+                    codon_nsi += 1
                     if nonsense_verbose:
                         print(prefix + "nonsense")
                 else:
                     # Non-nonsense mutation!
                     nnsi += 1
+                    codon_nnsi += 1
                     if nonsense_verbose:
                         print(prefix + "non-nonsense")
     if n != 9:
         # something went very wrong
         raise ValueError("each codon should only have 9 alt codons???")
+
+    if nonsense_per_codon_verbose and aa != "*":
+        print(f"{c} ({aa}) has {codon_nnsi} non-nonsense and {codon_nsi} nonsense s.n. muts")
 
 print(f"sum of Si = {si}")
 print(f"sum of Ni = {ni}")
