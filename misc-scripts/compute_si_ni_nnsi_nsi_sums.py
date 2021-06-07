@@ -6,6 +6,9 @@
 
 import skbio
 
+syn_verbose = False
+nonsense_verbose = True
+
 codons = []
 for i in "ACGT":
     for j in "ACGT":
@@ -14,6 +17,8 @@ for i in "ACGT":
 
 si = 0
 ni = 0
+nnsi = 0
+nsi = 0
 for c in codons:
     aa = str(skbio.DNA.translate(skbio.DNA(c)))
     n = 0
@@ -31,16 +36,36 @@ for c in codons:
                 alt_codon = c[:2] + altnt
 
             aa2 = str(skbio.DNA.translate(skbio.DNA(alt_codon)))
+
+            prefix = f"{c} ({aa}) -> {alt_codon} ({aa2}) is "
             if aa2 == aa:
                 si += 1
-                print(f"{c} ({aa}) -> {alt_codon} ({aa2}) is syn")
+                if syn_verbose:
+                    print(prefix + "syn")
             else:
                 ni += 1
-                print(f"{c} ({aa}) -> {alt_codon} ({aa2}) is nonsyn")
+                if syn_verbose:
+                    print(prefix + "nonsyn")
             n += 1
+            
+            # Record NNSi and NSi info for mutations *from* the 61 sense codons
+            # (we don't consider codons that are already stop codons)
+            if aa != "*":
+                if aa2 == "*":
+                    # Nonsense mutation!
+                    nsi += 1
+                    if nonsense_verbose:
+                        print(prefix + "nonsense")
+                else:
+                    # Non-nonsense mutation!
+                    nnsi += 1
+                    if nonsense_verbose:
+                        print(prefix + "non-nonsense")
     if n != 9:
         # something went very wrong
         raise ValueError("each codon should only have 9 alt codons???")
 
 print(f"sum of Si = {si}")
 print(f"sum of Ni = {ni}")
+print(f"sum of NNSi = {nnsi}")
+print(f"sum of NSi = {nsi}")
