@@ -32,8 +32,11 @@
 # | | to the current edge that this read has; can be done by counting M/X/=
 # | | operations in the CIGAR string (including both matches and mismatches).
 # | | We can assume supplementary alignments to the same edge do not have
-# | | overlapping coordinates, since we've already filtered the BAM to exclude
-# | | these.
+# | | overlapping coordinates on the edge, since we've already filtered the
+# | | BAM to exclude these. (However, supplementary alignments of a given read
+# | | may not overlap on the reference BUT still overlap on the query; we allow
+# | | these cases, since there isn't really an easy way to detect them in pysam
+# | | that I know of.)
 # |
 # | For all other edges in this edge's weakly connected component, if
 # | applicable:
@@ -41,12 +44,15 @@
 # | | | If this read was aligned to the edge we're currently focusing on in
 # | | | this component (i.e. we already saw above):
 # | | | | Update the number of positions that this alignment of the read has
-# | | | | by counting M/X/= operations, same as before.
+# | | | | by counting M/X/= operations, same as before. Again, assume that all
+# | | | | supplementary alignments of a read originate from distinct locations
+# | | | | on the read sequence (this may be slightly off in practice but it
+# | | | | shouldn't be a big deal).
 # |
 # | For each alignment of a read to the edge we want to focus on:
 # | | Now that we've seen all alignments of this read in this component,
-# | | compute the percentage of this read aligned to edges in this component.
-# | | If this percentage passes a defined cutoff,
+# | | compute the (approx) percentage of this read aligned to edges in this
+# | | component. If this percentage passes a defined cutoff,
 # | | write this alignment to an output BAM file; otherwise, don't. NOTE that
 # | | this decision will be the same across all alignments of a given read
 # | | (i.e. either all or none of the alignments of a read will be output to
@@ -138,16 +144,11 @@ of = pysam.AlignmentFile("output/pmread-filtered-aln.bam", "wb", template=bf)
 #
 # By just looking at M, X, and = occurrences, we can get a count for each
 # alignment of the number of bases "(mis)matched" to an edge.
-# Since we have already filtered secondary alignments, and since per the SAM
-# specification "A chimeric alignment is represented as a set of linear
-# alignments that do not have large overlaps", we can sum these match counts
-# across all alignments of a read and divide by the read length to get the
-# approximate percentage of bases in the read aligned to an edge or group of
-# edges.
-#
-# (Note that in practice it's possible for the supplementary alignments to
-# share bases, in which case we could get percentages over 100%, but it's
-# expected per the SAM spec that these overlaps should be small.)
+# Since we have already filtered secondary alignments and overlapping
+# supplementary alignments, we can sum these match counts across all
+# alignments of a read and divide by the read length to get the approx
+# percentage (see above for slight caveats) of bases in the read aligned to
+# an edge or group of edges.
 matches = re.compile("(\d+)[MX=]")
 
 def check_and_update_alignment(
@@ -185,9 +186,6 @@ def check_and_update_alignment(
     allmatches = matches.findall(read.cigarstring)
     if allmatches:
         num_matches = sum([int(c) for c in allmatches])
-        # Makes the simplifying assumption that supplementary alignments
-        # do not overlap; otherwise we'd need to look at coordinates /
-        # CIGAR operations and try to only count each position once
         readname2num_matches_in_cc[read.query_name] += num_matches
     else:
         # Raise an error if an alignment of this read does not involve
@@ -214,6 +212,7 @@ for edge_to_focus_on in edges_to_focus_on:
     readname2num_matches_in_cc = defaultdict(int)
 
     i = 0
+    # TODO: use a better variable name than "read" (e.g. aln)
     for read in bf.fetch(edge_to_focus_on):
         check_and_update_alignment(
             read, readname2len, readname2num_matches_in_cc, edge_to_focus_on
