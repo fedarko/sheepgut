@@ -117,7 +117,7 @@ edges_in_ccs = {
 }
 
 # Input BAM file (contains read alignments to all edges in the graph)
-bf = pysam.AlignmentFile("output/overlap-supp-aln-filtered-aln.bam", "rb")
+bf = pysam.AlignmentFile("output/overlap-supp-aln-filtered-and-sorted-aln.bam", "rb")
 # Output BAM file (will just contain alignments to the edges we're focusing on)
 # These alignments will in turn be further filtered to alignments where a read
 # was almost entirely mapped to a single edge or its component, to limit

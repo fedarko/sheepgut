@@ -26,11 +26,13 @@ echo "Starting main analysis workflow."
 
 ./filter-overlapping-supplementary-alignments.py
 
+# I'm not sure if sorting this BAM again is strictly necessary, but we err
+# on the side of safety and re-sort it anyway. We do need to index it to use
+# pysam with it.
+./sort-and-index-bam.sh $OUTDIR/overlap-supp-aln-filtered-aln.bam $OUTDIR/overlap-supp-aln-filtered-and-sorted-aln.bam
+
 ./filter-partially-mapped-reads.py
 
-# I'm not sure if sorting this BAM again is strictly necessary, but we err
-# on the side of safety and re-sort it anyway. We do need to index it so
-# that we can use pileup in the BAM-to-JSON script.
 ./sort-and-index-bam.sh $OUTDIR/pmread-filtered-aln.bam $OUTDIR/fully-filtered-and-sorted-aln.bam
 
 ./bam-to-jsons.py
