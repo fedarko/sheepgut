@@ -5,7 +5,8 @@
 # This is applied to the entire BAM file (and since this is done before
 # the partially-mapped-read filtering script, this therefore is applied
 # to all alignments in the BAM file -- not just to the edges of interest,
-# or to other edges in their components). Could be sped up, of course.
+# or to other edges in their components). Could be sped up, of course, to only
+# be applied to edges in these components.
 #
 # THIS ASSUMES THAT SECONDARY ALIGNMENTS HAVE ALREADY BEEN FILTERED OUT.
 # Supplementary alignments should have been left in, but secondary alignments
@@ -164,29 +165,3 @@ bf.close()
 of.close()
 
 print("Filtered out overlapping supplementary alignments.")
-
-# -For all seqs in the BAM file
-#  -Set up defaultdict(list): readname2coordsAndMapQ
-#  -Set up defaultdict(int): readname2numSeqAlns
-#  -For all linear alignments of reads to this seq
-#   -Record the coordinates of this alignment, and its mapping quality, in the
-#    dict. Should be a list of 3-tuples, e.g. (0, 100, 240) for a read that
-#    goes from 0 to 99 with MAPQ of 240.
-#  -Consider all reads where readname2numSeqAlns > 1
-#   -See if any of these reads' alignments overlap with each other.
-#    "Overlap" is going to be sort of an all vs. all relationship btwn. all
-#    alignments of this read to this sequence -- think of it like a graph,
-#    let's say with 0-indexed locations in readname2coordsAndMapQ indicating
-#    nodes for linear alignments. An edge btwn. two nodes indicates overlap.
-#    Note that if 0 and 1 overlap, and 1 and 2 overlap, this doesn't
-#    necessarily mean that 0 and 2 overlap.
-#   -So we construct this graph, and then go through all edges in it. We want
-#    to minimize the number of supplementary alignments we have to throw out
-#    while maximizing the total MAPQ of all the alignments we leave in.
-#    There is probably a fancy way to solve this, but we can use a simple
-#    greedy algorithm where we consider each edge and remove the alignment with
-#    the worst mapping quality on the edge (choosing arbitrarily if both
-#    alignments on the edge have equal MAPQ). When all edges are removed, we
-#    are done.
-#   -We then write to the output BAM file all of the alignments we DIDN'T
-#    remove.
