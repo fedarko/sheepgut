@@ -40,11 +40,18 @@ def get_quartet(alnseg):
     
     Returns
     -------
-        (s, e, mq, cs): (int, int, int, str)
-            Segment start, end, mapping quality, and CIGAR string.
+        (s, e, mq, st): (int, int, int, str)
+            Segment start, end, mapping quality, and to_string() output.
 
             The start and end are both inclusive, to simplify comparison of
             alignment ranges for detecting overlaps. 
+
+            The reason we include the fourth element (to_string()) is to make
+            it easier to distinguish linear alignments from the same read. It
+            is very unlikely (but still possible I guess) that multiple
+            alignments from a read will have identical QUAL values AND
+            identical tags, both of which are included in to_string() as of
+            writing.
 
     Raises
     ------
@@ -65,11 +72,12 @@ def get_quartet(alnseg):
             f"Malformed linear alignment coordinates: start {s}, end {e}"
         )
     mq = linearaln.mapping_quality
-    cs = linearaln.cigarstring
-    return (s, e, mq, cs)
+    st = linearaln.to_string()
+    return (s, e, mq, st)
 
 for si, seq in enumerate(bf.references, 1):
-    print(f"On seq {seq} ({si:,} / {bf.nreferences:,})...")
+    pct = 100 * (si / bf.nreferences)
+    print(f"On seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
 
     # Identify all linear alignments of each read to this sequence
     readname2CoordsAndMQ = defaultdict(list)
@@ -80,8 +88,8 @@ for si, seq in enumerate(bf.references, 1):
         if alndetails in readname2CoordsAndMQ[rn]:
             raise ValueError(
                 f"Indistinguishable linear alignments to seq {seq} with read "
-                f"name {rn}: multiple reads share (start, end, mapq) of "
-                f"{alndetails}"
+                f"name {rn}: multiple reads share (start, end, mapq, "
+                f"to_string()) of {alndetails}"
             )
         readname2CoordsAndMQ[rn].append(alndetails)
         num_linear_alns += 1
