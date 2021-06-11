@@ -13,7 +13,8 @@
 
 import re
 import pysam
-import networkx
+import networkx as nx
+from itertools import combinations
 from collections import defaultdict
 
 print("Filtering out overlapping supplementary alignments...")
@@ -28,6 +29,116 @@ bf = pysam.AlignmentFile("output/aln-sorted.bam", "rb")
 of = pysam.AlignmentFile(
     "output/overlap-supp-aln-filtered-aln.bam", "wb", template=bf
 )
+
+def get_triplet(alnseg):
+    # We add 1 to the end since this is a half-open interval -- we want
+    # the coordinates we use for computing overlap to be completely
+    # inclusive intervals
+    s = linearaln.reference_start
+    e = linearaln.reference_end + 1
+    if s > e:
+        raise ValueError(
+            f"Malformed linear alignment coordinates: start {s}, end {e}"
+        )
+    mq = linearaln.mapping_quality
+    return (s, e, mq)
+
+for si, seq in enumerate(bf.references, 1):
+    print(f"On seq {seq} ({si:,} / {bf.nreferences:,})...")
+
+    # Identify all linear alignments of each read to this sequence
+    readname2CoordsAndMQ = defaultdict(list)
+    num_linear_alns = 0
+    for linearaln in bf.fetch(seq):
+        rn = linearaln.query_name
+        alndetails = get_triplet(linearaln)
+        if alndetails in readname2CoordsAndMQ[rn]:
+            raise ValueError(
+                f"Indistinguishable linear alignments to seq {seq} with read "
+                f"name {rn}: multiple reads share (start, end, mapq) of "
+                f"{alndetails}"
+            )
+        readname2CoordsAndMQ[rn].append(alndetails)
+        num_linear_alns += 1
+
+    # The number of unique reads is just the number of keys in this dict
+    num_reads = len(readname2CoordsAndMQ)
+
+    print(f"\t{num_reads:,} unique reads, {num_linear_alns:,} linear alns...")
+
+    # Identify and remove overlapping linear alignments from the same read
+    num_reads_with_osa = 0
+    for rn in readname2CoordsAndMQ:
+        alns = readname2CoordsAndMQ[rn]
+        if len(alns) > 1:
+            # Okay, so this particular read has multiple supplementary
+            # alignments to this sequence. Check if they overlap.
+            # We model this by constructing a graph where nodes correspond to
+            # linear alignments of this read, and edges connect overlapping
+            # alignments.
+            ag = nx.Graph()
+
+            # add nodes
+            for a in alns:
+                ag.add_node(a)
+
+            # add edges
+            for (a1, a2) in combinations(alns, 2):
+                # Efficiently test for overlap between two ranges:
+                # https://stackoverflow.com/a/3269471
+                if a1[0] <= a2[1] and a2[0] <= a1[1]:
+                    # Okay, these two alignments of this read overlap. 
+                    ag.add_edge(a1, a2)
+            
+            if len(ag.edges) > 0:
+                num_reads_with_osa += 1
+
+            # Remove alignments until no overlaps remain.
+            #
+            # There are many possible ways to do this, depending on what we
+            # prioritize. For example, we may want to see if there are any
+            # alignments with many edges in the graph, and remove these
+            # alignments first -- to limit the total amount of alignments we
+            # need to remove (imagine the graph of a1 -- a2 -- a3; we could
+            # remove a1 and a3, or we could remove just a2).
+            #
+            # However, here we take a simpler approach and just assume that
+            # most nodes will have degree 1. So we consider each edge in
+            # isolation and just remove the alignment on this edge
+            # with the lower mapping quality.
+            while len(ag.edges) > 0:
+                arbitrary_edge = list(ag.edges)[0]
+                # compare alignment mapping qualities: higher is better.
+                # see https://samtools.github.io/hts-specs/SAMv1.pdf
+                if arbitrary_edge[0][2] > arbitrary_edge[1][2]:
+                    to_remove = arbitrary_edge[0]
+                else:
+                    # note that this also includes the case where the mapping
+                    # qualities are equal (in that case, the decision is really
+                    # arbitrary, I guess? we could do things like consider
+                    # alignment *spans* [i.e. end - start + 1 or something] but
+                    # that could get misleading if some alignments have a lot
+                    # of skips, etc.)
+                    to_remove = arbitrary_edge[1]
+
+                ag.remove_node(to_remove)
+                readname2CoordsAndMQ[rn].remove(to_remove)
+    print(f"\t{num_reads_with_osa:,} reads with overlapping supp alns...")
+
+    # Now, go and write out only the linear alignments we retained
+    num_alns_retained = 0
+    for linearaln in bf.fetch(seq):
+        rn = linearaln.query_name
+        alndetails = get_triplet(linearaln)
+        if alndetails in readname2CoordsAndMQ[rn]:
+            of.write(linearaln)
+            num_alns_retained += 1
+    print(f"\t{num_alns_retained:,} linear alignments retained.")
+
+bf.close()
+of.close()
+
+print("Filtered out overlapping supplementary alignments.")
 
 # -For all seqs in the BAM file
 #  -Set up defaultdict(list): readname2coordsAndMapQ
@@ -54,93 +165,3 @@ of = pysam.AlignmentFile(
 #    are done.
 #   -We then write to the output BAM file all of the alignments we DIDN'T
 #    remove.
-
-for edge_to_focus_on in edges_to_focus_on:
-    print("Looking at edge {}.".format(edge_to_focus_on))
-    # Maps read name to read length (which should be constant across all
-    # alignments of that read). This variable is used both to store this info
-    # and as a crude indication of "have we seen this read yet?"
-    readname2len = {}
-
-    # Maps read name to number of match operations to the sequences of edges
-    # in edges_in_ccs[edge_to_focus_on].
-    readname2num_matches_in_cc = defaultdict(int)
-
-    i = 0
-    for read in bf.fetch(edge_to_focus_on):
-        check_and_update_alignment(
-            read, readname2len, readname2num_matches_in_cc, edge_to_focus_on
-        )
-        i += 1
-    print("{} alignments for this edge.".format(i))
-    # Go through other edges in this component, if present; add to the number
-    # of matches in cc for any reads that we see that we've already seen in
-    # the edge to focus on. (We implicitly ignore any reads aligned to these
-    # edges but not to the edge to focus on.)
-    other_edges = set(edges_in_ccs[edge_to_focus_on]) - set([edge_to_focus_on])
-    for other_edge in other_edges:
-        for read in bf.fetch(other_edge):
-            # If read.query_name is NOT in readname2len, then this read wasn't
-            # aligned to the edge to focus on -- in this case we implicitly
-            # ignore it, as mentioned above, since we only really care about
-            # reads aligned to the edge we're focusing on.
-            if read.query_name in readname2len:
-                check_and_update_alignment(
-                    read, readname2len, readname2num_matches_in_cc, other_edge
-                )
-
-    # Now that we've considered all edges in this component, we can compute
-    # the approximate percentages of each read (aligned to the edge we're
-    # focusing on) aligned to all edges in this component.
-    #
-    # And, finally, we can selectively write these reads to an output BAM file
-    # accordingly.
-    #
-    # NOTE that "read" is kind of a misleading variable name here, since
-    # the same read can be listed multiple times in a BAM/SAM file -- we're
-    # really iterating over alignments, where the same read could be aligned
-    # multiple times. In this case we either output all of these alignments for
-    # a given read (if that read passes the percentage filter) or none of them
-    # (if that read does not pass the percentage filter).
-    p = 0
-    n = 0
-    for read in bf.fetch(edge_to_focus_on):
-        if read.query_name not in readname2len:
-            raise ValueError("We should have seen this read earlier!")
-        read_len = readname2len[read.query_name]
-
-        if readname2num_matches_in_cc[read.query_name] == 0:
-            # As with a similar error case in check_and_update_alignment(),
-            # I *guess* this could happen in practice but it is probably
-            # indicative of an error in most cases.
-            raise ValueError("This read had no match operations done?")
-
-        read_num_matches_in_cc = readname2num_matches_in_cc[read.query_name]
-
-        perc = read_num_matches_in_cc / read_len
-        # small sanity check, print out first 10 alignments for each read
-        if n < 10:
-            print(
-                "FYI: alignment of read {} has {} matches, len {}, {}%".format(
-                    read.query_name, read_num_matches_in_cc, read_len,
-                    perc * 100
-            ), end="")
-        if perc >= MIN_PERCENT_ALIGNED:
-            of.write(read)
-            if n < 10:
-                print("; passed!")
-            p += 1
-        else:
-            if n < 10:
-                print("; failed!")
-        n += 1
-    print(
-        "{} / {} ({:.2f}%) of alignments in edge {} passed the filter.".format(
-            p, i, (p/i) * 100, edge_to_focus_on
-        )
-    )
-
-bf.close()
-of.close()
-
-print("Filtered to fully (ish) aligned reads.")
