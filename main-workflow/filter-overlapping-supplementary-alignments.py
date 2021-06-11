@@ -30,7 +30,30 @@ of = pysam.AlignmentFile(
     "output/overlap-supp-aln-filtered-aln.bam", "wb", template=bf
 )
 
-def get_triplet(alnseg):
+def get_quartet(alnseg):
+    """Returns a tuple of information distinguishing a linear alignment.
+
+    Parameters
+    ----------
+        alnseg: pysam.AlignedSegment
+    
+    Returns
+    -------
+        (s, e, mq, cs): (int, int, int, str)
+            Segment start, end, mapping quality, and CIGAR string.
+
+            The start and end are both inclusive, to simplify comparison of
+            alignment ranges for detecting overlaps. 
+
+    Raises
+    ------
+        ValueError
+            If the segment's start is greater than its end (both in inclusive
+            coordinates). (If this ends up being a problem in practice, maybe
+            because there of reverse-mapped reads or something (???), then this
+            could probs be modified to just reverse the start and end in this
+            case.)
+    """
     # We add 1 to the end since this is a half-open interval -- we want
     # the coordinates we use for computing overlap to be completely
     # inclusive intervals
@@ -41,7 +64,8 @@ def get_triplet(alnseg):
             f"Malformed linear alignment coordinates: start {s}, end {e}"
         )
     mq = linearaln.mapping_quality
-    return (s, e, mq)
+    cs = linearaln.cigarstring
+    return (s, e, mq, cs)
 
 for si, seq in enumerate(bf.references, 1):
     print(f"On seq {seq} ({si:,} / {bf.nreferences:,})...")
@@ -51,7 +75,7 @@ for si, seq in enumerate(bf.references, 1):
     num_linear_alns = 0
     for linearaln in bf.fetch(seq):
         rn = linearaln.query_name
-        alndetails = get_triplet(linearaln)
+        alndetails = get_quartet(linearaln)
         if alndetails in readname2CoordsAndMQ[rn]:
             raise ValueError(
                 f"Indistinguishable linear alignments to seq {seq} with read "
@@ -64,7 +88,7 @@ for si, seq in enumerate(bf.references, 1):
     # The number of unique reads is just the number of keys in this dict
     num_reads = len(readname2CoordsAndMQ)
 
-    print(f"\t{num_reads:,} unique reads, {num_linear_alns:,} linear alns...")
+    print(f"\t{num_reads:,} unique read(s), {num_linear_alns:,} linear aln(s)...")
 
     # Identify and remove overlapping linear alignments from the same read
     num_reads_with_osa = 0
@@ -118,22 +142,23 @@ for si, seq in enumerate(bf.references, 1):
                     # arbitrary, I guess? we could do things like consider
                     # alignment *spans* [i.e. end - start + 1 or something] but
                     # that could get misleading if some alignments have a lot
-                    # of skips, etc.)
+                    # of skips, etc. Could also consider number of matches in
+                    # CIGAR string, too...? If we wanted to get fancy.)
                     to_remove = arbitrary_edge[1]
 
                 ag.remove_node(to_remove)
                 readname2CoordsAndMQ[rn].remove(to_remove)
-    print(f"\t{num_reads_with_osa:,} reads with overlapping supp alns...")
+    print(f"\t{num_reads_with_osa:,} read(s) with overlapping supp alns...")
 
     # Now, go and write out only the linear alignments we retained
     num_alns_retained = 0
     for linearaln in bf.fetch(seq):
         rn = linearaln.query_name
-        alndetails = get_triplet(linearaln)
+        alndetails = get_quartet(linearaln)
         if alndetails in readname2CoordsAndMQ[rn]:
             of.write(linearaln)
             num_alns_retained += 1
-    print(f"\t{num_alns_retained:,} linear alignments retained.")
+    print(f"\t{num_alns_retained:,} linear aln(s) retained.")
 
 bf.close()
 of.close()
