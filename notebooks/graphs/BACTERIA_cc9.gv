@@ -1,13 +1,13 @@
 graph BACTERIA_cc9 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTERIA, component 9: 3 nodes, 3 edges, 556 bp span";
+	label="BACTERIA, component 9: 3 nodes, 3 edges, 10 bp span";
 	labelloc="t";
 	fontsize=24;
-	"253,360" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
-	"253,316" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
-	"253,871" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
-	"253,360" -- "253,316";
-	"253,360" -- "253,871";
-	"253,316" -- "253,871";
+	"1,764,112" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
+	"1,764,109" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
+	"1,764,118" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
+	"1,764,112" -- "1,764,109";
+	"1,764,112" -- "1,764,118";
+	"1,764,109" -- "1,764,118";
 }

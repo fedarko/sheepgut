@@ -1,17 +1,17 @@
 graph BACTERIA_cc7 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTERIA, component 7: 4 nodes, 6 edges, 1,266 bp span";
+	label="BACTERIA, component 7: 4 nodes, 6 edges, 628 bp span";
 	labelloc="t";
 	fontsize=24;
-	"605,648" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
-	"604,825" [style="filled", fillcolor="#e377c2", fontcolor="#000000"];
-	"605,545" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
-	"604,383" [style="filled", fillcolor="#c49c94", fontcolor="#000000"];
-	"605,648" -- "604,383";
-	"605,648" -- "604,825";
-	"605,648" -- "605,545";
-	"604,825" -- "604,383";
-	"604,825" -- "605,545";
-	"605,545" -- "604,383";
+	"994,056" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
+	"994,560" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"993,933" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
+	"994,126" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
+	"994,056" -- "993,933";
+	"994,056" -- "994,126";
+	"994,056" -- "994,560";
+	"994,560" -- "993,933";
+	"994,560" -- "994,126";
+	"993,933" -- "994,126";
 }

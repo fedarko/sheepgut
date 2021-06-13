@@ -1,13 +1,13 @@
 graph CAMP_cc7 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="CAMP, component 7: 3 nodes, 3 edges, 87 bp span";
+	label="CAMP, component 7: 3 nodes, 3 edges, 14 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,057,005" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
-	"1,056,997" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
-	"1,056,919" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
-	"1,057,005" -- "1,056,919";
-	"1,057,005" -- "1,056,997";
-	"1,056,997" -- "1,056,919";
+	"1,057,404" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,057,396" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,057,391" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,057,404" -- "1,057,391";
+	"1,057,404" -- "1,057,396";
+	"1,057,396" -- "1,057,391";
 }

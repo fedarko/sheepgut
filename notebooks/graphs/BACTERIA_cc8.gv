@@ -1,17 +1,13 @@
 graph BACTERIA_cc8 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTERIA, component 8: 4 nodes, 6 edges, 628 bp span";
+	label="BACTERIA, component 8: 3 nodes, 3 edges, 556 bp span";
 	labelloc="t";
 	fontsize=24;
-	"994,056" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
-	"994,560" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
-	"993,933" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
-	"994,126" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
-	"994,056" -- "993,933";
-	"994,056" -- "994,126";
-	"994,056" -- "994,560";
-	"994,560" -- "993,933";
-	"994,560" -- "994,126";
-	"993,933" -- "994,126";
+	"253,360" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
+	"253,316" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
+	"253,871" [style="filled", fillcolor="#ffffff", fontcolor="#000000"];
+	"253,360" -- "253,316";
+	"253,360" -- "253,871";
+	"253,316" -- "253,871";
 }

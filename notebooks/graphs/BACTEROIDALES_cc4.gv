@@ -1,15 +1,17 @@
 graph BACTEROIDALES_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
-	label="BACTEROIDALES, component 4: 4 nodes, 4 edges, 866,763 bp span";
+	label="BACTEROIDALES, component 4: 4 nodes, 6 edges, 5,930 bp span";
 	labelloc="t";
 	fontsize=24;
-	"2,563,792" [style="filled", fillcolor="#000000", fontcolor="#ffffff"];
-	"1,697,030" [style="filled", fillcolor="#c7c7c7", fontcolor="#000000"];
-	"2,563,790" [style="filled", fillcolor="#000000", fontcolor="#ffffff"];
-	"2,563,791" [style="filled", fillcolor="#000000", fontcolor="#ffffff"];
-	"2,563,792" -- "1,697,030";
-	"1,697,030" -- "2,563,790";
-	"1,697,030" -- "2,563,791";
-	"2,563,790" -- "2,563,791";
+	"2,799,281" [style="filled", fillcolor="#dbdb8d", fontcolor="#000000"];
+	"2,805,210" [style="filled", fillcolor="#aec7e8", fontcolor="#000000"];
+	"2,802,605" [style="filled", fillcolor="#9edae5", fontcolor="#000000"];
+	"2,802,663" [style="filled", fillcolor="#9edae5", fontcolor="#000000"];
+	"2,799,281" -- "2,802,605";
+	"2,799,281" -- "2,802,663";
+	"2,799,281" -- "2,805,210";
+	"2,805,210" -- "2,802,605";
+	"2,805,210" -- "2,802,663";
+	"2,802,605" -- "2,802,663";
 }
