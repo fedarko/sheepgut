@@ -1,8 +1,9 @@
 graph CAMP_cc10 {
 	overlap="prism50";
 	outputorder="edgesfirst";
+	node [style="filled"];
 	label="CAMP, component 10: 1 nodes, 0 edges, 1 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,594" [style="filled", fillcolor="#440154", fontcolor="#ffffff"];
+	"1,594" [fillcolor="#440154", fontcolor="#ffffff"];
 }
