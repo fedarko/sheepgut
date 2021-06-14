@@ -2,7 +2,7 @@ graph BACTEROIDALES_cc2 {
 	overlap="prism50";
 	outputorder="edgesfirst";
 	node [style="filled"];
-	label="BACTEROIDALES, component 2: 69 nodes, 2,174 edges, 5,212 bp span";
+	label="BACTEROIDALES, component 2: 69 nodes spanning 4 unique genes, 2,174 edges, 5,212 bp span";
 	labelloc="t";
 	fontsize=24;
 	"2,793,709" [fillcolor="#fbe723", fontcolor="#000000"];

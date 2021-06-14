@@ -2,7 +2,7 @@ graph BACTEROIDALES_cc6 {
 	overlap="prism50";
 	outputorder="edgesfirst";
 	node [style="filled"];
-	label="BACTEROIDALES, component 6: 3 nodes, 3 edges, 3 bp span";
+	label="BACTEROIDALES, component 6: 3 nodes spanning 1 unique gene (#374), 3 edges, 3 bp span";
 	labelloc="t";
 	fontsize=24;
 	"388,797" [fillcolor="#46337f", fontcolor="#ffffff"];

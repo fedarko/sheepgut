@@ -2,7 +2,7 @@ graph BACTERIA_cc4 {
 	overlap="prism50";
 	outputorder="edgesfirst";
 	node [style="filled"];
-	label="BACTERIA, component 4: 7 nodes, 20 edges, 1,696 bp span";
+	label="BACTERIA, component 4: 7 nodes spanning 2 unique genes, 20 edges, 1,696 bp span";
 	labelloc="t";
 	fontsize=24;
 	"1,135,819" [fillcolor="#1f9a8a", fontcolor="#000000"];

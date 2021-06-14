@@ -2,7 +2,7 @@ graph BACTERIA_cc6 {
 	overlap="prism50";
 	outputorder="edgesfirst";
 	node [style="filled"];
-	label="BACTERIA, component 6: 5 nodes, 7 edges, 6,931 bp span";
+	label="BACTERIA, component 6: 5 nodes spanning 3 unique genes, 7 edges, 6,931 bp span";
 	labelloc="t";
 	fontsize=24;
 	"1,692,209" [fillcolor="#75d054", fontcolor="#000000"];

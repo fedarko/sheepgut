@@ -2,7 +2,7 @@ graph CAMP_cc5 {
 	overlap="prism50";
 	outputorder="edgesfirst";
 	node [style="filled"];
-	label="CAMP, component 5: 3 nodes, 2 edges, 4 bp span";
+	label="CAMP, component 5: 3 nodes spanning 1 unique gene (#911), 2 edges, 4 bp span";
 	labelloc="t";
 	fontsize=24;
 	"919,834" [fillcolor="#44bf70", fontcolor="#000000"];

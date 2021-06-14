@@ -3,7 +3,7 @@ graph CAMP_cc1 {
 	node [style="filled"];
 	mindist=0;
 	dpi=54;
-	label="CAMP, component 1: 34 nodes, 561 edges, 796 bp span";
+	label="CAMP, component 1: 34 nodes spanning 1 unique gene (#1217), 561 edges, 796 bp span";
 	labelloc="t";
 	fontsize=24;
 	"1,209,001" [fillcolor="#d8e219", fontcolor="#000000"];
