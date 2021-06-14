@@ -5,8 +5,8 @@ graph BACTEROIDALES_cc5 {
 	label="BACTEROIDALES, component 5: 3 nodes, 3 edges, 76 bp span";
 	labelloc="t";
 	fontsize=24;
-	"276,994" [fillcolor="#ffffff", fontcolor="#000000"];
 	"276,987" [fillcolor="#ffffff", fontcolor="#000000"];
+	"276,994" [fillcolor="#ffffff", fontcolor="#000000"];
 	"277,062" [fillcolor="#ffffff", fontcolor="#000000"];
 	"276,994" -- "276,987";
 	"276,994" -- "277,062";

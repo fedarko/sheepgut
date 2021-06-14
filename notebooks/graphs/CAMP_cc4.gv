@@ -6,8 +6,8 @@ graph CAMP_cc4 {
 	labelloc="t";
 	fontsize=24;
 	"371,154" [fillcolor="#375b8d", fontcolor="#ffffff"];
-	"371,231" [fillcolor="#375b8d", fontcolor="#ffffff"];
 	"371,207" [fillcolor="#375b8d", fontcolor="#ffffff"];
+	"371,231" [fillcolor="#375b8d", fontcolor="#ffffff"];
 	"371,154" -- "371,207";
 	"371,154" -- "371,231";
 	"371,231" -- "371,207";

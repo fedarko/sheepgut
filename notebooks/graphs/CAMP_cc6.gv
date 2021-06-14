@@ -5,9 +5,9 @@ graph CAMP_cc6 {
 	label="CAMP, component 6: 3 nodes, 3 edges, 87 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,057,005" [fillcolor="#84d44b", fontcolor="#000000"];
-	"1,056,997" [fillcolor="#84d44b", fontcolor="#000000"];
 	"1,056,919" [fillcolor="#84d44b", fontcolor="#000000"];
+	"1,056,997" [fillcolor="#84d44b", fontcolor="#000000"];
+	"1,057,005" [fillcolor="#84d44b", fontcolor="#000000"];
 	"1,057,005" -- "1,056,919";
 	"1,057,005" -- "1,056,997";
 	"1,056,997" -- "1,056,919";
