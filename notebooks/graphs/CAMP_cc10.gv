@@ -4,5 +4,5 @@ graph CAMP_cc10 {
 	label="CAMP, component 10: 1 nodes, 0 edges, 1 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,594" [style="filled", fillcolor="#ffbb78", fontcolor="#000000"];
+	"1,594" [style="filled", fillcolor="#440154", fontcolor="#ffffff"];
 }

@@ -4,9 +4,9 @@ graph CAMP_cc7 {
 	label="CAMP, component 7: 3 nodes, 3 edges, 14 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,057,404" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
-	"1,057,396" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
-	"1,057,391" [style="filled", fillcolor="#7f7f7f", fontcolor="#000000"];
+	"1,057,404" [style="filled", fillcolor="#84d44b", fontcolor="#000000"];
+	"1,057,396" [style="filled", fillcolor="#84d44b", fontcolor="#000000"];
+	"1,057,391" [style="filled", fillcolor="#84d44b", fontcolor="#000000"];
 	"1,057,404" -- "1,057,391";
 	"1,057,404" -- "1,057,396";
 	"1,057,396" -- "1,057,391";

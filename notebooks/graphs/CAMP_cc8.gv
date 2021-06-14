@@ -4,7 +4,7 @@ graph CAMP_cc8 {
 	label="CAMP, component 8: 2 nodes, 1 edges, 14,718 bp span";
 	labelloc="t";
 	fontsize=24;
-	"295,848" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
-	"310,565" [style="filled", fillcolor="#9edae5", fontcolor="#000000"];
+	"295,848" [style="filled", fillcolor="#3e4c8a", fontcolor="#ffffff"];
+	"310,565" [style="filled", fillcolor="#3d4e8a", fontcolor="#ffffff"];
 	"295,848" -- "310,565";
 }

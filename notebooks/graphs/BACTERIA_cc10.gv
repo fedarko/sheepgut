@@ -4,7 +4,7 @@ graph BACTERIA_cc10 {
 	label="BACTERIA, component 10: 2 nodes, 1 edges, 2,137,427 bp span";
 	labelloc="t";
 	fontsize=24;
-	"10,104" [style="filled", fillcolor="#d62728", fontcolor="#000000"];
+	"10,104" [style="filled", fillcolor="#440154", fontcolor="#ffffff"];
 	"2,147,530" [style="filled", fillcolor="#000000", fontcolor="#ffffff"];
 	"10,104" -- "2,147,530";
 }

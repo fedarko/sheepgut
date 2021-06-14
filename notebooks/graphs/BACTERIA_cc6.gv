@@ -4,11 +4,11 @@ graph BACTERIA_cc6 {
 	label="BACTERIA, component 6: 5 nodes, 7 edges, 6,931 bp span";
 	labelloc="t";
 	fontsize=24;
-	"1,699,139" [style="filled", fillcolor="#e377c2", fontcolor="#000000"];
-	"1,694,852" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
-	"1,692,521" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
-	"1,692,209" [style="filled", fillcolor="#9467bd", fontcolor="#000000"];
-	"1,696,889" [style="filled", fillcolor="#c5b0d5", fontcolor="#000000"];
+	"1,699,139" [style="filled", fillcolor="#77d153", fontcolor="#000000"];
+	"1,694,852" [style="filled", fillcolor="#77d153", fontcolor="#000000"];
+	"1,692,521" [style="filled", fillcolor="#75d054", fontcolor="#000000"];
+	"1,692,209" [style="filled", fillcolor="#75d054", fontcolor="#000000"];
+	"1,696,889" [style="filled", fillcolor="#77d153", fontcolor="#000000"];
 	"1,699,139" -- "1,692,209";
 	"1,699,139" -- "1,694,852";
 	"1,699,139" -- "1,696,889";
