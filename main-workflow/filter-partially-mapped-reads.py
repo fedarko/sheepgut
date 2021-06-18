@@ -137,31 +137,51 @@ for edge_to_focus_on in graph.nodes():
     # component, but that will probs cause problems with hairball
     # component(s) in the graph that span thousands of edges...
     adj_edges = set(graph.neighbors(edge_to_focus_on)) - set([edge_to_focus_on])
+    nae = len(adj_edges)
 
-    print(f"\t{len(adj_edges)} adjacent edges in the graph.")
+    print(f"\t{nae} adjacent edges in the graph.")
 
-    # Go through these "allowed" other edges; add to the number
-    # of matches in cc for any reads that we see that we've already seen in
-    # the edge to focus on. (We implicitly ignore any reads aligned to these
-    # edges but not to the edge to focus on.)
-    num_other_edge_alns_from_shared_reads = 0
-    for other_edge in adj_edges:
-        other_edge_seq = f"edge_{other_edge}"
-        for aln in bf.fetch(other_edge_seq):
-            # If aln.query_name is NOT in readname2len, then this alignment's
-            # read wasn't also aligned to the edge to focus on -- in this
-            # case we implicitly ignore it, as mentioned above, since we only
-            # really care about reads aligned to the edge we're focusing on.
-            if aln.query_name in readname2len:
-                check_and_update_alignment(
-                    aln, readname2len, readname2matchct, other_edge_seq
-                )
-                num_other_edge_alns_from_shared_reads += 1
+    # To prevent this script from taking a super long amount of time, only
+    # allow alignments to adjacent edges if there are < 50 adjacent edges to
+    # this edge in the graph. This isn't ideal, I guess, but it's better than
+    # the script running forever (and we're already trying to care a lot about
+    # the small details here by caring about the graph at all in the alignment
+    # filtering process).
+    #
+    # NOTE: could probs speed this up by looking at SA: tags of reads from
+    # minimap2 (although we'd still need to perform fetch to get accurate
+    # CIGAR strings of those alignments; see
+    # https://github.com/lh3/minimap2/issues/724)
+    if nae >= 50:
+        print("\tToo many adj. edges; we won't look at their alignments here.")
+    elif nae <= 0:
+        print("\tNothing to consider in adjacent edges; moving on.")
+    else:
+        # nae is > 0 and < 50, so we can look at adjacent edges
+        print("\tLooking at alignments of shared reads to adjacent edges...")
+        # Go through these "allowed" other edges; add to the number
+        # of matches in cc for any reads that we see that we've already seen in
+        # the edge to focus on. (We implicitly ignore any reads aligned to
+        # these edges but not to the edge to focus on.)
+        num_other_edge_alns_from_shared_reads = 0
+        for other_edge in adj_edges:
+            other_edge_seq = f"edge_{other_edge}"
+            for aln in bf.fetch(other_edge_seq):
+                # If aln.query_name is NOT in readname2len, then this
+                # alignment's read wasn't also aligned to the edge to focus on
+                # -- in this case we implicitly ignore it, as mentioned above,
+                # since we only really care about reads aligned to the edge
+                # we're focusing on.
+                if aln.query_name in readname2len:
+                    check_and_update_alignment(
+                        aln, readname2len, readname2matchct, other_edge_seq
+                    )
+                    num_other_edge_alns_from_shared_reads += 1
 
-    print(
-        f"\t{num_other_edge_alns_from_shared_reads} linear alignments from "
-        "shared reads to adjacent edges."
-    )
+        print(
+            f"\t{num_other_edge_alns_from_shared_reads} linear alns from "
+            "shared reads to adjacent edges."
+        )
 
     # Now that we've considered all relevant edges, we can compute
     # the approximate percentages of each read (aligned to the edge we're
@@ -178,6 +198,10 @@ for edge_to_focus_on in graph.nodes():
     # alignments to this edge will be output to the BAM file (although this
     # does not preclude other alignments from this read to other edges from
     # being output in the context of other edges in this script).
+    print(
+        "\tComputing percentages and outputting alignments from "
+        "passing reads..."
+    )
     p = 0
     for aln in bf.fetch(focused_seq):
         if aln.query_name not in readname2len:
