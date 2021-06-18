@@ -20,7 +20,8 @@ MIN_PERCENT_ALIGNED = 0.9
 
 print("Filtering out reads mapped to other edges and partially-mapped reads...")
 
-print("\tLoading graph...", end=" ")
+# flush stdout to force this to show up even though it's not a newline
+print("Loading graph...", end=" ", flush=True)
 with open("../config/input-graph", "r") as igfile:
     graph_filename = next(igfile).strip()
 
@@ -108,7 +109,11 @@ def check_and_update_alignment(
 
 # Figure out all reads that are aligned to each edge to focus on
 for edge_to_focus_on in graph.nodes():
-    print("Looking at edge {}...".format(edge_to_focus_on))
+    # The loaded graph doesn't use the "edge_" prefix for nodes, but the
+    # alignment does -- add back in and use it wherever we have to deal with
+    # pysam here
+    focused_seq = f"edge_{edge_to_focus_on}"
+    print(f"Looking at edge {edge_to_focus_on}...")
     # Maps read name to read length (which should be constant across all
     # alignments of that read). This variable is used both to store this info
     # (which is in turn used for sanity checking) as well as as a
@@ -119,9 +124,9 @@ for edge_to_focus_on in graph.nodes():
     # edge or adjacent edges in the graph.
     readname2matchct = defaultdict(int)
 
-    for aln, i in enumerate(bf.fetch(edge_to_focus_on), 1):
+    for i, aln in enumerate(bf.fetch(focused_seq), 1):
         check_and_update_alignment(
-            aln, readname2len, readname2matchct, edge_to_focus_on
+            aln, readname2len, readname2matchct, focused_seq
         )
     print(f"\t{i} linear alignments to this edge.")
     
@@ -141,19 +146,20 @@ for edge_to_focus_on in graph.nodes():
     # edges but not to the edge to focus on.)
     num_other_edge_alns_from_shared_reads = 0
     for other_edge in adj_edges:
-        for aln in bf.fetch(other_edge):
+        other_edge_seq = f"edge_{other_edge}"
+        for aln in bf.fetch(other_edge_seq):
             # If aln.query_name is NOT in readname2len, then this alignment's
             # read wasn't also aligned to the edge to focus on -- in this
             # case we implicitly ignore it, as mentioned above, since we only
             # really care about reads aligned to the edge we're focusing on.
             if aln.query_name in readname2len:
                 check_and_update_alignment(
-                    aln, readname2len, readname2matchct, other_edge
+                    aln, readname2len, readname2matchct, other_edge_seq
                 )
                 num_other_edge_alns_from_shared_reads += 1
 
     print(
-        "f\t{num_other_edge_alns_from_shared_reads} linear alignments from "
+        f"\t{num_other_edge_alns_from_shared_reads} linear alignments from "
         "shared reads to adjacent edges."
     )
 
@@ -166,14 +172,14 @@ for edge_to_focus_on in graph.nodes():
     #
     # Note that although we're iterating over all alignments, these
     # computations are identical for alignments from the same read (at least in
-    # the context of the same edge_to_focus_on). So if a read passes the
+    # the context of the same focused_seq). So if a read passes the
     # filter for an edge, all its alignments to this edge will be output to the
     # BAM file; and if the read fails the filter for an edge, none of its
-    # alignments to that edge will be output to the BAM file (although this
+    # alignments to this edge will be output to the BAM file (although this
     # does not preclude other alignments from this read to other edges from
     # being output in the context of other edges in this script).
     p = 0
-    for aln in bf.fetch(edge_to_focus_on):
+    for aln in bf.fetch(focused_seq):
         if aln.query_name not in readname2len:
             raise ValueError(
                 f"We should have seen read {aln.query_name} earlier!"
@@ -192,7 +198,7 @@ for edge_to_focus_on in graph.nodes():
         perc = read_matchct_in_cc / read_len
 
         if perc >= MIN_PERCENT_ALIGNED:
-            of.write(read)
+            of.write(aln)
             p += 1
     print(
         f"\t{p} / {i} ({((p / i)*100):.2f}%) of alignments in "
