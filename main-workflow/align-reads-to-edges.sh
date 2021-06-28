@@ -19,14 +19,11 @@ echo "Aligning reads to edges..."
 # Use -x asm20 since these reads were generated using PacBio CCS: see
 # https://github.com/lh3/minimap2#getting-started
 #
-# Using -M 0 and --hard-mask-level to disallow overlapping supplementary
-# alignments: see https://github.com/lh3/minimap2/issues/244
-#
 # Using --secondary=no to disallow secondary alignments: see
 # https://github.com/lh3/minimap2/issues/416
 #
 # Use of multiple reads files based on comment from Heng Li here:
 # https://github.com/lh3/minimap2/issues/191#issuecomment-399759935
-minimap2 -ax asm20 -M 0 --hard-mask-level --secondary=no $REF_FILE $READS_FILES > output/alignment.sam
+minimap2 -ax asm20 --secondary=no $REF_FILE $READS_FILES > output/alignment.sam
 
 echo "Did alignment."
