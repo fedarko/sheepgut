@@ -22,8 +22,11 @@ echo "Aligning reads to edges..."
 # Using --secondary=no to disallow secondary alignments: see
 # https://github.com/lh3/minimap2/issues/416
 #
+# Using --MD so that the MD tag is included (needed for Sniffles,
+# as of writing).
+#
 # Use of multiple reads files based on comment from Heng Li here:
 # https://github.com/lh3/minimap2/issues/191#issuecomment-399759935
-minimap2 -ax asm20 --secondary=no $REF_FILE $READS_FILES > output/alignment.sam
+minimap2 -ax asm20 --secondary=no --MD $REF_FILE $READS_FILES > output/alignment.sam
 
 echo "Did alignment."
