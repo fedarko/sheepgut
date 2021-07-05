@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+OUTVCF=output/sniffles-minimap2-results.vcf
+
 # Stop the script when one of the steps breaks.
 # Apparently there is Discourse (tm) about whether or not this is good
 # practice, but I'm gonna go ahead and use it anyway. See
@@ -41,5 +43,11 @@ echo "Running sniffles on the sorted/indexed ngmlr BAM file..."
 sniffles \
     --ccs_reads \
     -m output/fully-filtered-and-sorted-aln.bam \
-    -v output/sniffles-minimap2-results.vcf
-echo "Done running ngmlr and sniffles."
+    -v $OUTVCF
+echo "Done running sniffles."
+
+# Extract SVs relevant to the three selected edges
+# https://stackoverflow.com/a/5694596
+cat $OUTVCF | grep $'^edge_6104\t' > output/edge_6104_sv.vcf
+cat $OUTVCF | grep $'^edge_1671\t' > output/edge_1671_sv.vcf
+cat $OUTVCF | grep $'^edge_2358\t' > output/edge_2358_sv.vcf
