@@ -14,14 +14,13 @@ import subprocess
 
 # Notebooks we don't (explicitly) run here. This includes:
 # -Notebooks that exist only to be run by other notebooks
-#  (e.g. header, gene utils, load mutation JSON data)
+#  (e.g. header, gene utils)
 # -Notebooks that rely on Graphviz' sfdp utility and the PRISM overlap
 #  removal method -- which in turn relies on the "gts" library -- which I
 #  have not been able to get installed on our cluster yet, so I've just been
 #  running this notebook on my laptop for now (linked mutation call&plot)
 EXCLUDED_NOTEBOOKS = [
     "Header.ipynb",
-    "LoadMutationJSONData.ipynb",
     "GeneUtils.ipynb",
     "LinkedMutations-CallAndPlot.ipynb",
 ]
