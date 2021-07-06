@@ -66,6 +66,37 @@ def get_cov(pileup, raise_error_if_0x=False):
         return cov
 
 
+def get_max_freq_alt_nt(pileup):
+    """Raises an error if there are no mismatches.
+
+    Breaks ties arbitrarily.
+    """
+    ref_idx = pileup[1]
+
+    alts = {}
+    max_alt_freq = 0
+    for ni, nt in enumerate("ACGT"):
+        if ni != ref_idx:
+            alts[nt] = pileup[0][ni]
+            max_alt_freq = max(max_alt_freq, alts[nt])   
+
+    if max_alt_freq == 0:
+        raise ValueError("No mismatches at this position in the pileup.")
+
+    # Retrieve max-freq alternate nucleotide. Based on
+    # https://stackoverflow.com/a/280156.
+    # (Note that if there's a tie, the result is arbitrary. Shouldn't 
+    # be a big deal.)
+    max_freq_alt_nt = max(alts, key=alts.get)  
+
+    # Warn if we need to arbitrarily break a tie
+    if list(alts.values()).count(max_alt_freq) > 1:
+        print(f"Multiple max-freq alt nucleotides: {alts} for pileup {pileup}")
+        print(f"\t(Arbitrarily breaking tie: selecting max alt = {max_freq_alt_nt}.)")
+
+    return max_freq_alt_nt
+    
+
 def get_mismatch_pcts(pileup):
     """Like get_mismatch_cts(), but returns percentages.
 
