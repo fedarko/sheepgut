@@ -103,11 +103,8 @@ def get_max_mismatch_pct(pileup):
     return max(get_mismatch_pcts(pileup))
 
 
-def naively_call_mutation(seq2pos2pileup, seq, pos, p):
-    # seq2pos2pileup should be the thing returned from load().
+def naively_call_mutation(pileup, p):
     # p should be in [0, 1].
-    pileup = seq2pos2pileup[seq][pos]
-
     mismatch_cts = get_mismatch_cts(pileup)
     max_freq_alt_nt_ct = max(mismatch_cts)
     if max_freq_alt_nt_ct > 0:
