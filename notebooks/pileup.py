@@ -5,10 +5,15 @@
 # (...yeah, I know, I know) for a set of MAGs of interest. This prevents
 # having to repeatedly mess around with pysam / look at FASTA files / etc.
 #
-# This file is structured as a dict of dicts. The outer dict is keyed by
-# sequence name (e.g. "edge_6104"); these keys map to an array, where the
-# 0-th entry is None (I know, I know!) and subsequent entries indicate the
-# pileup at this 1-indexed position of the MAG's reference sequence.
+# This could be compressed further (it's definitely not a good idea to use this
+# with more than a few MAGs) -- but for just a handful of MAGs it's pretty
+# useful.
+#
+# This file is structured as a dict mapping sequence names
+# (e.g. "edge_6104") to a list of pileup entries for all 1-indexed positions
+# within this sequence. The 0-th entry in each of these lists is None
+# (I know, I know!) and subsequent entries describe the pileup stats at this
+# position.
 #
 # Pileup entries are formatted like:
 #
@@ -18,13 +23,15 @@
 #     D
 #   ]
 #
-# A, C, G, and T indicate the number of aligned nucleotides (of A, C, G, and
-# T, respectively) to this position.
+# A, C, G, and T are integers indicating the number of aligned
+# nucleotides (of A, C, G, and T, respectively) to this reference position.
 #
 # ri is an integer in the range [0, 3]. This indicates the reference nucleotide
-# at this position in the sequence. 0 -> A, 1 -> C, 2 -> G, 3 -> T.
+# at this position in the sequence. 0 -> A, 1 -> C, 2 -> G, 3 -> T. (This can
+# be used to index into the [A, C, G, T] list of the pileup entry.)
 #
-# D indicates the number of aligned deletions to this position.
+# D indicates the number of aligned deletions to this position (in case we need
+# it).
 #
 # Although it's a very simple format, this makes it easy to repeatedly do
 # naive variant calling / plot mutation spectra / etc.
