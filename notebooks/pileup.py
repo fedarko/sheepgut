@@ -141,14 +141,24 @@ def get_max_mismatch_pct(pileup):
     return max(get_mismatch_pcts(pileup))
 
 
-def naively_call_mutation(pileup, p):
-    # p should be in [0, 1].
+def get_max_freq_alt_nt_pct(pileup):
+    # Fancier version of naively_call_mutation().
+    # Useful for checking lots of different values of p
+    # for the same position.
     mismatch_cts = get_mismatch_cts(pileup)
     max_freq_alt_nt_ct = max(mismatch_cts)
-    if max_freq_alt_nt_ct > 0:
-        cov = get_cov(pileup)
-        return (max_freq_alt_nt_ct / cov) > p
+    cov = get_cov(pileup)
+    if cov > 0:
+        return (max_freq_alt_nt_ct / cov)
     else:
-        # If there aren't any aligned mismatches at all at this codon, then
-        # this is pretty clearly not a mutation.
-        return False
+        # Arguably this should be undefined, since it's n / 0 -- but
+        # the desired result for these situations (we don't call a mutation
+        # because this position is completely uncovered) is respected by
+        # just treating the max-freq alternate nucleotide percentage as 0.
+        return 0
+    
+
+def naively_call_mutation(pileup, p):
+    # p should be in [0, 1].
+    max_freq_alt_nt_pct = get_max_freq_alt_nt_pct(pileup)
+    return max_freq_alt_nt_pct > p
