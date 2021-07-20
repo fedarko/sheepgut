@@ -12,13 +12,14 @@
 # Supplementary alignments should have been left in, but secondary alignments
 # will mess this up!!!
 
-import re
+import time
 import pysam
-import networkx as nx
 from itertools import combinations
 from collections import defaultdict
 
 print("Filtering out overlapping supplementary alignments...")
+
+t0 = time.time()
 
 # Input BAM file (contains read alignments to all edges in the graph)
 bf = pysam.AlignmentFile("output/aln-sorted.bam", "rb")
@@ -82,7 +83,11 @@ reads_with_osa = set()
 
 for si, seq in enumerate(bf.references, 1):
     pct = 100 * (si / bf.nreferences)
-    print(f"Pass 1: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
+    t1 = time.time()
+    print(
+        f"Pass 1/2: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%, "
+        f"running for {t1 - t0:,.2f} sec...)"
+    )
 
     # Identify all linear alignments of each read to this sequence
     readname2CoordsAndMQ = defaultdict(list)
@@ -137,7 +142,11 @@ of = pysam.AlignmentFile(
 # to limit code reuse
 for si, seq in enumerate(bf.references, 1):
     pct = 100 * (si / bf.nreferences)
-    print(f"Pass 2: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
+    t1 = time.time()
+    print(
+        f"Pass 2/2: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%, "
+        f"running for {t1 - t0:,.2f} sec...)"
+    )
 
     num_alns_retained = 0
     num_alns_filtered = 0
@@ -152,7 +161,10 @@ for si, seq in enumerate(bf.references, 1):
             num_alns_retained += 1
 
     num_alns_total = num_alns_retained + num_alns_filtered
-    apct = 100 * (num_alns_retained / num_alns_total)
+    if num_alns_total > 0:
+        apct = 100 * (num_alns_retained / num_alns_total)
+    else:
+        apct = float("inf")
     print(
         f"\t{num_alns_retained:,} / {num_alns_total:,} ({apct:.2f}%) "
         "linear aln(s) retained."
@@ -161,4 +173,6 @@ for si, seq in enumerate(bf.references, 1):
 bf.close()
 of.close()
 
+t2 = time.time()
 print("Filtered out overlapping supplementary alignments.")
+print(f"Total time taken: {t2 - t0:,.2f} sec.")
