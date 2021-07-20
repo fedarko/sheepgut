@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
-# Filters a BAM file so that no supplementary alignments of a given read
-# overlap with other supplementary alignments of the same read.
+# Filters a BAM file so that reads with supplementary alignments that
+# overlap with each other on the reference genome are removed.
 #
 # This is applied to the entire BAM file (and since this is done before
 # the partially-mapped-read filtering script, this therefore is applied
@@ -23,13 +23,6 @@ print("Filtering out overlapping supplementary alignments...")
 # Input BAM file (contains read alignments to all edges in the graph)
 bf = pysam.AlignmentFile("output/aln-sorted.bam", "rb")
 
-# Output BAM file (will just contain alignments to the edges we're focusing on)
-# These alignments will in turn be further filtered to alignments where a read
-# was almost entirely mapped to a single edge or its component, to limit
-# spurious mutations.
-of = pysam.AlignmentFile(
-    "output/overlap-supp-aln-filtered-aln.bam", "wb", template=bf
-)
 
 def get_quartet(alnseg):
     """Returns a tuple of information distinguishing a linear alignment.
@@ -75,9 +68,21 @@ def get_quartet(alnseg):
     st = linearaln.to_string()
     return (s, e, mq, st)
 
+
+# Keeps track of the names of reads with overlapping supplementary alignments.
+# We'll filter these reads out completely (so that they are not represented in
+# any of the alignments remaining in the BAM file).
+#
+# I was initially going to maintain a sorted array for this, so that we could
+# use binary search to quickly check if reads seen in the final "pass" over the
+# BAM file had OSAs, but it turns out that in Python using sets is probably a
+# better idea (or at the very least a simpler one):
+# https://stackoverflow.com/a/212971
+reads_with_osa = set()
+
 for si, seq in enumerate(bf.references, 1):
     pct = 100 * (si / bf.nreferences)
-    print(f"On seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
+    print(f"Pass 1: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
 
     # Identify all linear alignments of each read to this sequence
     readname2CoordsAndMQ = defaultdict(list)
@@ -99,75 +104,59 @@ for si, seq in enumerate(bf.references, 1):
 
     print(f"\t{num_reads:,} unique read(s), {num_linear_alns:,} linear aln(s)...")
 
-    # Identify and remove overlapping linear alignments from the same read
-    num_reads_with_osa = 0
+    # Identify overlapping alignments from the same read
+    n_reads_w_osa_in_seq = 0
     for rn in readname2CoordsAndMQ:
         alns = readname2CoordsAndMQ[rn]
         if len(alns) > 1:
             # Okay, so this particular read has multiple supplementary
             # alignments to this sequence. Check if they overlap.
-            # We model this by constructing a graph where nodes correspond to
-            # linear alignments of this read, and edges connect overlapping
-            # alignments.
-            ag = nx.Graph()
 
-            # add nodes
-            for a in alns:
-                ag.add_node(a)
-
-            # add edges
             for (a1, a2) in combinations(alns, 2):
                 # Efficiently test for overlap between two ranges:
                 # https://stackoverflow.com/a/3269471
                 if a1[0] <= a2[1] and a2[0] <= a1[1]:
                     # Okay, these two alignments of this read overlap. 
-                    ag.add_edge(a1, a2)
-            
-            if len(ag.edges) > 0:
-                num_reads_with_osa += 1
+                    reads_with_osa.add(rn)
+                    n_reads_w_osa_in_seq += 1
+                    break
 
-            # Remove alignments until no overlaps remain.
-            #
-            # There are many possible ways to do this, depending on what we
-            # prioritize. For example, we may want to see if there are any
-            # alignments with many edges in the graph, and remove these
-            # alignments first -- to limit the total amount of alignments we
-            # need to remove (imagine the graph of a1 -- a2 -- a3; we could
-            # remove a1 and a3, or we could remove just a2).
-            #
-            # However, here we take a simpler approach and just assume that
-            # most nodes will have degree 1. So we consider each edge in
-            # isolation and just remove the alignment on this edge
-            # with the lower mapping quality.
-            while len(ag.edges) > 0:
-                arbitrary_edge = list(ag.edges)[0]
-                # compare alignment mapping qualities: higher is better.
-                # see https://samtools.github.io/hts-specs/SAMv1.pdf
-                if arbitrary_edge[0][2] > arbitrary_edge[1][2]:
-                    to_remove = arbitrary_edge[0]
-                else:
-                    # note that this also includes the case where the mapping
-                    # qualities are equal (in that case, the decision is really
-                    # arbitrary, I guess? we could do things like consider
-                    # alignment *spans* [i.e. end - start + 1 or something] but
-                    # that could get misleading if some alignments have a lot
-                    # of skips, etc. Could also consider number of matches in
-                    # CIGAR string, too...? If we wanted to get fancy.)
-                    to_remove = arbitrary_edge[1]
+    print(f"\t{n_reads_w_osa_in_seq:,} read(s) with overlapping supp alns...")
 
-                ag.remove_node(to_remove)
-                readname2CoordsAndMQ[rn].remove(to_remove)
-    print(f"\t{num_reads_with_osa:,} read(s) with overlapping supp alns...")
+# Now we've made note of all reads with OSAs across *all* sequences in the
+# alignments. We can make another pass through and output all reads without
+# OSAs into a new BAM file.
 
-    # Now, go and write out only the linear alignments we retained
+# Output BAM file (filtered to remove reads with overlapping supplementary
+# alignments, aka OSAs)
+of = pysam.AlignmentFile(
+    "output/overlap-supp-aln-filtered-aln.bam", "wb", template=bf
+)
+
+# TODO: maybe generalize this iteration code into a generator or something
+# to limit code reuse
+for si, seq in enumerate(bf.references, 1):
+    pct = 100 * (si / bf.nreferences)
+    print(f"Pass 2: on seq {seq} ({si:,} / {bf.nreferences:,}) ({pct:.2f}%)...")
+
     num_alns_retained = 0
+    num_alns_filtered = 0
     for linearaln in bf.fetch(seq):
         rn = linearaln.query_name
-        alndetails = get_quartet(linearaln)
-        if alndetails in readname2CoordsAndMQ[rn]:
+        # If this read has OSAs anywhere in the alignment, don't include it in
+        # the output BAM file. Otherwise, *do* include it!
+        if rn in reads_with_osa:
+            num_alns_filtered += 1
+        else:
             of.write(linearaln)
             num_alns_retained += 1
-    print(f"\t{num_alns_retained:,} linear aln(s) retained.")
+
+    num_alns_total = num_alns_retained + num_alns_filtered
+    apct = 100 * (num_alns_retained / num_alns_total)
+    print(
+        f"\t{num_alns_retained:,} / {num_alns_total:,} ({apct:.2f}%) "
+        "linear aln(s) retained."
+    )
 
 bf.close()
 of.close()
