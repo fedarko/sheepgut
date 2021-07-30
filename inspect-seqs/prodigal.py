@@ -31,7 +31,8 @@ for de in os.scandir("../seqs"):
                 "-a",
                 out_file_path_base + "_aa.fasta",
                 "-f",
-                "sco"
+                "sco",
+                "-c"
             ])
         else:
             print(
