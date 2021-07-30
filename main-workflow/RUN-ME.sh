@@ -35,6 +35,6 @@ echo "Starting main analysis workflow."
 
 ./sort-and-index-bam.sh $OUTDIR/pmread-filtered-aln.bam $OUTDIR/fully-filtered-and-sorted-aln.bam
 
-./bam-to-jsons.py
+./bam-to-pileup.py
 
 echo "Done with the main analysis workflow!"
