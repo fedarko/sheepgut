@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
+# Just runs LoFreq on the three selected MAGs (CAMP, BACT1, BACT2)
 lofreq call \
-    -f output/all_edges.fasta \
+    -f output/selected-mags.fasta \
     -o output/lofreq.vcf \
-    output/fully-filtered-and-sorted-aln.bam
+    output/selected-mags.bam
