@@ -27,10 +27,40 @@ for irp in ir_paths:
         num_files_seen += 1
         print(f"On file {irf} (file #{num_files_seen:,})...")
 
+        read_kwargs = {}
+        # Very primitive "sniffer" for the filetype. This is a very lazy way
+        # to do this, since misnamed files (e.g. a FASTQ that's named
+        # evil-file.fasta.gz) will cause problems. So this should only be used
+        # with correctly named files! ... However, skbio.io.read()'s default
+        # use of verify=True should mean it'll throw an error if weird stuff
+        # is detected, so we're decently safe.
+        irf_lc = irf.lower()
+
+        if irf_lc.endswith("fastq.gz"):
+            ft = "fastq"
+            # skbio.io.read() needs us to pass either the "variant" or
+            # "phred_offset" argument when reading FASTQ files. We don't care
+            # about quality scores here (at least in the case of counting read
+            # lengths), so we just set "variant" to "sanger" since skbio
+            # doesn't (to my knowledge) have a specific variant name set up for
+            # PacBio HiFi / CCS.
+            read_kwargs["variant"] = "sanger"
+
+        elif irf_lc.endswith("fasta.gz"):
+            ft = "fasta"
+
+        else:
+            raise ValueError("Can't tell what filetype this file is?")
+
         file_num_reads = 0
         file_read_length = 0
+        # Use of skbio.io.read() to get a generator derived from
         # github.com/biocore/scikit-bio/issues/1418#issuecomment-241498418
-        seq_gen = skbio.io.read(irf, constructor=skbio.DNA)
+        # Unpacking of keyword arguments here derived from
+        # https://stackoverflow.com/a/50258379
+        seq_gen = skbio.io.read(
+            irf, constructor=skbio.DNA, format=ft, **read_kwargs
+        )
         for seq in seq_gen:
             file_num_reads += 1
             file_read_length += len(seq)
