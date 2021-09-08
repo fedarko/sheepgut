@@ -58,12 +58,14 @@ for irp in ir_paths:
         # github.com/biocore/scikit-bio/issues/1418#issuecomment-241498418
         # Unpacking of keyword arguments here derived from
         # https://stackoverflow.com/a/50258379
-        seq_gen = skbio.io.read(
+        read_gen = skbio.io.read(
             irf, constructor=skbio.DNA, format=ft, **read_kwargs
         )
-        for seq in seq_gen:
+        for read_num, read in enumerate(read_gen, 1):
+            if read_num == 1 or read_num % 1000 == 0:
+                print(f"On read {read_num:,} in this file...")
             file_num_reads += 1
-            file_read_length += len(seq)
+            file_read_length += len(read)
 
         tf1 = time.time()
         print(f"Done. Processing this file took {tf1 - tf0:,.2f} sec.")
