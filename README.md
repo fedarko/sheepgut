@@ -47,10 +47,11 @@ errors.
 cd main-workflow/
 ./RUN-ME.sh
 
-# Run various sequence-level analyses
+# Run various read / sequence-level analyses
 cd ../inspect-seqs/
-./checkm.sh
-./prodigal.py
+./read-stats.py # compute read length statistics
+./checkm.sh     # Run CheckM on certain MAGs
+./prodigal.py   # Run Prodigal on certain MAGs
 
 # Create figures for the paper
 # (Note that this won't run all of the notebooks, since some of them
@@ -100,16 +101,20 @@ The JSON files produced at the final step are the primary output from this
 ## `inspect-seqs/`
 
 This directory contains scripts that perform some tasks outside of the
-"main workflow" involving analysis of the selected genomes/sequences
+"main workflow" involving analysis of the sequencing data
 that don't really fit neatly anywhere else. Currently this includes scripts
 for:
 
-1. Running Prodigal to predict protein-coding genes within these sequences
+1. Computing read length statistics
 2. Running CheckM
+3. Running Prodigal to predict protein-coding genes within these sequences
 
 Note that, unlike the JSON files and other outputs of the "main workflow"
-scripts above, these results are included in the repository since they're
+scripts above, the results from running CheckM and Prodigal are
+included in the repository since they're
 both 1) relatively small files and 2) useful to have around in version control.
+(The read length stats script doesn't create any files; it just outputs
+information to stdout.)
 
 ## `notebooks/`
 
