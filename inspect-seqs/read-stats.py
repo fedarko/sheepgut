@@ -4,6 +4,8 @@ import time
 import glob
 import skbio
 
+OUTFILE = "../notebooks/misc-text/read-stats.tex"
+
 t0 = time.time()
 print("Starting processing files...")
 with open("../config/input-reads", "r") as input_reads_filepaths_file:
@@ -63,7 +65,7 @@ for irp in ir_paths:
         )
         for read_num, read in enumerate(read_gen, 1):
             if read_num == 1 or read_num % 1000 == 0:
-                print(f"On read {read_num:,} in this file...")
+                print(f"On read {read_num:,} in file #{num_files_seen}...")
             file_num_reads += 1
             file_read_length += len(read)
 
@@ -86,3 +88,12 @@ print("=" * 79)
 print(f"Total number of reads: {total_num_reads:,}")
 print(f"Total read length: {total_read_length:,}")
 print(f"Average read length: {avg_read_length:,}")
+
+print(f"Writing out results to {OUTFILE}...", end=" ", flush=True)
+with open(OUTFILE, "w") as of:
+    of.write(
+        f"In total, these HiFi data include {total_num_reads:,} reads\n"
+        f"with total length {total_read_length:,} bp\n"
+        f"and average length {avg_read_length:,.2f} bp."
+    )
+print("Done!")
