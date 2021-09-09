@@ -65,7 +65,7 @@ for irp in ir_paths:
         )
         for read_num, read in enumerate(read_gen, 1):
             if read_num == 1 or read_num % 1000 == 0:
-                print(f"On read {read_num:,} in file #{num_files_seen}...")
+                print(f"On read {read_num:,} in file #{num_files_seen:,}...")
             file_num_reads += 1
             file_read_length += len(read)
 
