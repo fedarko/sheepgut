@@ -1,14 +1,7 @@
 #! /usr/bin/env python3
-# Converts a BAM file to JSON files that describe the pileup.
-# These JSON files are much smaller than either the plaintext pileup output
-# produced by "samtools mpileup" or the original BAM file, so they're a lot
-# easier to download from the server (as well as to read).
-#
-# That being said they could still be compressed A LOT: storing each of
-# these values in arrays would be easier. A quibble with that is we'd
-# probs need to shift from 1- to 0-indexing, which would be kinda a headache.
-# ... Or we could just use artificially-1-indexed arrays by just making the
-# first element None or something, but that seems gross to me somehow...
+# Converts a BAM file to a simple, gross file describing the pileup.
+# See notebooks/pileup.py in this repo for a description of how this file
+# is structured.
 
 import pickle
 from collections import defaultdict
