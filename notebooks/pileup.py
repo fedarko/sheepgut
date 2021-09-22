@@ -38,6 +38,7 @@
 
 
 import pickle
+from pleuk.bam_utils import get_alt_pos_info
 
 
 def load(picklepath="../main-workflow/output/seq2pos2pileup.pickle"):
@@ -64,7 +65,9 @@ def get_cov(pileup, raise_error_if_0x=False):
     """Returns the sum of matches + mismatches for a position.
 
     Optionally raises an error if this particular pileup has a 
-    (match + mismatch) coverage of 0.
+    (match + mismatch) coverage of 0. (The error will also come up
+    if through some twist of fate this pileup has a coverage of less
+    than 0. If that happens, ...try calling an exorcist?)
     """
     cov = sum(pileup[0])
     if raise_error_if_0x and cov <= 0:
@@ -73,35 +76,45 @@ def get_cov(pileup, raise_error_if_0x=False):
         return cov
 
 
-def get_max_freq_alt_nt(pileup):
+def get_alt_info_from_pleuk(pileup, warn_if_tie=True):
+    """Convenience function -- takes a pileup and calls Pleuk's
+    get_alt_pos_info() function on it. See the Pleuk bam_utils library
+    for more details about this."""
+
+    cts = pileup[0]
+    nt2ct = {"A": cts[0], "C": cts[1], "G": cts[2], "T": cts[3]}
+    cov, alt_freq, alt_nt = get_alt_pos_info(nt2ct)
+
+    if warn_if_tie:
+        if cts.count(alt_freq) > 1:
+            print(f"Warning about pileup {pileup}:")
+            print(
+                "\tMultiple nucleotides w/ same freq as second-most-common "
+                f"nt: {nt2ct}"
+            )
+            print(f"\t(Arbitrarily breaking tie: selecting alt = {alt_nt}.)")
+
+    return cov, alt_freq, alt_nt
+
+
+def get_alt_nt(pileup):
     """Raises an error if there are no mismatches.
 
-    Breaks ties arbitrarily.
+    This returns the SECOND-MOST-COMMON nucleotide at a position, always.
+    This second-most-common nucleotide will usually differ from the reference
+    nucleotide at this position -- because we expect the reference nucleotide
+    to match the consensus, right -- but this may not be the case. This is as
+    expected: by always limiting this to the second-most-common nucleotide,
+    we can ensure that freq(pos) = alt(pos) / reads(pos) remains within the
+    easy-to-interpret range [0%, 50%]. For more detailed stuff on this, see the
+    prokaryotic / eukaryotic classification paper...
     """
-    ref_idx = pileup[1]
+    _, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
 
-    alts = {}
-    max_alt_freq = 0
-    for ni, nt in enumerate("ACGT"):
-        if ni != ref_idx:
-            alts[nt] = pileup[0][ni]
-            max_alt_freq = max(max_alt_freq, alts[nt])   
-
-    if max_alt_freq == 0:
+    if alt_freq == 0:
         raise ValueError("No mismatches at this position in the pileup.")
 
-    # Retrieve max-freq alternate nucleotide. Based on
-    # https://stackoverflow.com/a/280156.
-    # (Note that if there's a tie, the result is arbitrary. Shouldn't 
-    # be a big deal.)
-    max_freq_alt_nt = max(alts, key=alts.get)  
-
-    # Warn if we need to arbitrarily break a tie
-    if list(alts.values()).count(max_alt_freq) > 1:
-        print(f"Multiple max-freq alt nucleotides: {alts} for pileup {pileup}")
-        print(f"\t(Arbitrarily breaking tie: selecting max alt = {max_freq_alt_nt}.)")
-
-    return max_freq_alt_nt
+    return alt_nt
     
 
 def get_mismatch_pcts(pileup):
@@ -114,51 +127,33 @@ def get_mismatch_pcts(pileup):
     return [c / cov for c in get_mismatch_cts(pileup)]
 
 
-def get_agg_mismatch_pct(pileup):
-    """Returns the total percentage of mismatched reads aligned to a pos.
+def get_alt_nt_pct(pileup):
+    """Returns the second-most-common nucleotide's relative freq at a position.
 
-    So, e.g., if the reference nt is "A" and the pileup counts are
-    [100, 20, 30, 50], then this'll return (20+30+50) / (100+20+30+50)
-    = (100 / 200) = 0.5.
+    This is the definition of alt(pos) used in the prok/euk classification
+    report.
 
-    THIS PROBABLY SHOULDN'T BE USED FOR VARIANT CALLING YO because it
-    aggregates all the alternate nucleotides at a position. I mean, you could
-    totally call variants that way, but it disagrees with what we describe in
-    our paper (see: definition of "freq(pos)").
+    So, e.g., if the pileup counts are [100, 20, 30, 50], then
+    this'll return (50) / (100+20+30+50) = (50 / 200) = 0.25.
+
+    If cov is 0, this'll just return 0. This behavior is debatable, but it
+    should be sufficient for our purposes.
     """
-    return sum(get_mismatch_pcts(pileup))
-
-def get_max_mismatch_pct(pileup):
-    """Returns the *maximum* percentage of an alternate nt aligned to a pos.
-
-    So, e.g., if the reference nt is "A" and the pileup counts are
-    [100, 20, 30, 50], then this'll return (50) / (100+20+30+50)
-    = (50 / 200) = 0.25.
-
-    Counterpart to get_agg_mismatch_pct(). This is equivalent to freq(pos),
-    as of writing.
-    """
-    return max(get_mismatch_pcts(pileup))
-
-
-def get_max_freq_alt_nt_pct(pileup):
-    # Fancier version of naively_call_mutation().
-    # Useful for checking lots of different values of p
-    # for the same position.
-    mismatch_cts = get_mismatch_cts(pileup)
-    max_freq_alt_nt_ct = max(mismatch_cts)
-    cov = get_cov(pileup)
-    if cov > 0:
-        return (max_freq_alt_nt_ct / cov)
-    else:
+    cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
+    if cov == 0:
         # Arguably this should be undefined, since it's n / 0 -- but
         # the desired result for these situations (we don't call a mutation
         # because this position is completely uncovered) is respected by
         # just treating the max-freq alternate nucleotide percentage as 0.
         return 0
-    
+    else:
+        return alt_freq / cov
+
 
 def naively_call_mutation(pileup, p):
-    # p should be in [0, 1].
-    max_freq_alt_nt_pct = get_max_freq_alt_nt_pct(pileup)
-    return max_freq_alt_nt_pct > p
+    # Attempt to catch errors from me forgetting to update the definition of p
+    # used throughout these analyses
+    if p > 0.5:
+        raise ValueError(f"Hey p = {p} but it should be in the range [0, 0.5]")
+    freq_pos = get_alt_nt_pct(pileup)
+    return freq_pos > p
