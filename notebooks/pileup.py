@@ -76,7 +76,7 @@ def get_cov(pileup, raise_error_if_0x=False):
         return cov
 
 
-def get_alt_info_from_pleuk(pileup, warn_if_tie=True):
+def get_alt_info_from_pleuk(pileup, warn_if_tie=False):
     """Convenience function -- takes a pileup and calls Pleuk's
     get_alt_pos_info() function on it. See the Pleuk bam_utils library
     for more details about this."""
