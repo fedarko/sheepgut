@@ -5,11 +5,13 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - minimap2=2.17
-  - samtools >= 1.7
+  - python >= 3.7
   - numpy
   - cython
+  - samtools >= 1.7
+  - minimap2 = 2.17
   - checkm-genome
+  - prodigal
   - pip
   - pip:
       - -r pip-requirements.txt

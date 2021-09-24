@@ -20,25 +20,30 @@ Most of the relevant software for these analyses we used (e.g. minimap2,
 samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
 [pip](https://pip.pypa.io/) inside of conda, in some cases).
 
-The `conda-environment.yml` file in this repository details the conda
-environment that the analyses were ran within.
-(This file was created using [`conda env
-export`](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment),
-using the `Makefile` contained in this repo.)
+It will probably be fastest and easiest to install this software using the
+following commands (these assume you already have conda installed).
+These will not install the exact same versions of these
+packages as I've used in development, but the versions installed should be
+close enough:
 
-You should be able to replicate this environment from the YML file directly,
-using `conda env create`:
-see [the conda docs on how to do this](https://docs.conda.io/projects/conda/en/master/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
+```bash
+conda env create -f environment.yml
+```
 
-**NOTE: The conda environment in the YML file is pretty bloated -- there are a
-few things in there that are not needed for these analyses. This environment
-should be replaced with a smaller, minimal one.**
+If you'd prefer to try to use the _exact_ same package versions I had
+installed, try this environment:
 
-You could also create a fresh Python 3.7 environment and install specific
-needed packages individually. However, that might be tedious and prone to
-errors.
+```bash
+conda env create -f exact-environment.yml
+```
+
+(Note that this "exact" conda environment file is pretty bloated; there are
+many things in there that are not needed for these analyses.)
 
 ### Basic walkthrough
+
+This will walk you through reproducing the results after setting up your
+environment.
 
 1. Download assembly graph; update the path in `config/input-graph` accordingly
 2. Download reads; update the path in `config/input-reads` accordingly
