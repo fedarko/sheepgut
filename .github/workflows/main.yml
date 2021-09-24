@@ -16,4 +16,4 @@ jobs:
             python-version: 3.7
 
       - name: Run tests
-        run: make test
+        run: conda run -n sheepgut make test

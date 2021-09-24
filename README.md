@@ -1,5 +1,7 @@
 # SheepGut analysis scripts/notebooks
 
+[![SheepGut Analysis Code CI](https://github.com/fedarko/sheepgut/actions/workflows/main.yml/badge.svg)](https://github.com/fedarko/sheepgut/actions/workflows/main.yml)
+
 This repository contains various code files used in the analysis of metagenome-assembled genomes in a high-coverage sheep gut metagenome.
 
 Broadly, the "inputs" to these analyses are:
