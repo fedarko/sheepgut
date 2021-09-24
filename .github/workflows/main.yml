@@ -4,8 +4,13 @@
 name: SheepGut Analysis Code CI
 on: [push, pull_request]
 jobs:
-  build:
+  default-shell:
+    name: Default shell that the internet told me to use
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Needed for conda: https://github.com/marketplace/actions/setup-miniconda#use-a-default-shell
+        shell: bash -l {0}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
