@@ -18,13 +18,13 @@ jobs:
             python-version: 3.7
 
       - name: where are we
-        run: ls
-
-      - name: help
-        run: pwd
+        run: ls pleuk
 
       - name: Install Pleuk
-        run: conda run -n sheepgut pip install -e pleuk
+        run: |
+            cd pleuk
+            conda run -n sheepgut pip install -e pleuk
+            cd ..
 
       - name: Run tests
         run: conda run -n sheepgut make test
