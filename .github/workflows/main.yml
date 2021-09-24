@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: tree
+        run: tree
     
       - name: Set up conda and install dependencies
         uses: conda-incubator/setup-miniconda@v2
@@ -26,10 +29,12 @@ jobs:
         run: conda list
 
       - name: Conda info
-        run: conda info
+        run: conda info --envs
 
       - name: Install Pleuk
-        run: pip install -e pleuk
+        run: |
+            cd pleuk
+            pip install -e .
 
       - name: Run tests
         run: make test
