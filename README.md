@@ -16,10 +16,22 @@ repository work, please feel free to reach out. This guide should work on most
 Linux / macOS systems; it's been tested on Ubuntu 16.04.
 
 ### Setting up your environment
-Most of the relevant software for these analyses we used (e.g. minimap2,
+Most of the relevant "dependency" software
+for these analyses we used (e.g. minimap2,
 samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
 [pip](https://pip.pypa.io/) inside of conda, in some cases). This section
 assumes you have at least conda installed.
+
+First, let's download this repository's code:
+
+```bash
+git clone https://github.com/fedarko/sheepgut.git
+cd sheepgut
+```
+Now, we need to install dependencies. We'll do this using conda, but we have
+two choices:
+
+#### Option 1: install approximate versions
 
 It will probably be fastest and easiest to install the dependencies for this
 project using conda via the following command.
@@ -31,17 +43,31 @@ close enough:
 conda env create -f environment.yml
 ```
 
+#### Option 2: install exact versions
+
 If you'd prefer to try to use the _exact_ same package versions I had
 installed, this environment contains the exact versions of the necessary
 dependencies. Please note that this "exact" conda environment file is pretty
 bloated; there are many things in there that are not needed for these analyses.
+This step will probably, therefore, be a decent amount slower than the above
+step.
 
 ```bash
 conda env create -f exact-environment.yml
 ```
 
 I am aware that it would probably be best to set up a Docker container or
-something -- getting to that is on my radar, but I am not sure I'll have time.
+something for this -- getting to that is on my radar, but I am not sure
+I'll have time.
+
+#### Final step: install Pleuk
+
+(NOTE: this step should hopefully not be needed eventually, when Pleuk becomes
+a public package. Until then it's just stuck as a submodule of this repo.)
+
+```bash
+pip install -e pleuk
+```
 
 ### Basic walkthrough
 
