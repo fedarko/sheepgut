@@ -153,7 +153,7 @@ def get_alt_nt_pct(pileup):
 def naively_call_mutation(pileup, p):
     # Attempt to catch errors from me forgetting to update the definition of p
     # used throughout these analyses
-    if p > 0.5:
+    if p > 0.5 or p < 0:
         raise ValueError(f"Hey p = {p} but it should be in the range [0, 0.5]")
     freq_pos = get_alt_nt_pct(pileup)
     return freq_pos > p
