@@ -8,5 +8,6 @@ matplotlib >= 3
 pytest
 # NOTE: this attempts to install Pleuk from its location as a submodule of the
 # sheep gut analysis repo. Eventually, probably, Pleuk will be its own package
-# out in the wild on pip and we can just install it from there
+# out in the wild on pip and we can just install it from there.
+# See https://stackoverflow.com/a/12921216
 ./pleuk
