@@ -10,12 +10,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
     
-      - name: Set up conda
+      - name: Set up conda and install dependencies
         uses: conda-incubator/setup-miniconda@v2
         with:
             environment-file: environment.yml
             activate-environment: sheepgut
             python-version: 3.7
+
+      - name: Install Pleuk
+        run: conda run -n sheepgut pip install -e pleuk
 
       - name: Run tests
         run: conda run -n sheepgut make test
