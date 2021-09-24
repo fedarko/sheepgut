@@ -17,6 +17,12 @@ jobs:
             activate-environment: sheepgut
             python-version: 3.7
 
+      - name: where are we
+        run: ls
+
+      - name: help
+        run: pwd
+
       - name: Install Pleuk
         run: conda run -n sheepgut pip install -e pleuk
 
