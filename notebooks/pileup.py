@@ -38,7 +38,7 @@
 
 
 import pickle
-from pleuk.bam_utils import get_alt_pos_info
+from pleuk_copied_code import get_alt_pos_info
 
 
 def load(picklepath="../main-workflow/output/seq2pos2pileup.pickle"):

@@ -25,16 +25,5 @@ jobs:
             activate-environment: sheepgut
             python-version: 3.7
 
-      - name: Conda list
-        run: conda list
-
-      - name: Conda info
-        run: conda info --envs
-
-      - name: Install Pleuk
-        run: |
-            cd pleuk
-            pip install -e .
-
       - name: Run tests
         run: make test
