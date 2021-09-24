@@ -1,0 +1,10 @@
+# From https://github.com/conda-incubator/setup-miniconda/blob/master/etc/example-environment.yml
+name: sheepgut
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pip
+  - pip:
+      - -r requirements.txt

@@ -29,7 +29,7 @@ using `conda env create`:
 see [the conda docs on how to do this](https://docs.conda.io/projects/conda/en/master/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file).
 
 **NOTE: The conda environment in the YML file is pretty bloated -- there are a
-few things in there that are not needed for these analyses. This envirnoment
+few things in there that are not needed for these analyses. This environment
 should be replaced with a smaller, minimal one.**
 
 You could also create a fresh Python 3.7 environment and install specific

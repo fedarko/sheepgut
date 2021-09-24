@@ -1,4 +1,4 @@
-.PHONY: yml
+.PHONY: test
 
-yml:
-	conda env export > conda-environment.yml
+test:
+	 pytest notebooks/
