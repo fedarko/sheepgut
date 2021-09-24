@@ -60,15 +60,6 @@ I am aware that it would probably be best to set up a Docker container or
 something for this -- getting to that is on my radar, but I am not sure
 I'll have time.
 
-#### Final step: install Pleuk
-
-(NOTE: this step should hopefully not be needed eventually, when Pleuk becomes
-a public package. Until then it's just stuck as a submodule of this repo.)
-
-```bash
-pip install -e pleuk
-```
-
 ### Basic walkthrough
 
 This will walk you through reproducing the results after setting up your
