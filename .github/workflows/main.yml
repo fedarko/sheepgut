@@ -13,6 +13,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
             environment-file: environment.yml
+            activate-environment: sheepgut
             python-version: 3.7
 
       - name: Run tests
