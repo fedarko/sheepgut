@@ -18,11 +18,12 @@ Linux / macOS systems; it's been tested on Ubuntu 16.04.
 ### Setting up your environment
 Most of the relevant software for these analyses we used (e.g. minimap2,
 samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
-[pip](https://pip.pypa.io/) inside of conda, in some cases).
+[pip](https://pip.pypa.io/) inside of conda, in some cases). This section
+assumes you have at least conda installed.
 
-It will probably be fastest and easiest to install this software using the
-following commands (these assume you already have conda installed).
-These will not install the exact same versions of these
+It will probably be fastest and easiest to install the dependencies for this
+project using conda via the following command.
+This command will not install the exact same versions of these
 packages as I've used in development, but the versions installed should be
 close enough:
 
@@ -31,14 +32,16 @@ conda env create -f environment.yml
 ```
 
 If you'd prefer to try to use the _exact_ same package versions I had
-installed, try this environment:
+installed, this environment contains the exact versions of the necessary
+dependencies. Please note that this "exact" conda environment file is pretty
+bloated; there are many things in there that are not needed for these analyses.
 
 ```bash
 conda env create -f exact-environment.yml
 ```
 
-(Note that this "exact" conda environment file is pretty bloated; there are
-many things in there that are not needed for these analyses.)
+I am aware that it would probably be best to set up a Docker container or
+something -- getting to that is on my radar, but I am not sure I'll have time.
 
 ### Basic walkthrough
 
