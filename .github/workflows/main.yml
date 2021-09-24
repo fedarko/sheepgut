@@ -23,7 +23,8 @@ jobs:
       - name: Install Pleuk
         run: |
             cd pleuk
-            conda run -n sheepgut pip install -e pleuk
+            ls
+            conda run -n sheepgut pip install -e .
             cd ..
 
       - name: Run tests
