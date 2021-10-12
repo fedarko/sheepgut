@@ -4,3 +4,4 @@ __pycache__/
 # these are too large now to store on github
 notebooks/pospair2groupcts/
 notebooks/misc-output/p2called_mutations.txt
+notebooks/phasing-data/
