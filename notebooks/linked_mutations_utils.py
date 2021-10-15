@@ -1,4 +1,5 @@
 import pileup
+from collections import defaultdict
 
 # This file defines various constants / functions used in the
 # linked mutation analysis notebooks.
@@ -16,8 +17,23 @@ MINSPAN = 500
 # Value of p used for calling a position as "mutated" or not. defaults to 0.5%
 p = 0.5 / 100
 
+def gen_ddi():
+    """Returns a new defaultdict(int).
+
+    Needed because pickle can't handle lambda functions.
+    """
+    return defaultdict(int)
+
 # Finds all mutated positions in a genome. Stored here to enable reuse.
 def find_mutated_positions(seq):
+    """Returns a list of mutated positions in a genome.
+
+    Mutated positions are stored in the list as 0-indexed integers (so the
+    first position in a genome, if included, would be 0).
+
+    Mutated positions are classified as being mutated based on
+    pileup.naively_call_mutation() with the value of p listed above.
+    """
     seq2pos2pileup = pileup.load()
     mutated_positions = []
     for pos, pcol in enumerate(seq2pos2pileup[seq][1:], 1):
