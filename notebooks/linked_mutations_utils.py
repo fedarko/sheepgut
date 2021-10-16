@@ -11,8 +11,13 @@ MINCOV = 1000
 
 # In order for us to connect two allele nodes, at least this many reads must
 # span both allele's positions (this isn't the only condition for creating an
-# edge; the two alleles must also co-occur on at least one read).
+# edge; see MINLINK_EXCLUSIVE below).
 MINSPAN = 500
+
+# In order for us to connect two allele nodes, link(i, j, N_i, N_j) between
+# positions i and j with nucleotides N_i and N_j must be GREATER THAN this (we
+# use > instead of >= since this can be 0).
+MINLINK_EXCLUSIVE = 0
 
 # Value of p used for calling a position as "mutated" or not. defaults to 0.5%
 p = 0.5 / 100
@@ -32,7 +37,8 @@ def find_mutated_positions(seq):
     first position in a genome, if included, would be 0).
 
     Mutated positions are classified as being mutated based on
-    pileup.naively_call_mutation() with the value of p listed above.
+    pileup.naively_call_mutation() with the value of p listed above. We also
+    only include mutated positions that have coverage of at least MINCOV.
     """
     seq2pos2pileup = pileup.load()
     mutated_positions = []
