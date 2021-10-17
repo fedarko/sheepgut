@@ -5,3 +5,5 @@ __pycache__/
 notebooks/pospair2groupcts/
 notebooks/misc-output/p2called_mutations.txt
 notebooks/phasing-data/
+notebooks/graphs/*.gv
+notebooks/graphs/*.png
