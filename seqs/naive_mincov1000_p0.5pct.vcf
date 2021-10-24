@@ -1,3 +1,7 @@
+##fileformat=VCFv4.2
+##fileDate=20211023
+##source=strainFlye
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
 edge_6104	1596	.	A	T	.	.	.
 edge_6104	18203	.	G	T	.	.	.
 edge_6104	20103	.	A	T	.	.	.
@@ -25286,8 +25290,8 @@ edge_2358	1784075	.	G	A	.	.	.
 edge_2358	1788405	.	A	C	.	.	.
 edge_2358	1788406	.	C	A	.	.	.
 edge_2358	1789261	.	G	A	.	.	.
-edge_2358	1797580	.	A	A	.	.	.
-edge_2358	1797892	.	C	C	.	.	.
+edge_2358	1797580	.	G	A	.	.	.
+edge_2358	1797892	.	T	C	.	.	.
 edge_2358	1797893	.	C	T	.	.	.
 edge_2358	1799262	.	C	A	.	.	.
 edge_2358	1799749	.	C	G	.	.	.
@@ -25881,5 +25885,5 @@ edge_2358	2798625	.	C	T	.	.	.
 edge_2358	2798628	.	A	T	.	.	.
 edge_2358	2798631	.	C	T	.	.	.
 edge_2358	2798640	.	T	G	.	.	.
-edge_2358	2799281	.	C	C	.	.	.
+edge_2358	2799281	.	A	C	.	.	.
 edge_2358	2800782	.	C	A	.	.	.
