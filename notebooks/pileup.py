@@ -108,6 +108,9 @@ def get_alt_nt(pileup):
     we can ensure that freq(pos) = alt(pos) / reads(pos) remains within the
     easy-to-interpret range [0%, 50%]. For more detailed stuff on this, see the
     prokaryotic / eukaryotic classification paper...
+
+    If you want to be able to exclude positions where the reference doesn't
+    match the consensus, see get_alt_nt_if_reasonable().
     """
     _, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
 
@@ -115,6 +118,55 @@ def get_alt_nt(pileup):
         raise ValueError("No mismatches at this position in the pileup.")
 
     return alt_nt
+    
+
+def get_alt_nt_if_reasonable(pileup):
+    """Like get_alt_nt(), but returns None in the case where the consensus
+    (most-frequently-seen nucleotide at a position) does not match the
+    reference. This also guarantees that the reference nucleotide will NOT be
+    returned as the alt nucleotide, in the case of a tie.
+
+    The rationale for this is that in some cases we want to treat a mismatch
+    in a read as a "mutation", explicitly, from the reference. But if the
+    reference doesn't match the consensus at this position, it becomes a bit
+    weird trying to describe this as a mutation "from" something. I'm sure you
+    could spend a lot of time arguing about the details of this case, but it's
+    easiest to just exclude these rare positions.
+
+    This won't return None if the consensus is tied for the
+    most-frequently-seen nucleotide with another -- that case is ok. This
+    matches the behavior of how we go through stuff for the codon mutation
+    matrices.
+
+    As with get_alt_nt(), this'll throw an error if there are no mismatches at
+    this position.
+
+    This code could probably be sped up a fair amount.
+    """
+    #_, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
+    cts = pileup[0]
+    ri = pileup[1]
+    if pileup[0][ri] == max(pileup[0]):
+        # This position is "reasonable": the reference nucleotide is either
+        # the most frequently seen nucleotide at this position, or tied for
+        # this.
+        nts = "ACGT"
+        n2i = {"A": 0, "C": 1, "G": 2, "T": 3}
+        # Slice out the reference nucleotide based on its index
+        alt_nts = nts[:ri] + nts[ri + 1:]
+        # Create alt_nt2ct, a dict mapping nucleotide to frequency at this
+        # position -- this will only contain 3/4 of the nucleotides, with the
+        # reference nucleotide excluded. Use this dict to figure out the
+        # maximum-frequency alternate nucleotide and then return that.
+        alt_nt2ct = {nt: cts[n2i[nt]] for nt in alt_nts}
+        max_freq_alt_nt = max(alt_nt2ct, key=alt_nt2ct.get)
+        # If all non-reference nucleotides have frequency 0, raise an error.
+        if alt_nt2ct[max_freq_alt_nt] == 0:
+            raise ValueError("No mismatches at this position in the pileup.")
+        return max_freq_alt_nt
+    else:
+        # This position is "unreasonable", so just return None.
+        return None
     
 
 def get_mismatch_pcts(pileup):
@@ -157,3 +209,4 @@ def naively_call_mutation(pileup, p):
         raise ValueError(f"Hey p = {p} but it should be in the range [0, 0.5]")
     freq_pos = get_alt_nt_pct(pileup)
     return freq_pos > p
+
