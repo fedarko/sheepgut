@@ -36,6 +36,31 @@ def test_get_alt_nt_pct():
     assert pileup.get_alt_nt_pct([[0, 0, 0, 0], 0, 5]) == 0
 
 
+def test_get_alt_nt():
+    # This doesn't care about the reference nucleotide at this position, so --
+    # if the reference is NOT the consensus -- this can return the reference as
+    # the "alt" nt. This is as expected.
+    for ri in (0, 1, 2, 3):
+        assert pileup.get_alt_nt([[100, 20, 30, 50], ri, 5]) == "T"
+
+    # Break ties arbitrarily
+    for ri in (0, 1, 2, 3):
+        assert pileup.get_alt_nt([[100, 200, 200, 50], ri, 5]) in ("C", "G")
+        assert pileup.get_alt_nt([[200, 200, 300, 50], ri, 5]) in ("A", "C")
+
+    # Raise an error in the case where no alt nucleotides are present
+    with pytest.raises(
+        ValueError, match=r"No mismatches at this position in the pileup."
+    ):
+        pileup.get_alt_nt([[5, 0, 0, 0], 0, 3])
+
+    # This error also applies to 0x coverage positions!
+    with pytest.raises(
+        ValueError, match=r"No mismatches at this position in the pileup."
+    ):
+        pileup.get_alt_nt([[0, 0, 0, 0], 0, 3])
+
+
 def test_naively_call_mutation():
     # Mutation calling, since we're computing alt(pos) differently now (based
     # on 2nd-most-common nt, rather than most-common non-reference nt), is not
