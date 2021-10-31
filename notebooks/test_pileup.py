@@ -45,20 +45,60 @@ def test_get_alt_nt():
 
     # Break ties arbitrarily
     for ri in (0, 1, 2, 3):
-        assert pileup.get_alt_nt([[100, 200, 200, 50], ri, 5]) in ("C", "G")
-        assert pileup.get_alt_nt([[200, 200, 300, 50], ri, 5]) in ("A", "C")
+        assert pileup.get_alt_nt([[100, 200, 200, 50], ri, 5]) in "CG"
+        assert pileup.get_alt_nt([[200, 200, 300, 50], ri, 5]) in "AC"
+        assert pileup.get_alt_nt([[100, 100, 100, 100], ri, 5]) in "ACGT"
 
-    # Raise an error in the case where no alt nucleotides are present
-    with pytest.raises(
-        ValueError, match=r"No mismatches at this position in the pileup."
-    ):
-        pileup.get_alt_nt([[5, 0, 0, 0], 0, 3])
-
+    # Raise an error in the case where no alt nucleotides are present.
     # This error also applies to 0x coverage positions!
-    with pytest.raises(
-        ValueError, match=r"No mismatches at this position in the pileup."
-    ):
-        pileup.get_alt_nt([[0, 0, 0, 0], 0, 3])
+    bad_cases = (
+        [[5, 0, 0, 0], 0, 3],
+        [[0, 0, 0, 0], 0, 3]
+    )
+    for pu in bad_cases:
+        with pytest.raises(
+            ValueError, match=r"No mismatches at this position in the pileup."
+        ):
+           pileup.get_alt_nt(pu)
+
+
+def test_get_alt_nt_if_reasonable():
+    # Unlike get_alt_nt(), this does take the reference nt into account. If the
+    # reference is the consensus, this behaves as expected; if not, then
+    # this'll just return None.
+    assert pileup.get_alt_nt_if_reasonable([[100, 20, 30, 50], 0, 5]) == "T"
+    for ri in (1, 2, 3):
+        assert pileup.get_alt_nt_if_reasonable([[100, 20, 30, 50], ri, 5]) is None
+
+    # Even if the reference nt is tied for the most frequent nt, it should
+    # never be returned as the alt nt by this function.
+    assert pileup.get_alt_nt_if_reasonable([[100, 200, 200, 50], 0, 5]) is None
+    assert pileup.get_alt_nt_if_reasonable([[100, 200, 200, 50], 1, 5]) == "G"
+    assert pileup.get_alt_nt_if_reasonable([[100, 200, 200, 50], 2, 5]) == "C"
+    assert pileup.get_alt_nt_if_reasonable([[100, 200, 200, 50], 3, 5]) is None
+
+    # Ties are still broken arbitrarily if there are multiple most-frequent
+    # non-reference nucleotides
+    assert pileup.get_alt_nt_if_reasonable([[200, 200, 300, 50], 0, 5]) is None
+    assert pileup.get_alt_nt_if_reasonable([[200, 200, 300, 50], 1, 5]) is None
+    assert pileup.get_alt_nt_if_reasonable([[200, 200, 300, 50], 2, 5]) in "AC"
+    assert pileup.get_alt_nt_if_reasonable([[200, 200, 300, 50], 3, 5]) is None
+
+    assert pileup.get_alt_nt_if_reasonable([[100, 100, 100, 100], 0, 5]) in "CGT"
+    assert pileup.get_alt_nt_if_reasonable([[100, 100, 100, 100], 1, 5]) in "AGT"
+    assert pileup.get_alt_nt_if_reasonable([[100, 100, 100, 100], 2, 5]) in "ACT"
+    assert pileup.get_alt_nt_if_reasonable([[100, 100, 100, 100], 3, 5]) in "ACG"
+
+    # Same error-checking as in get_alt_nt()
+    bad_cases = (
+        [[5, 0, 0, 0], 0, 3],
+        [[0, 0, 0, 0], 0, 3]
+    )
+    for pu in bad_cases:
+        with pytest.raises(
+            ValueError, match=r"No mismatches at this position in the pileup."
+        ):
+           pileup.get_alt_nt_if_reasonable(pu)
 
 
 def test_naively_call_mutation():

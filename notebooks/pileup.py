@@ -157,7 +157,8 @@ def get_alt_nt_if_reasonable(pileup):
         # Create alt_nt2ct, a dict mapping nucleotide to frequency at this
         # position -- this will only contain 3/4 of the nucleotides, with the
         # reference nucleotide excluded. Use this dict to figure out the
-        # maximum-frequency alternate nucleotide and then return that.
+        # maximum-frequency alternate nucleotide (breaking ties arbitrarily)
+        # and then return that.
         alt_nt2ct = {nt: cts[n2i[nt]] for nt in alt_nts}
         max_freq_alt_nt = max(alt_nt2ct, key=alt_nt2ct.get)
         # If all non-reference nucleotides have frequency 0, raise an error.
