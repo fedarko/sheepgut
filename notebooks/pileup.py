@@ -120,6 +120,11 @@ def get_alt_nt(pileup):
     return alt_nt
     
 
+def is_reasonable(pileup):
+    ri = pileup[1]
+    return pileup[0][ri] == max(pileup[0])
+
+
 def get_alt_nt_if_reasonable(pileup):
     """Like get_alt_nt(), but returns None in the case where the consensus
     (most-frequently-seen nucleotide at a position) does not match the
@@ -146,7 +151,7 @@ def get_alt_nt_if_reasonable(pileup):
     #_, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
     cts = pileup[0]
     ri = pileup[1]
-    if pileup[0][ri] == max(pileup[0]):
+    if is_reasonable(pileup):
         # This position is "reasonable": the reference nucleotide is either
         # the most frequently seen nucleotide at this position, or tied for
         # this.
