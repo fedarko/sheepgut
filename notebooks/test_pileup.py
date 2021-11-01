@@ -127,3 +127,9 @@ def test_naively_call_mutation():
             ValueError, match=r"should be in the range \[0, 0.5\]"
         ):
             pileup.naively_call_mutation(tv, bad_p)
+
+
+def test_get_deletions():
+    assert pileup.get_deletions([[10, 0, 3, 50], 3, 0]) == 0
+    assert pileup.get_deletions([[10, 0, 3, 50], 0, 20]) == 20
+    assert pileup.get_deletions([[0, 0, 0, 0], 1, 1]) == 1

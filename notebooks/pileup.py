@@ -211,3 +211,6 @@ def naively_call_mutation(pileup, p):
     freq_pos = get_alt_nt_pct(pileup)
     return freq_pos > p
 
+
+def get_deletions(pileup):
+    return pileup[2]
