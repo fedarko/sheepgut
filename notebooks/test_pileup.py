@@ -110,21 +110,23 @@ def test_naively_call_mutation():
 
         # TEST CASE 1: 100 G at this position; 0 of all other nts
         not_mutated = [[0, 0, 100, 0], ri, 0]
-        assert not pileup.naively_call_mutation(not_mutated, 0)
+        assert not pileup.naively_call_mutation(not_mutated, 0.0001)
 
-        # TEST CASE 2: 97 G at this position; 1 C; 0 A; 0 T
+        # TEST CASE 2: 97 G at this position; 3 C; 0 A; 0 T
         mutated = [[0, 3, 97, 0], ri, 0]
-        # test values of p for which this is a p-mutation
-        for mp in (0, 0.01, 0.02, 0.025):
+        # test values of p for which this is a p-mutation. Notably,
+        # at this position freq(pos) = 3 / (3 + 97) = 0.03, and we now use
+        # freq(pos) >= p when calling p-mutations
+        for mp in (0.01, 0.02, 0.025, 0.03):
             assert pileup.naively_call_mutation(mutated, mp)
         # test values of p for which this is not a p-mutation
-        for nmp in (0.03, 0.035, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5):
+        for nmp in (0.031, 0.035, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5):
             assert not pileup.naively_call_mutation(mutated, nmp)
 
     tv = [[0, 0, 100, 0], 2, 0]
-    for bad_p in (0.51, 0.6, 0.7, 0.8, 0.9, 1, 50, 100, -0.01, -10, -100):
+    for bad_p in (0, 0.51, 0.6, 0.7, 0.8, 0.9, 1, 50, 100, -0.01, -10, -100):
         with pytest.raises(
-            ValueError, match=r"should be in the range \[0, 0.5\]"
+            ValueError, match=r"should be in the range \(0, 0.5\]"
         ):
             pileup.naively_call_mutation(tv, bad_p)
 

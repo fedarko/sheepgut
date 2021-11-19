@@ -209,12 +209,38 @@ def get_alt_nt_pct(pileup):
 
 
 def naively_call_mutation(pileup, p):
+    """The main purpose of this file; naively "calls" a position as a
+    p-mutation or not.
+
+    A position pos is a p-mutation, as we define it, if freq(pos) (as defined
+    in the paper) is >= p. Previously, this used > instead of >=; it doesn't
+    really make a big difference, but the rationale for using >= is that this
+    allows for positions with freq(pos) = 0.5 to be p=0.5 (aka 50%) mutations.
+    This comes at the cost of making p=0%-mutations useless, since literally
+    any position is now a p=0% mutation. (Previously, p = 0% was useful in the
+    context of e.g. the CP 1/2/3 plots, since we could use it as a way to say
+    "show me all the positions that have at least one aligned mismatch".)
+
+    Parameters
+    ==========
+    pileup: list
+        A pileup entry for a given position. Same as the other pileup
+        parameters throughout the functions in this file.
+
+    p: float
+        Should be in the range (0, 0.5]. Represents the threshold we use to
+        call a mutation.
+
+    Returns
+    =======
+    bool: True if freq(pos) >= p, False otherwise
+    """
     # Attempt to catch errors from me forgetting to update the definition of p
     # used throughout these analyses
-    if p > 0.5 or p < 0:
-        raise ValueError(f"Hey p = {p} but it should be in the range [0, 0.5]")
+    if p > 0.5 or p <= 0:
+        raise ValueError(f"Hey p = {p} but it should be in the range (0, 0.5]")
     freq_pos = get_alt_nt_pct(pileup)
-    return freq_pos > p
+    return freq_pos >= p
 
 
 def get_deletions(pileup):
