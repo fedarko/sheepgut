@@ -212,14 +212,28 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
     """The main purpose of this file; naively "calls" a position as a
     p-mutation or not.
 
-    A position pos is a p-mutation, as we define it, if freq(pos) (as defined
-    in the paper) is >= p. Previously, this used > instead of >=; it doesn't
-    really make a big difference, but the rationale for using >= is that this
-    allows for positions with freq(pos) = 0.5 to be p=0.5 (aka 50%) mutations.
-    This comes at the cost of making p=0%-mutations useless, since literally
-    any position is now a p=0% mutation. (Previously, p = 0% was useful in the
-    context of e.g. the CP 1/2/3 plots, since we could use it as a way to say
-    "show me all the positions that have at least one aligned mismatch".)
+    A position pos with:
+        second-most-common nt frequency = alt(pos),
+        coverage = reads(pos)
+
+    ...is a p-mutation
+        (given some p in the range (0, 50] -- this corresponds to
+        a percentage, so p = 50 indicates 50%)
+
+    ...if (alt(pos) / reads(pos)) >= (p / 100).
+
+    Or, as the paper puts it, freq(pos) >= p (replacing the left side of the
+    equation with freq(pos), and expressing p as a value in (0, 0.5] instead).
+
+    We previously had p passed to this function as a value in (0, 0.5], like in
+    the paper, but in order to avoid the need to repeatedly divide p by 100
+    before passing it to here -- and, simultaneously, to limit floating-point
+    precision errors -- we now ask that p is passed in as a value in (0, 50].
+    We handle things within this function, which makes life a bit easier.
+
+    NOTE that this does not mean that p is now an integer, since you can
+    totally have float percentages in this range: for example, 2.5 (indicating
+    2.5%).
 
     Parameters
     ==========
@@ -228,27 +242,42 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
         parameters throughout the functions in this file.
 
     p: float
-        Should be in the range (0, 0.5]. Represents the threshold we use to
+        Should be in the range (0, 50]. Represents the threshold we use to
         call a mutation.
+
+    min_alt_pos: int, default 2
+        Should be a nonnegative integer (zero or one are ok, but I think
+        they'll result in the same behavior). Even if a position qualifies as a
+        p-mutation based on alt(pos) / reads(pos) >= p / 100, this position
+        will NOT be considered a p-mutation unless a second condition,
+        alt(pos) >= min_alt_pos, is met. The rationale for this is discussed in
+        the paper.
 
     Returns
     =======
-    bool: True if freq(pos) >= p, False otherwise
+    bool: True if this position is a p-mutation (and the min_alt_pos condition
+          is met), False otherwise.
     """
     # Attempt to catch errors from me forgetting to update the definition of p
     # used throughout these analyses
-    if p > 0.5 or p <= 0:
-        raise ValueError(f"Hey p = {p} but it should be in the range (0, 0.5]")
+    if p > 50 or p <= 0:
+        raise ValueError(f"Hey p = {p} but it should be in the range (0, 50]")
+
     cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
     if alt_freq >= min_alt_pos:
-        # We call a p-mutation if freq(pos) >= p.
-        # Since freq(pos) = alt(pos) / reads(pos) (where reads(pos) is just the
-        # match + mismatch coverage at this position), we can equivalently just
-        # call a p-mutation if alt(pos) >= p * reads(pos). This lets us avoid
-        # division in doing this particular check, which might help
-        # with avoiding weird floating-point error a bit.
-        min_alt_for_pmutation = p * cov
-        return alt_freq >= min_alt_for_pmutation
+        # We call a p-mutation if alt(pos) / reads(pos) >= p / 100.
+        # Equivalently: we call a p-mutation if 100*alt(pos) >= p*reads(pos).
+        #
+        # This way, we avoid division; we aren't entirely out of the woods of
+        # potential floating-point errors, but this should be more reliable, I
+        # think. (And thanks to Python's support for arbitrary-precision
+        # integers, we shouldn't need to worry about numbers getting
+        # ridiculously large enough to cause overflow problems -- plus, like,
+        # the the max value on the right hand side here would be what,
+        # p=50 times a coverage of say 1,000,000x? That's no biggie.)
+        lhs = 100 * alt_freq
+        rhs = p * cov
+        return lhs >= rhs
 
 
 def get_deletions(pileup):
