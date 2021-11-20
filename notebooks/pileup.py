@@ -208,7 +208,7 @@ def get_alt_nt_pct(pileup):
         return alt_freq / cov
 
 
-def naively_call_mutation(pileup, p):
+def naively_call_mutation(pileup, p, min_alt_pos=2):
     """The main purpose of this file; naively "calls" a position as a
     p-mutation or not.
 
@@ -239,8 +239,16 @@ def naively_call_mutation(pileup, p):
     # used throughout these analyses
     if p > 0.5 or p <= 0:
         raise ValueError(f"Hey p = {p} but it should be in the range (0, 0.5]")
-    freq_pos = get_alt_nt_pct(pileup)
-    return freq_pos >= p
+    cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
+    if alt_freq >= min_alt_pos:
+        # We call a p-mutation if freq(pos) >= p.
+        # Since freq(pos) = alt(pos) / reads(pos) (where reads(pos) is just the
+        # match + mismatch coverage at this position), we can equivalently just
+        # call a p-mutation if alt(pos) >= p * reads(pos). This lets us avoid
+        # division in doing this particular check, which might help
+        # with avoiding weird floating-point error a bit.
+        min_alt_for_pmutation = p * cov
+        return alt_freq >= min_alt_for_pmutation
 
 
 def get_deletions(pileup):
