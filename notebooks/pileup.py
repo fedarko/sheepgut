@@ -280,5 +280,15 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
         return lhs >= rhs
 
 
+def any_mismatches(pileup):
+    """Returns True if alt(pos) > 0, False otherwise.
+
+    Replicates the behavior of naive p-mutation calling with > p instead of
+    the new >= p behavior at p = 0%.
+    """
+    _, alt_freq, _ = get_alt_info_from_pleuk(pileup)
+    return alt_freq > 0
+
+
 def get_deletions(pileup):
     return pileup[2]

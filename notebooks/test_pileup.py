@@ -148,6 +148,16 @@ def test_naively_call_mutation():
             pileup.naively_call_mutation(tv, bad_p)
 
 
+def test_any_mismatches():
+    assert not pileup.any_mismatches([[0, 0, 100, 0], 2, 0])
+    assert pileup.any_mismatches([[1, 0, 100, 0], 2, 0])
+    assert pileup.any_mismatches([[100, 0, 100, 0], 2, 0])
+    # If match+mismatch cov is 0x, I guess you could argue that this is
+    # undefined. I think False makes sense as a return value here, tho.
+    assert not pileup.any_mismatches([[0, 0, 0, 0], 2, 0])
+    assert not pileup.any_mismatches([[0, 0, 0, 0], 0, 0])
+
+
 def test_get_deletions():
     assert pileup.get_deletions([[10, 0, 3, 50], 3, 0]) == 0
     assert pileup.get_deletions([[10, 0, 3, 50], 0, 20]) == 20
