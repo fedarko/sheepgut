@@ -264,7 +264,21 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
         raise ValueError(f"Hey p = {p} but it should be in the range (0, 50]")
 
     cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
-    if alt_freq >= min_alt_pos:
+    return naively_call_mutation_directly(
+        alt_freq, cov, p, min_alt_pos=min_alt_pos
+    )
+
+
+def naively_call_mutation_directly(alt_pos, cov_pos, p, min_alt_pos=2):
+    """The guts of naively_call_mutation().
+
+    Abstracted to a separate function so that I can call this from other
+    contexts besides ordinary pileup -- e.g. for calling codons as p-mutated.
+    """
+    if p > 50 or p <= 0:
+        raise ValueError(f"Hey p = {p} but it should be in the range (0, 50]")
+
+    if alt_pos >= min_alt_pos:
         # We call a p-mutation if alt(pos) / reads(pos) >= p / 100.
         # Equivalently: we call a p-mutation if 100*alt(pos) >= p*reads(pos).
         #
@@ -275,10 +289,10 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
         # ridiculously large enough to cause overflow problems -- plus, like,
         # the the max value on the right hand side here would be what,
         # p=50 times a coverage of say 1,000,000x? That's no biggie.)
-        lhs = 100 * alt_freq
-        rhs = p * cov
+        lhs = 100 * alt_pos
+        rhs = p * cov_pos
         return lhs >= rhs
-
+    return False
 
 def any_mismatches(pileup):
     """Returns True if alt(pos) > 0, False otherwise.
