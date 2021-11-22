@@ -9,6 +9,12 @@ from collections import defaultdict
 # it's feasible.
 MINCOV = 1000
 
+# We only add an allele node to the graph if its frequency is greater than
+# this. Note that this is >, not >= -- so a value of 1 here means that this
+# must be at least 2 (i.e. this nt at this position in this sequence was
+# observed at least twice).
+MIN_ALLELE_FREQ_EXCLUSIVE = 1
+
 # In order for us to connect two allele nodes, at least this many reads must
 # span both allele's positions (this isn't the only condition for creating an
 # edge; see MINLINK_EXCLUSIVE below).
