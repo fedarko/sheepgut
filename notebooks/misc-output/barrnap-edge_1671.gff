@@ -1,0 +1,10 @@
+##gff-version 3
+edge_1671	barrnap:0.9	rRNA	91857	93382	0	+	.	Name=16S_rRNA;product=16S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	93789	96653	0	+	.	Name=23S_rRNA;product=23S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	96736	96837	2.4e-10	+	.	Name=5S_rRNA;product=5S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	398480	400005	0	+	.	Name=16S_rRNA;product=16S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	400412	403276	0	+	.	Name=23S_rRNA;product=23S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	403359	403460	2.4e-10	+	.	Name=5S_rRNA;product=5S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	1557851	1557952	2.4e-10	-	.	Name=5S_rRNA;product=5S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	1558035	1560899	0	-	.	Name=23S_rRNA;product=23S ribosomal RNA
+edge_1671	barrnap:0.9	rRNA	1561306	1562831	0	-	.	Name=16S_rRNA;product=16S ribosomal RNA
