@@ -26,7 +26,7 @@ MINSPAN = 500
 MINLINK_EXCLUSIVE = 0
 
 # Value of p used for calling a position as "mutated" or not. defaults to 0.5%
-p = 0.5 / 100
+p = 0.5
 
 def gen_ddi():
     """Returns a new defaultdict(int).
