@@ -190,6 +190,19 @@ def test_naively_call_mutation():
             pileup.naively_call_mutation(tv, bad_p)
 
 
+def test_is_position_rare():
+    for ri in (0, 1, 2, 3):
+        for a in (0, 1, 2, 3, 4):
+            assert pileup.is_position_rare([[a, 0, 0, 95], ri, 0])
+        for a in range(5, 95):
+            assert not pileup.is_position_rare([[a, 0, 0, 95], ri, 0])
+
+
+def test_is_position_rare_direct():
+    assert not pileup.is_position_rare_direct(5, 95)
+    assert pileup.is_position_rare_direct(1, 95)
+
+
 def test_any_mismatches():
     assert not pileup.any_mismatches([[0, 0, 100, 0], 2, 0])
     assert pileup.any_mismatches([[1, 0, 100, 0], 2, 0])

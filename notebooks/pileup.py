@@ -315,12 +315,22 @@ def naively_call_mutation_directly(
             # This position counts as a p-mutation, but we may still need to
             # make the "is this a rare mutation?" check.
             if only_call_if_rare:
-                rhs_upper = HIGH_FREQUENCY_MIN_PCT * cov_pos
-                return (lhs < rhs_upper)
+                return is_position_rare_direct(alt_pos, cov_pos)
             else:
                 return True
     else:
         return False
+
+
+def is_position_rare(pileup):
+    cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
+    return is_position_rare_direct(alt_freq, cov)
+
+
+def is_position_rare_direct(alt_pos, cov_pos):
+    lhs = 100 * alt_pos
+    rhs_upper = HIGH_FREQUENCY_MIN_PCT * cov_pos
+    return lhs < rhs_upper
 
 
 def any_mismatches(pileup):
