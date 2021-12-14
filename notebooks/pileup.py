@@ -41,6 +41,16 @@ import pickle
 from pleuk_copied_code import get_alt_pos_info
 
 
+# We consider a p-mutation with freq(pos) >= this percentage to be
+# "high-frequency", aka indisputable. Depending on what we are using mutation
+# calling for, we may want to not call high-frequency mutated positions (for
+# example, this will throw off the computation of decoy genomes).
+#
+# This should be a value in the range (0, 50], analogous to the "p" value that
+# is a parameter for naively_call_mutation() below.
+HIGH_FREQUENCY_MIN_PCT = 5
+
+
 def load(picklepath="../main-workflow/output/seq2pos2pileup.pickle"):
     # https://stackoverflow.com/a/18261955
     with open(picklepath, "rb") as picklefile:
@@ -208,7 +218,7 @@ def get_alt_nt_pct(pileup):
         return alt_freq / cov
 
 
-def naively_call_mutation(pileup, p, min_alt_pos=2):
+def naively_call_mutation(pileup, p, min_alt_pos=2, only_call_if_rare=False):
     """The main purpose of this file; naively "calls" a position as a
     p-mutation or not.
 
@@ -253,10 +263,17 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
         alt(pos) >= min_alt_pos, is met. The rationale for this is discussed in
         the paper.
 
+    only_call_if_rare: bool, default False
+        If True, then this will only call a p-mutation if
+        (alt(pos) / reads(pos)) < HIGH_FREQUENCY_MIN_PCT / 100. The
+        HIGH_FREQUENCY_MIN_PCT constant is defined above.
+
+        This has the effect of allowing us to ignore "indisputable" mutations.
+
     Returns
     =======
-    bool: True if this position is a p-mutation (and the min_alt_pos condition
-          is met), False otherwise.
+    bool: True if this position is a p-mutation (and the min_alt_pos and
+          only_call_if_rare conditions are met), False otherwise.
     """
     # Attempt to catch errors from me forgetting to update the definition of p
     # used throughout these analyses
@@ -265,11 +282,14 @@ def naively_call_mutation(pileup, p, min_alt_pos=2):
 
     cov, alt_freq, alt_nt = get_alt_info_from_pleuk(pileup)
     return naively_call_mutation_directly(
-        alt_freq, cov, p, min_alt_pos=min_alt_pos
+        alt_freq, cov, p, min_alt_pos=min_alt_pos,
+        only_call_if_rare=only_call_if_rare
     )
 
 
-def naively_call_mutation_directly(alt_pos, cov_pos, p, min_alt_pos=2):
+def naively_call_mutation_directly(
+    alt_pos, cov_pos, p, min_alt_pos=2, only_call_if_rare=False
+):
     """The guts of naively_call_mutation().
 
     Abstracted to a separate function so that I can call this from other
@@ -291,8 +311,17 @@ def naively_call_mutation_directly(alt_pos, cov_pos, p, min_alt_pos=2):
         # p=50 times a coverage of say 1,000,000x? That's no biggie.)
         lhs = 100 * alt_pos
         rhs = p * cov_pos
-        return lhs >= rhs
-    return False
+        if lhs >= rhs:
+            # This position counts as a p-mutation, but we may still need to
+            # make the "is this a rare mutation?" check.
+            if only_call_if_rare:
+                rhs_upper = HIGH_FREQUENCY_MIN_PCT * cov_pos
+                return (lhs < rhs_upper)
+            else:
+                return True
+    else:
+        return False
+
 
 def any_mismatches(pileup):
     """Returns True if alt(pos) > 0, False otherwise.

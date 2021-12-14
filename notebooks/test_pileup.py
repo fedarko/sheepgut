@@ -127,6 +127,12 @@ def test_naively_call_mutation():
                 assert pileup.naively_call_mutation(
                     mutated, mp, min_alt_pos=min_alt_pos
                 )
+                # The HF min value is 5%, so only_call_if_rare shouldn't make
+                # a difference here
+                assert pileup.naively_call_mutation(
+                    mutated, mp, min_alt_pos=min_alt_pos,
+                    only_call_if_rare=True
+                )
             # And this is checking [4, 200]. We really only need to check one
             # of these values, but I'm being paranoid and using ridiculously
             # high values of these because computer time is cheap and grad
@@ -135,10 +141,46 @@ def test_naively_call_mutation():
                 assert not pileup.naively_call_mutation(
                     mutated, mp, min_alt_pos=min_alt_pos
                 )
+                assert not pileup.naively_call_mutation(
+                    mutated, mp, min_alt_pos=min_alt_pos,
+                    only_call_if_rare=True
+                )
 
         # test values of p for which this is not a p-mutation
         for nmp in (3.1, 3.5, 4, 5, 10, 20, 30, 40, 50):
             assert not pileup.naively_call_mutation(mutated, nmp)
+            assert not pileup.naively_call_mutation(
+                mutated, nmp, only_call_if_rare=True
+            )
+
+        # TEST CASE 3: A case where only_call_if_rare makes a difference
+        # 5 A; 95 T; 0 C; 0 G (so freq(pos) = 5% exactly; this is equal to
+        # HIGH_FREQUENCY_MIN_PCT, so it should cause this to not be called as a
+        # p-mutation if only_call_if_rare is True)
+        testpos = [[5, 0, 0, 95], ri, 0]
+        is_mut_p = (0.1, 0.2, 0.3, 0.5, 1, 2, 3, 4, 5)
+        for p in is_mut_p:
+            assert pileup.naively_call_mutation(testpos, p, min_alt_pos=2)
+            assert pileup.naively_call_mutation(testpos, p, min_alt_pos=5)
+            assert not pileup.naively_call_mutation(testpos, p, min_alt_pos=6)
+            assert not pileup.naively_call_mutation(
+                testpos, p, min_alt_pos=2, only_call_if_rare=True
+            )
+            assert not pileup.naively_call_mutation(
+                testpos, p, min_alt_pos=6, only_call_if_rare=True
+            )
+
+        # TEST CASE 4: another case with only_call_if_rare, but now just >
+        # rather than >=
+        testpos = [[6, 0, 0, 95], ri, 0]
+        for p in is_mut_p:
+            assert pileup.naively_call_mutation(testpos, p, min_alt_pos=2)
+            assert pileup.naively_call_mutation(testpos, p, min_alt_pos=5)
+            assert pileup.naively_call_mutation(testpos, p, min_alt_pos=6)
+            assert not pileup.naively_call_mutation(testpos, p, min_alt_pos=7)
+            assert not pileup.naively_call_mutation(
+                testpos, p, min_alt_pos=2, only_call_if_rare=True
+            )
 
     tv = [[0, 0, 100, 0], 2, 0]
     for bad_p in (0, 51, 60, 70, 80, 90, 100, 1000, -1, -25, -40, -2.5, -1000):
