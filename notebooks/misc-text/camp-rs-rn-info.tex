@@ -11,8 +11,26 @@ $Y$ = 67 nonsynonymous rare single-nucleotide mutations.
 Thus, the ratio of observed to possible synonymous single-nucleotide mutations
 ($R_S = X / J = \frac{40}{741,223}
 \approx 0.00005$)
-is larger than the ratio of observed to possible nonsynonymous single-nucleotide mutations
+is 2.3 times larger than the ratio of observed to possible nonsynonymous single-nucleotide mutations
 ($R_N = Y / K = \frac{67}{2,836,133}
 \approx 0.00002$)
 for CAMP.
+%
+The lower rate of nonsynonymous mutations can be used to produce a new FDR estimate
+as follows, using the $K$ possible nonsynonymous single-nucleotide mutations
+in CAMP as a decoy database.
+%
+We compute the total rate of possible (synonymous and nonsynonymous) single-nucleotide mutations
+in CAMP as $R_{S + N} =
+\frac{40 + 67}{3 \cdot 1,192,452}
+\approx 0.00003$, and use $R_N$ to lower the effective number of
+codon mutations in CAMP from $X + Y =$ 107 to
+$\frac{107 \cdot R_N}{R_{S + N}} =
+\frac{107 \cdot 0.00002}{0.00003} \approx 84.5$.
+%
+We can compute the number of mutations per megabase by dividing this value by $N / 3$,
+the total number of codons in CAMP: this gives us a new value of
+$frac_{decoy} \approx 212.6$ which we can use for FDR estimation.
+% (The math works out so that we can just compute frac_decoy directly with 9Y/K = 9*R_N,
+% for reference.)
 \endinput
