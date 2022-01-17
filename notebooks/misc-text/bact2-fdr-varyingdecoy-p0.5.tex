@@ -1,11 +1,11 @@
 Our initially described target-decoy approach estimated a very high FDR for the BACT2 MAG:
-at $p = 0.5\%$, NaiveFreq identified 193 rare mutations per megabase in CAMP and 582 rare mutations per megabase in BACT2, resulting in an initial FDR estimate of $\frac{193}{582} \approx 33.2\%$.
+at $p = 0.5\%$, NaiveFreq identified mutation rates of $6.4 \times 10^{-5}$ and $1.9 \times 10^{-4}$ for the CAMP and BACT2 genomes, resulting in an initial FDR estimate of $\frac{6.4 \times 10^{-5}}{1.9 \times 10^{-4}} \approx 33.2\%$.
 %
-Applying context-dependent target-decoy approaches decreases the estimated FDR of identified mutations in BACT2.
+Here we show how applying context-dependent target-decoy approaches changes the estimated FDR of identified mutations in BACT2.
 %
-Using only the CP2 mutations in CAMP as a decoy genome (with 132 mutations per megabase), we can reduce our FDR estimate to $\frac{132}{582} \approx 22.6\%$.
+Using only the CP2 mutations in CAMP as a decoy genome (with a mutation rate of $4.4 \times 10^{-5}$), we can reduce our FDR estimate to $\frac{4.4 \times 10^{-5}}{1.9 \times 10^{-4}} \approx 22.6\%$.
 %
-Using all possible single-nucleotide nonsynonymous mutations in CAMP as a decoy genome (with 213 mutations per megabase), we can reduce this estimate further to $\frac{213}{582} \approx 36.6\%$.
+Using all possible nonsynonymous mutations in CAMP as a decoy genome (with a mutation rate of $4.8 \times 10^{-5}$), we can reduce this estimate further to $\frac{4.8 \times 10^{-5}}{1.9 \times 10^{-4}} \approx 24.5\%$.
 %
-Finally, using all possible single-nucleotide nonsense mutations in CAMP as a decoy genome (with 477 mutations per megabase), we obtain an estimate of $\frac{477}{582} \approx 82.0\%$.
+Finally, using all possible nonsense mutations in CAMP as a decoy genome (with a mutation rate of $7.7 \times 10^{-5}$), we obtain an estimate of $\frac{7.7 \times 10^{-5}}{1.9 \times 10^{-4}} \approx 39.7\%$.
 \endinput
