@@ -36,7 +36,7 @@ def gen_ddi():
     return defaultdict(int)
 
 # Finds all mutated positions in a genome. Stored here to enable reuse.
-def find_mutated_positions(seq):
+def find_mutated_positions(seq, p_to_use=p):
     """Returns a list of mutated positions in a genome.
 
     Mutated positions are stored in the list as 0-indexed integers (so the
@@ -53,7 +53,7 @@ def find_mutated_positions(seq):
         # We can be strict and filter out positions that don't pass the
         # coverage filter for linked reads -- no sense including these.
         if cov >= MINCOV:
-            if pileup.naively_call_mutation(pcol, p):
+            if pileup.naively_call_mutation(pcol, p_to_use):
                 # We need 0-indexed positions so we can work with skbio /
                 # pysam. We therefore decrease these by 1, since the pileup
                 # positions are 1-indexed.
