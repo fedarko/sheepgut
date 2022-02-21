@@ -25,7 +25,7 @@ def load_gfa(filepath):
                     # This is overcautious, probably, but whatevs
                     if tag.startswith("LN:i:"):
                         raise ValueError("Duplicate length for node {}".format(node_name))
-                    elif tag.startswith("dp:i:"):
+                    elif tag.startswith("dp:i:") or tag.startswith("KC:i:"):
                         if node_cov is None:
                             node_cov = int(tag[5:])
                         else:
