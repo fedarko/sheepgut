@@ -36,7 +36,7 @@ def gen_ddi():
     return defaultdict(int)
 
 # Finds all mutated positions in a genome. Stored here to enable reuse.
-def find_mutated_positions(seq, p_to_use=p):
+def find_mutated_positions(seq, p_to_use=p, incl_pileup=False):
     """Returns a list of mutated positions in a genome.
 
     Mutated positions are stored in the list as 0-indexed integers (so the
@@ -45,9 +45,16 @@ def find_mutated_positions(seq, p_to_use=p):
     Mutated positions are classified as being mutated based on
     pileup.naively_call_mutation() with the value of p listed above. We also
     only include mutated positions that have coverage of at least MINCOV.
+
+    If incl_pileup is True, this will return a dict instead of a list --
+    the keys will be the (still 0-indexed) mutated positions, and the
+    values will be the pileup entry for this position.
     """
     seq2pos2pileup = pileup.load()
-    mutated_positions = []
+    if incl_pileup:
+        mutated_positions = {}
+    else:
+        mutated_positions = []
     for pos, pcol in enumerate(seq2pos2pileup[seq][1:], 1):
         cov = pileup.get_cov(pcol)
         # We can be strict and filter out positions that don't pass the
@@ -57,5 +64,9 @@ def find_mutated_positions(seq, p_to_use=p):
                 # We need 0-indexed positions so we can work with skbio /
                 # pysam. We therefore decrease these by 1, since the pileup
                 # positions are 1-indexed.
-                mutated_positions.append(pos - 1)
+                mp = pos - 1
+                if incl_pileup:
+                    mutated_positions[mp] = seq2pos2pileup[seq][pos]
+                else:
+                    mutated_positions.append(mp)
     return mutated_positions
