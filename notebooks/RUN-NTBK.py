@@ -26,4 +26,4 @@ subprocess.run([
 ], check=True)
 
 t1 = time.time()
-print("Done. Took {t1 - t0:,.2f} seconds.")
+print(f"Done. Took {t1 - t0:,.2f} seconds.")
