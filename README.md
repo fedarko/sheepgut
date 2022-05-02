@@ -90,10 +90,53 @@ using the `RUN-NTBK.py` Python script located within this repository.
 
 ### Input file locations
 
-Note that we have not provided the input data files (or many of the
+Please note that we have not provided the input data files (or many of the
 "intermediate" data files) in this repository due to GitHub's filesize limits.
 You'll need to download them yourself and update some paths accordingly (see
 above).
+
+## Mapping notebooks to pipeline modules
+
+We're working on porting this code from this ad hoc format to an easier-to-use
+pipeline, https://github.com/fedarko/strainFlye. For now, if you would like
+to use a certain part of the pipeline, this list describes the relevant ad hoc
+code in this repository:
+
+- `align`: Aligns reads to contigs, then filters this alignment.
+  - See the scripts in `main-workflow/`. In particular, `RUN-ME.sh` should
+    do the job. The `seq2pos2pileup.pickle` file output by this script is used
+    by many of the notebooks -- it's a somewhat fast (albeit memory intensive)
+    way to store alignment (BAM file) information for a small number of MAGs.
+
+- `call-naive` Performs naive mutation calling with controlled FDR.
+  - See the `DemonstratingTargetDecoyApproach.ipynb` notebook. This generates
+    FDR curves, etc.
+  - Currently, these notebooks don't explicitly output mutations as a VCF file,
+    but it's possible to do this using something like
+    [this script](https://github.com/fedarko/sheepgut/blob/main/notebooks/write-naive-vcf.py).
+
+- `diversity` Computes the diversity index for MAGs.
+  - See `DiversityIndices.ipynb`.
+
+- `spots` Identifies hot- and/or cold-spots in MAGs.
+  - See `MutationHotspotColdspotViz.ipynb` for generating large plots of
+    mutation locations and identifying coldspots.
+  - For identifying highly-mutated genes and/or intergenic regions, specifically,
+    see `HighlyMutatedGeneTables.ipynb` and/or
+    `HighlyMutatedIntergenicRegionTables.ipynb`.
+
+- `matrix` Computes mutation matrices of a MAG.
+  - See `Matrices-01-Compute.ipynb` and `Matrices-02-Viz.ipynb`.
+
+- `link-graph` Constructs the link graph structure for a MAG.
+  - See `Phasing-01-MakeGraph.ipynb`, `Phasing-02-VizGraph.ipynb`, and
+    `Phasing-03-MiscStats.ipynb`.
+
+- `smooth` Generates smoothed haplotypes. 
+  - See `Phasing-LJA.ipynb`.
+
+- `covskew` Visualizes coverage and GC skew.
+  - See `CoverageSkewPlots.ipynb`.
 
 ## `main-workflow/`
 
