@@ -79,13 +79,14 @@ cd ../inspect-seqs/
 ./read-stats.py # compute read length statistics
 ./checkm.sh     # Run CheckM on certain MAGs
 ./prodigal.py   # Run Prodigal on certain MAGs
-
-# Create figures for the paper
-# (Note that this won't run all of the notebooks, since some of them
-# take a relatively long time to run; see the script's comments for details)
-cd ../notebooks
-./RUN-NOTEBOOKS.py
 ```
+
+At this point, you can now run notebooks in the `notebooks/` folder by starting
+a Jupyter notebook server
+(see e.g. [this documentation](https://docs.jupyter.org/en/latest/running.html))
+from within this directory, then opening up any of the notebooks. You can also
+run individual notebooks from the command line directly
+using the `RUN-NTBK.py` Python script located within this repository.
 
 ### Input file locations
 
@@ -145,11 +146,14 @@ information to stdout.)
 
 ## `notebooks/`
 
-This directory contains [Jupyter Notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook) that create various plots, files, etc. of the data.
+This directory contains
+[Jupyter Notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook)
+that create various plots, files, etc. of the data.
 
-Figures are output to a directory named `notebooks/figs/`.
-Mutation profile tables are output to a directory named
-`notebooks/mutation-profiles/`.
+Figures are output to a directory named `notebooks/figs/`, although there are a
+few other types of outputs created. For example, some notebooks output things
+to the `notebooks/misc-text/` directory, which contains `.tex` files that are
+included literally in our paper.
 
 Many of these notebooks rely entirely or almost entirely on the JSON files
 created by the data processing scripts above. The initial structure of this
@@ -157,9 +161,6 @@ repository was as two separate codebases, where I would create the JSONs on a
 computing server and then download them to my laptop for further analysis;
 however, eventually the JSONs became too large to load in memory on my poor
 laptop, so I elected to run the notebooks on the server as well.
-
-For reference, a script that runs some of these
-notebooks is located at `notebooks/RUN-NOTEBOOKS.py`.
 
 ## `find-edges-in-other-graph/`
 
