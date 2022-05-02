@@ -22,7 +22,7 @@ for seq in SEQS:
     for pos, pcol in enumerate(spp[seq][1:], 1):
         cov = pileup.get_cov(pcol)
         if cov >= 1000:
-            if pileup.naively_call_mutation(pcol, 0.005):
+            if pileup.naively_call_mutation(pcol, 0.5):
                 # vcf positions are 1-indexed, same as pileup stuff
                 alt_nt = pileup.get_alt_nt(pcol)
                 # extremely silly hack to get the reference nt
