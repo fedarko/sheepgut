@@ -124,6 +124,7 @@ for edge_to_focus_on in graph.nodes():
     # edge or adjacent edges in the graph.
     readname2matchct = defaultdict(int)
 
+    i = 0
     for i, aln in enumerate(bf.fetch(focused_seq), 1):
         check_and_update_alignment(
             aln, readname2len, readname2matchct, focused_seq
@@ -224,10 +225,14 @@ for edge_to_focus_on in graph.nodes():
         if perc >= MIN_PERCENT_ALIGNED:
             of.write(aln)
             p += 1
-    print(
-        f"\t{p} / {i} ({((p / i)*100):.2f}%) of alignments in "
-        f"edge {edge_to_focus_on} passed the filter."
-    )
+
+    if i == 0:
+        print(f"No alignments to edge {edge_to_focus_on}.")
+    else:
+        print(
+            f"\t{p} / {i} ({((p / i)*100):.2f}%) of alignments in "
+            f"edge {edge_to_focus_on} passed the filter."
+        )
 
 bf.close()
 of.close()
