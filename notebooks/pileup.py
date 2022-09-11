@@ -131,6 +131,13 @@ def get_alt_nt(pileup):
     
 
 def is_reasonable(pileup):
+    """Returns True if a position is reasonable, false otherwise.
+
+    We define a position as "reasonable" if its reference position does not
+    match the consensus. Ties are allowed -- we just check that the frequency
+    of the reference nucleotide is, or is equal to, the largest frequency out
+    of all of the four nucleotides (A, C, G, T).
+    """
     ri = pileup[1]
     return pileup[0][ri] == max(pileup[0])
 
