@@ -11,8 +11,13 @@ strainFlye utils gfa-to-fasta \
     --output-fasta $CGDIR/sf/contigs.fasta
 
 # Align reads to these hifiasm-meta contigs
+# (note that the reads come at the end of the command, since we allow the user
+# to specify a variable number of reads files -- although in this case, it's
+# just one FASTQ file)
 
 strainFlye align \
     --contigs $CGDIR/sf/contigs.fasta \
     --graph $CGDIR/asm/chicken.hifiasm-meta.p_ctg.gfa \
-    --output-dir $CGDIR/sf/aln/
+    --verbose \
+    --output-dir $CGDIR/sf/aln/ \
+    $CGDIR/reads/SRR15214153.fastq
