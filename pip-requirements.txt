@@ -1,8 +1,0 @@
-# TODO make versions more explicit
-scikit-bio
-pandas
-pysam
-pysamstats
-networkx 
-matplotlib >= 3
-pytest

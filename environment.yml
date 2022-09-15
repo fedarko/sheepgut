@@ -1,17 +1,24 @@
 # From https://github.com/conda-incubator/setup-miniconda/blob/master/etc/example-environment.yml
+# also, see environment.yml and setup.py in https://github.com/fedarko/strainFlye for details
 name: sheepgut
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - python >= 3.7
+  - python >= 3.6, <= 3.7
   - numpy
   - cython
   - samtools >= 1.7
   - minimap2 = 2.17
   - checkm-genome
   - prodigal
+  - pysam < 0.16
+  - pysamstats
   - pip
   - pip:
-      - -r pip-requirements.txt
+      - scikit-bio
+      - pandas >= 1
+      - networkx
+      - matplotlib >= 3
+      - pytest
