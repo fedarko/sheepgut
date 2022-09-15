@@ -118,6 +118,13 @@ cd inspect-seqs/
 ./barrnap.sh
 ```
 
+#### Read statistics (output information about read lengths, etc.)
+
+```bash
+cd inspect-seqs/
+./read-stats.py
+```
+
 #### LoFreq
 
 Note that you will need to install [LoFreq](http://csb5.github.io/lofreq/) to
@@ -138,17 +145,11 @@ cd main-workflow/
 ./run-lofreq.py
 ```
 
-#### Read statistics
-
-```bash
-cd inspect-seqs/
-./read-stats.py
-```
-
 ### Run analysis notebooks
 
 We have now set the stage for running the analysis notebooks in this repository.
-These notebooks contain most of the "higher-level" analyses shown in our paper.
+These notebooks contain most of the "higher-level" analyses shown in our paper,
+and create most of the figures shown there.
 
 You can run notebooks in the `notebooks/` folder by starting a Jupyter notebook server
 (see e.g. [this documentation](https://docs.jupyter.org/en/latest/running.html))
@@ -207,3 +208,16 @@ because they take up a lot of space.)
 - `notebooks/Phasing-LJA.ipynb` and `notebooks/Phasing-LJA-CAMP-Gene.ipynb`
   - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
     being installed.
+
+### Creating other figures in the paper
+
+The analysis notebooks create *most* of the figures shown in our paper,
+although there are a few exceptions.
+
+- strainFlye pipeline figure: created using LibreOffice Draw, GIMP, and Graphviz
+
+- Assembly graph figures: created using
+  [MetagenomeScope](https://github.com/marbl/MetagenomeScope) and
+  [Bandage](https://github.com/rrwick/Bandage)
+
+- Link graph figure: created using Graphviz (sfdp)
