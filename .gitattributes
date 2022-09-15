@@ -1,2 +1,5 @@
-conda-environment.yml linguist-generated=true
-seqs/ linguist-generated=true
+seqs/** linguist-generated=true
+notebooks/graphs/** linguist-generated=true
+notebooks/misc-jsons/** linguist-generated=true
+notebooks/misc-output/** linguist-generated=true
+notebooks/misc-text/** linguist-generated=true
