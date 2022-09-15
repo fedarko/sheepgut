@@ -1,4 +1,6 @@
 #! /usr/bin/env bash
+# NOTE: this is currently unused in the paper. if you'd like to run this
+# script, you will need to install sniffles first.
 
 OUTVCF=output/sniffles-minimap2-results.vcf
 
@@ -39,7 +41,7 @@ set -e
 #
 #./sort-and-index-bam.sh output/ngmlr-alignment.bam output/ngmlr-aln-sorted.bam
 
-echo "Running sniffles on the sorted/indexed ngmlr BAM file..."
+echo "Running sniffles on the sorted/indexed BAM file..."
 sniffles \
     --ccs_reads \
     -m output/fully-filtered-and-sorted-aln.bam \

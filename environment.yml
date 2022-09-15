@@ -13,12 +13,18 @@ dependencies:
   - minimap2 = 2.17
   - checkm-genome
   - prodigal
+  - flye
+  - barrnap
   - pysam < 0.16
   - pysamstats
+  - jupyter
+  - nbconvert
   - pip
   - pip:
       - scikit-bio
+      - scikit-learn
       - pandas >= 1
       - networkx
       - matplotlib >= 3
+      - logomaker
       - pytest

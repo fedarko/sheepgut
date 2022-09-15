@@ -6,21 +6,33 @@ This repository contains various code files used in the analysis of metagenome-a
 
 Broadly, the "inputs" to these analyses are:
 
-1. An assembly graph (in GFA format)
+1. An assembly graph (in GFA 1 format)
 2. The reads used to generate the assembly graph (in FASTQ and/or FASTA format)
+
+**Please note** that many of the analyses shown here (alignment, mutation
+calling, FDR estimation, hotspot / coldspot finding, smoothed read creation and
+assembly) have been ported to the
+[strainFlye](https://github.com/fedarko/strainFlye) repository.
+strainFlye's code should be easier to use and more well-tested than the code
+here -- so I recommend using strainFlye instead of this messy code if possible.
+(These instructions are primarily here for the sake of reproducibility, and
+because as of writing the code for
+link graphs + mutation matrices + growth dynamics are not ported over to
+strainFlye yet.)
 
 ## Reproducing these analyses on your own system
 
 If you have any questions about getting things running or how things in this
-repository work, please feel free to reach out. This guide should work on most
-Linux / macOS systems; it's been tested on Ubuntu 16.04.
+repository work, please feel free to reach out. This code was primarily run on
+an Ubuntu 16.04 system.
 
-### Setting up your environment
+### Installation
+
 Most of the relevant "dependency" software
 for these analyses we used (e.g. minimap2,
 samtools, pysam, ...) was installed using [conda](https://conda.io/) (and
 [pip](https://pip.pypa.io/) inside of conda, in some cases). This section
-assumes you have at least conda installed.
+assumes you have conda installed.
 
 First, let's download this repository's code:
 
@@ -28,189 +40,162 @@ First, let's download this repository's code:
 git clone https://github.com/fedarko/sheepgut.git
 cd sheepgut
 ```
-Now, we need to install dependencies. We'll do this using conda, but we have
-two choices:
 
-#### Option 1: install approximate versions
-
-It will probably be fastest and easiest to install the dependencies for this
-project using conda via the following command.
-This command will not install the exact same versions of these
-packages as I've used in development, but the versions installed should be
-close enough:
+Now, we need to install dependencies. We use
+[mamba](https://mamba.readthedocs.io/en/latest/index.html) to do this because
+it's fast, but using the default conda installer should also work fine.
 
 ```bash
-conda env create -f environment.yml
+# Install mamba: https://mamba.readthedocs.io/en/latest/installation.html
+conda install mamba -n base -c conda-forge
+
+# Now install our packages using mamba
+mamba env create -f environment.yml
 ```
 
-#### Option 2: install exact versions
+This creates a conda environment named `sheepgut` that you can use for the bulk
+of these analyses. (Exceptions -- that is, analyses that require additional
+software to be installed -- are detailed below.)
 
-If you'd prefer to try to use the _exact_ same package versions I had
-installed, this environment contains the exact versions of the necessary
-dependencies. Please note that this "exact" conda environment file is pretty
-bloated; there are many things in there that are not needed for these analyses.
-This step will probably, therefore, be a decent amount slower than the above
-step.
+### Downloading input data and updating the `config` folder
 
-```bash
-conda env create -f exact-environment.yml
-```
+The main two inputs to these analyses are reads and an assembly graph
+produced from these reads.
+You can download a copy of the assembly graph from
+[Zenodo](https://zenodo.org/record/6545142). Once you've downloaded it, please
+update the corresponding path in `config/input-graph` (a few of the scripts
+will make use of this path).
 
-I am aware that it would probably be best to set up a Docker container or
-something for this -- getting to that is on my radar, but I am not sure
-I'll have time.
+Similarly, you should then download reads and update the path in
+`config/input-reads` accordingly. (Since the reads will probably span multiple
+files, you can separate filenames by spaces -- this is done in
+`config/input-reads`, as of writing.)
 
-### Basic walkthrough
+### Alignment and alignment filtering
 
-This will walk you through reproducing the results after setting up your
-environment.
-
-1. Download assembly graph; update the path in `config/input-graph` accordingly
-2. Download reads; update the path in `config/input-reads` accordingly
-3. Run the following commands in bash:
+Run the following commands in the terminal:
 
 ```bash
 # Run "main workflow" (do alignment, etc.)
 cd main-workflow/
 ./RUN-ME.sh
-
-# Run various read / sequence-level analyses
-cd ../inspect-seqs/
-./read-stats.py # compute read length statistics
-./checkm.sh     # Run CheckM on certain MAGs
-./prodigal.py   # Run Prodigal on certain MAGs
 ```
 
-At this point, you can now run notebooks in the `notebooks/` folder by starting
-a Jupyter notebook server
+This will create a folder in `main-workflow/` named `output/`; this folder will
+contain a BAM file corresponding to the filtered alignment
+(`main-workflow/output/fully-filtered-and-sorted-aln.bam`), as well as a
+"pickle" file containing pileup data for the three selected MAGs
+(`main-workflow/output/seq2pos2pileup.pickle`).
+
+(The "pickle" file is an inefficient way of making pileup access easy; the
+actual strainFlye codebase doesn't need to use this, since it just uses pysam
+directly.)
+
+### Run various read / MAG-level analyses
+
+These steps are optional (we include CheckM, Prodigal, LoFreq, and read stats
+outputs in this repository). We assume that you start each command from the
+root of the repository.
+
+#### CheckM (compute completeness and contamination statistics for the three MAGs)
+
+```bash
+cd inspect-seqs/
+./checkm.sh
+```
+
+#### Prodigal (predict protein-coding genes in the three MAGs)
+
+```bash
+cd inspect-seqs/
+./prodigal.py
+```
+
+#### Barrnap (predict rRNA genes in BACT1)
+
+```bash
+cd inspect-seqs/
+./barrnap.sh
+```
+
+#### LoFreq
+
+Note that you will need to install [LoFreq](http://csb5.github.io/lofreq/) to
+run this script, and that this is not included in the `environment.yml` file
+shown above. When I needed to run LoFreq, I wound up creating a new conda
+environment just for installing / running LoFreq.
+
+```bash
+cd main-workflow/
+./run-lofreq.py
+```
+
+#### Read statistics
+
+```bash
+cd inspect-seqs/
+./read-stats.py
+```
+
+### Run analysis notebooks
+
+We have now set the stage for running the analysis notebooks in this repository.
+These notebooks contain most of the "higher-level" analyses shown in our paper.
+
+You can run notebooks in the `notebooks/` folder by starting a Jupyter notebook server
 (see e.g. [this documentation](https://docs.jupyter.org/en/latest/running.html))
 from within this directory, then opening up any of the notebooks. You can also
 run individual notebooks from the command line directly
-using the `RUN-NTBK.py` Python script located within this repository.
+using the `RUN-NTBK.py` Python script located within this repository (this may
+be useful for some of the notebooks which take a while to run).
 
-### Input file locations
+#### Notebook outputs
 
-Please note that we have not provided the input data files (or many of the
-"intermediate" data files) in this repository due to GitHub's filesize limits.
-You'll need to download them yourself and update some paths accordingly (see
-above).
-
-## Mapping notebooks to pipeline modules
-
-We're working on porting this code from this ad hoc format to an easier-to-use
-pipeline, https://github.com/fedarko/strainFlye. For now, if you would like
-to use a certain part of the pipeline, this list describes the relevant ad hoc
-code in this repository:
-
-- `align`: Aligns reads to contigs, then filters this alignment.
-  - See the scripts in `main-workflow/`. In particular, `RUN-ME.sh` should
-    do the job. The `seq2pos2pileup.pickle` file output by this script is used
-    by many of the notebooks -- it's a somewhat fast (albeit memory intensive)
-    way to store alignment (BAM file) information for a small number of MAGs.
-
-- `call-naive` Performs naive mutation calling with controlled FDR.
-  - See the `DemonstratingTargetDecoyApproach.ipynb` notebook. This generates
-    FDR curves, etc.
-  - Currently, these notebooks don't explicitly output mutations as a VCF file,
-    but it's possible to do this using something like
-    [this script](https://github.com/fedarko/sheepgut/blob/main/notebooks/write-naive-vcf.py).
-
-- `diversity` Computes the diversity index for MAGs.
-  - See `DiversityIndices.ipynb`.
-
-- `spots` Identifies hot- and/or cold-spots in MAGs.
-  - See `MutationHotspotColdspotViz.ipynb` for generating large plots of
-    mutation locations and identifying coldspots.
-  - For identifying highly-mutated genes and/or intergenic regions, specifically,
-    see `HighlyMutatedGeneTables.ipynb` and/or
-    `HighlyMutatedIntergenicRegionTables.ipynb`.
-
-- `matrix` Computes mutation matrices of a MAG.
-  - See `Matrices-01-Compute.ipynb` and `Matrices-02-Viz.ipynb`.
-
-- `link-graph` Constructs the link graph structure for a MAG.
-  - See `Phasing-01-MakeGraph.ipynb`, `Phasing-02-VizGraph.ipynb`, and
-    `Phasing-03-MiscStats.ipynb`.
-
-- `smooth` Generates smoothed haplotypes. 
-  - See `Phasing-LJA.ipynb`.
-
-- `covskew` Visualizes coverage and GC skew.
-  - See `CoverageSkewPlots.ipynb`.
-
-## `main-workflow/`
-
-This directory contains various scripts that work with the input data
-(reads and an assembly graph) to produce statistics detailing the _mutation
-spectrum_, as well as some other important values, throughout some genomes of
-interest.
-
-The basic "pipeline," which is performed by `RUN-ME.sh` in this directory,
-involves the following general steps:
-
-- Creating a FASTA file of all the edge sequences in a metagenome assembly graph
-
-- Aligning the raw sequencing data (i.e. reads) back to the edge sequences in
-  the metagenome assembly graph, creating a SAM file
-
-- Filtering the resulting SAM file to remove secondary alignments (but not supplementary alignments!), and converting it to a BAM file
-
-- Sorting and indexing the BAM file
-
-- Filtering the BAM file to remove partially-mapped reads, and reads mapped completely or almost completely to other edge sequences we are not interested in
-
-- Sorting and indexing the (filtered) BAM file
-
-- Converting the final BAM file to a collection of simple
-  [JSON](https://en.wikipedia.org/wiki/JSON) files representing the number
-  of matches, mismatches, etc. at each position within the sequences of
-  interest
-
-The JSON files produced at the final step are the primary output from this
-"main workflow."
-
-## `inspect-seqs/`
-
-This directory contains scripts that perform some tasks outside of the
-"main workflow" involving analysis of the sequencing data
-that don't really fit neatly anywhere else. Currently this includes scripts
-for:
-
-1. Computing read length statistics
-2. Running CheckM
-3. Running Prodigal to predict protein-coding genes within these sequences
-
-Note that, unlike the JSON files and other outputs of the "main workflow"
-scripts above, the results from running CheckM and Prodigal are
-included in the repository since they're
-both 1) relatively small files and 2) useful to have around in version control.
-(The read length stats script doesn't create any files; it just outputs
-information to stdout.)
-
-## `notebooks/`
-
-This directory contains
-[Jupyter Notebooks](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook)
-that create various plots, files, etc. of the data.
-
-Figures are output to a directory named `notebooks/figs/`, although there are a
+Most figures are output to a directory named `notebooks/figs/`, although there are a
 few other types of outputs created. For example, some notebooks output things
 to the `notebooks/misc-text/` directory, which contains `.tex` files that are
-included literally in our paper.
+included in our paper.
 
-Many of these notebooks rely entirely or almost entirely on the JSON files
-created by the data processing scripts above. The initial structure of this
-repository was as two separate codebases, where I would create the JSONs on a
-computing server and then download them to my laptop for further analysis;
-however, eventually the JSONs became too large to load in memory on my poor
-laptop, so I elected to run the notebooks on the server as well.
+#### Notebooks that depend on other notebooks already having been run
 
-## `find-edges-in-other-graph/`
+Please note that some notebooks depend on the outputs of other notebooks having
+already been created. I have tried to track these "dependencies" here. (I have
+tried to include the "intermediate" outputs here in the repository, when
+possible; however, the `notebooks/phasing-data/` outputs are not included
+because they take up a lot of space.)
 
-This directory contains some code used in the transition from working with
-a smaller assembly graph to working with a larger assembly graph (constructed
-using the original data plus ~5x as much data).
+- `DemonstratingTargetDecoyApproach.ipynb`
+  - Depends on the output of
+    `SynAndNonsenseMutationRateBarplots-PositionBased.ipynb` (the
+    `notebooks/misc-output/pos_p2seq2*.pickle` files).
 
-One of the first tasks in this transition was taking sequences of interest
-from the smaller graph and trying to find them in the larger graph -- code
-for this is included here.
+- `Matrices-02-Viz.ipynb` 
+  - Depends on `Matrices-01-Compute.ipynb` (the `notebooks/matrix-jsons/*`
+    files).
+
+- `Phasing-02-VizGraph.ipynb`
+  - Depends on `Phasing-01-MakeGraph.ipynb` (the
+    `notebooks/phasing-data/*.pickle` files).
+
+- `Phasing-03-MiscStats.ipynb`
+  - Depends on `Phasing-01-MakeGraph.ipynb` (the
+    `notebooks/phasing-data/*.pickle` files).
+
+- `Phasing-LJA-SmoothedVirtualReadCoverage.ipynb` (unused in the paper, as of
+  writing)
+  - Depends on `Phasing-LJA.ipynb` (the
+    `phasing-data/smoothed-reads/edge_1671_smoothed_reads_delignore_vrlow.fasta`
+    file).
+
+#### Notebooks that need extra software to be installed
+
+- `notebooks/Phasing-02-VizGraph.ipynb`
+  - Depends on [Graphviz](https://www.graphviz.org/) -- in particular, the
+    `sfdp` layout algorithm -- being installed. (Note that the part of this
+    notebook that actually runs `sfdp` is commented out at the moment; so, for
+    now, this notebook will just generate `.gv` files without actually
+    visualizing them.)
+
+- `notebooks/Phasing-LJA.ipynb` and `notebooks/Phasing-LJA-CAMP-Gene.ipynb`
+  - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
+    being installed.
