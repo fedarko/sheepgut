@@ -93,9 +93,9 @@ directly.)
 
 ### Run various read / MAG-level analyses
 
-These steps are optional (we include CheckM, Prodigal, LoFreq, and read stats
-outputs in this repository). We assume that you start each command from the
-root of the repository.
+These steps are optional (we include CheckM, Prodigal, barrnap, LoFreq, and
+read stats outputs in this repository). We assume that you start each command
+from the root of the repository.
 
 #### CheckM (compute completeness and contamination statistics for the three MAGs)
 
@@ -125,8 +125,16 @@ run this script, and that this is not included in the `environment.yml` file
 shown above. When I needed to run LoFreq, I wound up creating a new conda
 environment just for installing / running LoFreq.
 
+(Also, this assumes that you have already run `main-workflow/RUN-ME.sh` and
+created an alignment.)
+
 ```bash
 cd main-workflow/
+
+# Create a BAM file for just the three selected MAGs (saves time)
+./filter-bam-to-selected-mags.sh
+
+# Run LoFreq using it
 ./run-lofreq.py
 ```
 
