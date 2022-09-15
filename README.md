@@ -3,22 +3,29 @@
 [![Analysis Code CI](https://github.com/fedarko/sheepgut/actions/workflows/main.yml/badge.svg)](https://github.com/fedarko/sheepgut/actions/workflows/main.yml)
 
 This repository contains various code and data files used in the strainFlye
-paper. Most of these analyses are focused on the analysis of a sheep gut
-metagenome dataset (see
-[Kolmogorov _et al._, 2020](https://www.nature.com/articles/s41592-020-00971-x)
-and
+paper.
+
+## Datasets
+
+Most of these analyses are focused on the analysis of a sheep gut
+metagenome dataset
+([Kolmogorov _et al._, 2020](https://www.nature.com/articles/s41592-020-00971-x),
 [Bickhart/Kolmogorov _et al._, 2022](https://www.nature.com/articles/s41587-021-01130-z));
-however, some (in particular, the files in `chicken-gut-analysis`) focus on a
-later analyses we performed of a chicken gut metagenome dataset (see
-[Feng _et al._, 2022](https://www.nature.com/articles/s41592-022-01478-3).
+however, some analyses (in particular, the files in `chicken-gut-analysis`)
+focus on a later analysis we performed of a chicken gut metagenome dataset
+([Feng _et al._, 2022](https://www.nature.com/articles/s41592-022-01478-3)).
+
+## The strainFlye pipeline
 
 **Please note** that many of the analyses shown here (alignment, mutation
 calling, FDR estimation, hotspot / coldspot finding, smoothed read creation and
 assembly) have been ported to the
 [strainFlye](https://github.com/fedarko/strainFlye) repository.
+
 strainFlye's code should be easier to use and more well-tested than the code
 here -- so, if you would like to replicate these sorts of analyses on another
 dataset, I recommend using strainFlye instead of this messy code if possible.
+
 (These instructions are primarily here for the sake of reproducibility, and
 because as of writing the code for
 link graphs + mutation matrices + growth dynamics are not ported over to
