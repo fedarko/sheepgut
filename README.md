@@ -93,9 +93,9 @@ directly.)
 
 ### Run various read / MAG-level analyses
 
-These steps are optional (we include CheckM, Prodigal, barrnap, LoFreq, and
-read stats outputs in this repository). We assume that you start each command
-from the root of the repository.
+These steps are optional (we include CheckM, Prodigal, barrnap, read stats, and
+LoFreq outputs in this repository). For each of these sets of commands, we
+assume that you are located in the root of the repository.
 
 #### CheckM (compute completeness and contamination statistics for the three MAGs)
 
