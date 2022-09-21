@@ -7,3 +7,4 @@ notebooks/misc-output/p2called_mutations.txt
 notebooks/phasing-data/
 notebooks/graphs/*.gv
 notebooks/graphs/*.png
+sf-analyses/sheep/output/

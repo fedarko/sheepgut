@@ -11,7 +11,7 @@ Most of these analyses are focused on the analysis of a sheep gut
 metagenome dataset
 ([Kolmogorov _et al._, 2020](https://www.nature.com/articles/s41592-020-00971-x),
 [Bickhart/Kolmogorov _et al._, 2022](https://www.nature.com/articles/s41587-021-01130-z));
-however, some analyses (in particular, the files in `chicken-gut-analysis`)
+however, some analyses (in particular, the files in `sf-analyses/chicken/`)
 focus on a later analysis we performed of a chicken gut metagenome dataset
 ([Feng _et al._, 2022](https://www.nature.com/articles/s41592-022-01478-3)).
 
@@ -169,12 +169,13 @@ run individual notebooks from the command line directly
 using the `RUN-NTBK.py` Python script located within this repository (this may
 be useful for some of the notebooks which take a while to run).
 
-**Brief troubleshooting note:** If you get an error named `500: Internal Server
-Error` when trying to access a
+#### Troubleshooting an "internal server error" when running Jupyter notebooks
+If you get an error named `500: Internal Server Error` when trying to access a
 Jupyter notebook server, and the Jupyter server produces an error that looks
 like `ImportError: libffi.so.7: cannot open shared object file: No such file or
 directory`, then this is a known issue with using conda and Jupyter -- see
-[this GitHub issues comment](https://github.com/conda/conda/issues/9038#issuecomment-627698375)
+[this GitHub issues
+comment](https://github.com/conda/conda/issues/9038#issuecomment-627698375)
 for details.
 
 #### Notebook outputs
@@ -228,14 +229,29 @@ because they take up a lot of space.)
   - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
     being installed.
 
-### Additional analyses
+### Additional analyses that use the strainFlye pipeline code directly (`sf-analyses`)
 
-- `notebooks/strainFlye-FDR-curves.ipynb`
-  - Depends on [strainFlye](https://github.com/fedarko/strainFlye) being
-    installed. You could create a new conda environment and install strainFlye
-    into that (shown in the current strainFlye installation instructions, as of
-    writing), or just install strainFlye into the `sheepgut` environment we
-    created above. Either should work.
+The `sf-analyses/chicken/` folder contains analyses of the chicken gut dataset;
+the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
+
+You may ask what the purpose of the `sheep` folder's analyses is, since the
+rest of this repository analyzes this same dataset! The answer is that the
+[strainFlye pipeline code](https://github.com/fedarko/strainFlye) includes some
+new functionality that we implemented after creating this analysis repository:
+for example, strainFlye includes new decoy contexts for FDR estimation, and the
+ability to compute p-values for the longest gap between mutations in a contig.
+To avoid contaminating the old analysis notebooks with newer analyses, we move
+these new analyses (that depend on the user installing strainFlye) into these
+different locations.
+
+#### Installing strainFlye
+
+Please see the strainFlye code repository.
+You could create a new conda environment and install strainFlye
+into that (shown in the current strainFlye installation instructions, as of
+writing), or just install strainFlye into the `sheepgut` environment we
+created above. Either should work. (The "new conda environment" approach is
+probably less prone to weird errors popping up.)
 
 ### Creating other figures in the paper
 
