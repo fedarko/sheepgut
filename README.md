@@ -169,6 +169,14 @@ run individual notebooks from the command line directly
 using the `RUN-NTBK.py` Python script located within this repository (this may
 be useful for some of the notebooks which take a while to run).
 
+**Brief troubleshooting note:** If you get an error named `500: Internal Server
+Error` when trying to access a
+Jupyter notebook server, and the Jupyter server produces an error that looks
+like `ImportError: libffi.so.7: cannot open shared object file: No such file or
+directory`, then this is a known issue with using conda and Jupyter -- see
+[this GitHub issues comment](https://github.com/conda/conda/issues/9038#issuecomment-627698375)
+for details.
+
 #### Notebook outputs
 
 Most figures are output to a directory named `notebooks/figs/`, although there are a
@@ -220,6 +228,8 @@ because they take up a lot of space.)
   - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
     being installed.
 
+### Additional analyses
+
 - `notebooks/strainFlye-FDR-curves.ipynb`
   - Depends on [strainFlye](https://github.com/fedarko/strainFlye) being
     installed. You could create a new conda environment and install strainFlye
@@ -229,7 +239,7 @@ because they take up a lot of space.)
 
 ### Creating other figures in the paper
 
-The analysis notebooks create *most* of the figures shown in our paper,
+The above instructions create *most* of the figures shown in our paper,
 although there are a few exceptions.
 
 - strainFlye pipeline figure: created using LibreOffice Draw, GIMP, and Graphviz
