@@ -98,9 +98,9 @@ contain a BAM file corresponding to the filtered alignment
 "pickle" file containing pileup data for the three selected MAGs
 (`main-workflow/output/seq2pos2pileup.pickle`).
 
-(The "pickle" file is an inefficient way of making pileup access easy; the
-actual strainFlye codebase doesn't need to use this, since it just uses pysam
-directly.)
+The "pickle" file is an inefficient way of making pileup access easy for a
+small set of MAGs; the actual strainFlye codebase doesn't need to use this,
+since it just uses pysam directly.
 
 ### Run various read / MAG-level analyses
 
@@ -219,6 +219,13 @@ because they take up a lot of space.)
 - `notebooks/Phasing-LJA.ipynb` and `notebooks/Phasing-LJA-CAMP-Gene.ipynb`
   - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
     being installed.
+
+- `notebooks/strainFlye-FDR-curves.ipynb`
+  - Depends on [strainFlye](https://github.com/fedarko/strainFlye) being
+    installed. You could create a new conda environment and install strainFlye
+    into that (shown in the current strainFlye installation instructions, as of
+    writing), or just install strainFlye into the `sheepgut` environment we
+    created above. Either should work.
 
 ### Creating other figures in the paper
 
