@@ -234,24 +234,28 @@ because they take up a lot of space.)
 The `sf-analyses/chicken/` folder contains analyses of the chicken gut dataset;
 the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
 
-You may ask what the purpose of the `sheep` folder's analyses is, since the
-rest of this repository analyzes this same dataset! The answer is that the
-[strainFlye pipeline code](https://github.com/fedarko/strainFlye) includes some
+The [strainFlye pipeline code](https://github.com/fedarko/strainFlye) includes some
 new functionality that we implemented after creating this analysis repository:
 for example, strainFlye includes new decoy contexts for FDR estimation, and the
 ability to compute p-values for the longest gap between mutations in a contig.
-To avoid contaminating the old analysis notebooks with newer analyses, we move
-these new analyses (that depend on the user installing strainFlye) into these
-different locations.
 
-#### Installing strainFlye
+To avoid mixing the old analysis notebooks (that use _ad hoc_ code to do
+various tasks) with newer analyses (that use the actual strainFlye pipeline
+code), these "later" analyses are stored in the `sf-analyses` folder.
 
-Please see the strainFlye code repository.
-You could create a new conda environment and install strainFlye
-into that (shown in the current strainFlye installation instructions, as of
-writing), or just install strainFlye into the `sheepgut` environment we
-created above. Either should work. (The "new conda environment" approach is
-probably less prone to weird errors popping up.)
+#### Installing strainFlye to run the analyses in `sf-analyses`
+
+Please see the installation instructions in
+[strainFlye's README](https://github.com/fedarko/strainFlye).
+It's probably easiest to just create a new conda environment and install strainFlye
+into that (this is shown in the current strainFlye installation instructions, as of
+writing).
+
+If you create a new conda environment to run strainFlye, you will need to
+install `jupyter` if you want to run any of the Jupyter notebooks in
+`sf-analyses`. As of writing, `jupyter` is included in the main `sheepgut`
+environment we set up above in this README -- but it is not included by default
+in the strainFlye environment.
 
 ### Creating other figures in the paper
 
