@@ -1,7 +1,7 @@
 # Copied from Pleuk's workflow, which was in turn based on Empress' workflows
 # and the GitHub tutorial (https://docs.github.com/en/actions/quickstart)
 # Also see https://github.com/marketplace/actions/setup-miniconda
-name: SheepGut Analysis Code CI
+name: Analysis Code CI
 on: [push, pull_request]
 jobs:
   default-shell:
