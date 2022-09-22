@@ -170,13 +170,37 @@ using the `RUN-NTBK.py` Python script located within this repository (this may
 be useful for some of the notebooks which take a while to run).
 
 #### Troubleshooting an "internal server error" when running Jupyter notebooks
-If you get an error named `500: Internal Server Error` when trying to access a
-Jupyter notebook server, and the Jupyter server produces an error that looks
-like `ImportError: libffi.so.7: cannot open shared object file: No such file or
+When trying to log in to a Jupyter notebook session, you get an error that
+shows up in the browser as `500: Internal Server Error`.
+If the Jupyter server program produces an error that
+looks like `ImportError: libffi.so.7: cannot open shared object file: No such file or
 directory`, then this is a known issue with using conda and Jupyter -- see
 [this GitHub issues
 comment](https://github.com/conda/conda/issues/9038#issuecomment-627698375)
 for details.
+
+I ran into this error a few times. The solution resembles that described in the
+GitHub issues comment above:
+
+1. `cd` into the `lib/` folder for your conda environment: for an environment
+   named `sheepgut`, for example, this is (at least on my system's conda
+   installation) `cd ~/miniconda3/envs/sheepgut/lib/`
+
+2. Figure out what versions of `libffi.so*` you have in this folder. Something
+   like `ls -ahlt libffi.so*` should work -- at least for my installation, I had
+   multiple versions of `libffi.so*` in this folder. However, all but one of
+   these were just [symlinks](https://en.wikipedia.org/wiki/Symbolic_link) to a
+   file named `libffi.so.6.0.4`.
+
+3. Depending on what version you got the `ImportError` regarding, set up a
+   symlink of that name to the `libffi.so*` file that you actually have
+   installed. For me, I ran `ln -s libffi.so.6.0.4 libffi.so.7` to fix the
+   problem.
+
+Once you've set up the symlink, you can restart the Jupyter notebook and you
+should be able to log in. (Obvious caveat:
+[libffi](https://en.wikipedia.org/wiki/Libffi) is almost as old as I am and I
+don't know how it works)
 
 #### Notebook outputs
 
@@ -231,9 +255,7 @@ because they take up a lot of space.)
 
 ### Additional analyses that use the strainFlye pipeline code directly (`sf-analyses`)
 
-The `sf-analyses/chicken/` folder contains analyses of the chicken gut dataset;
-the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
-
+**Why does this folder exist?**
 The [strainFlye pipeline code](https://github.com/fedarko/strainFlye) includes some
 new functionality that we implemented after creating this analysis repository:
 for example, strainFlye includes new decoy contexts for FDR estimation, and the
@@ -242,6 +264,10 @@ ability to compute p-values for the longest gap between mutations in a contig.
 To avoid mixing the old analysis notebooks (that use _ad hoc_ code to do
 various tasks) with newer analyses (that use the actual strainFlye pipeline
 code), these "later" analyses are stored in the `sf-analyses` folder.
+
+**What's in this folder?**
+The `sf-analyses/chicken/` folder contains analyses of the chicken gut dataset;
+the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
 
 #### Installing strainFlye to run the analyses in `sf-analyses`
 
@@ -256,6 +282,12 @@ install `jupyter` if you want to run any of the Jupyter notebooks in
 `sf-analyses`. As of writing, `jupyter` is included in the main `sheepgut`
 environment we set up above in this README -- but it is not included by default
 in the strainFlye environment.
+
+(If you got an "internal server error" when
+using Jupyter to run the other notebooks, you may get it again in this new
+environment -- see the
+_Troubleshooting an "internal server error" when running Jupyter notebooks_
+section above for some advice.)
 
 ### Creating other figures in the paper
 
