@@ -11,7 +11,7 @@
 CONTIGS=/Poppy/mfedarko/sheepgut/main-workflow/output/all_edges.fasta
 BAM=/Poppy/mfedarko/sheepgut/main-workflow/output/fully-filtered-and-sorted-aln.bam
 
-strainFlye fdr estimate
+strainFlye fdr estimate \
     --contigs $CONTIGS \
     --bam $BAM \
     --bcf output/call-p15/naive-calls.bcf \

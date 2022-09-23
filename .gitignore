@@ -8,3 +8,7 @@ notebooks/phasing-data/
 notebooks/graphs/*.gv
 notebooks/graphs/*.png
 sf-analyses/sheep/output/
+# i considered keeping the log files, but when using --verbose these get pretty
+# massive (e.g. 41 MB for the 1-call log, albeit including two different runs
+# of call).
+sf-analyses/sheep/logs/
