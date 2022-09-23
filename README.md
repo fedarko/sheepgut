@@ -257,9 +257,10 @@ because they take up a lot of space.)
 
 **Why does this folder exist?**
 The [strainFlye pipeline code](https://github.com/fedarko/strainFlye) includes some
-new functionality that we implemented after creating this analysis repository:
-for example, strainFlye includes new decoy contexts for FDR estimation, and the
-ability to compute p-values for the longest gap between mutations in a contig.
+new functionality that we implemented only recently:
+for example, strainFlye now supports transversion decoy contexts for FDR
+estimation, and the ability to compute p-values for the longest gap between
+mutations in a contig.
 
 To avoid mixing the old analysis notebooks (that use _ad hoc_ code to do
 various tasks) with newer analyses (that use the actual strainFlye pipeline
@@ -268,6 +269,15 @@ code), these "later" analyses are stored in the `sf-analyses` folder.
 **What's in this folder?**
 The `sf-analyses/chicken/` folder contains analyses of the chicken gut dataset;
 the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
+
+**Analysis "starting points."**
+Please that the chicken gut analyses begin from the reads and contigs (so, we
+first perform alignment using `strainFlye align`).
+
+However, the sheep gut analyses here make use of the alignment we produced in
+`main-workflow/RUN-ME.sh` above. This 1) avoids rerunning minimap2 on this
+massive dataset, and 2) allows us to be consistent with the rest of these
+analyses, by using the exact same alignment.
 
 #### Installing strainFlye to run the analyses in `sf-analyses`
 
