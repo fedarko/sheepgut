@@ -154,6 +154,11 @@ cd main-workflow/
 
 # Run LoFreq using it
 ./run-lofreq.py
+
+# Output info on how many positions LoFreq called multiple variants at
+# in the three selected MAGs
+cd ../misc-scripts
+./find_multivariant_pos_lofreq.py
 ```
 
 ### Run analysis notebooks
