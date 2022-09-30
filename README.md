@@ -82,6 +82,13 @@ Similarly, you should then download reads and update the path in
 files, you can separate filenames by spaces -- this is done in
 `config/input-reads`, as of writing.)
 
+Please note that, although the `config` folder is referenced by many of the
+analyses in this repository, there are still many analyses here that directly
+point to these or other SheepGut-related files. To reiterate the point above, I
+strongly recommend using the
+[strainFlye pipeline code](https://github.com/fedarko/strainFlye) for arbitrary
+datasets.
+
 ### Alignment and alignment filtering
 
 Run the following commands in the terminal:
@@ -279,10 +286,10 @@ the `sf-analyses/sheep/` folder contains analyses of the sheep gut dataset.
 Please that the chicken gut analyses begin from the reads and contigs (so, we
 first perform alignment using `strainFlye align`).
 
-However, the sheep gut analyses here make use of the alignment we produced in
-`main-workflow/RUN-ME.sh` above. This 1) avoids rerunning minimap2 on this
-massive dataset, and 2) allows us to be consistent with the rest of these
-analyses, by using the exact same alignment.
+However, some of the sheep gut analyses here make use of the alignment we
+produced in `main-workflow/RUN-ME.sh` above. This 1) avoids rerunning
+minimap2 on this massive dataset, and 2) allows us to be consistent with the
+rest of these analyses, by using the exact same alignment.
 
 #### Installing strainFlye to run the analyses in `sf-analyses`
 
