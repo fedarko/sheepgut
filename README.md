@@ -265,6 +265,21 @@ because they take up a lot of space.)
   - Depend on [LJA and jumboDBG](https://github.com/AntonBankevich/LJA/)
     being installed.
 
+- I've noticed that `notebooks/MutationHotspotColdspotViz.ipynb` produces a
+  slightly ugly-looking figure (it's not incorrect as far as I can tell, but
+  it just has some extra whitespace, etc.) when using later versions of
+  matplotlib than it was developed with.
+  - For reference, running this notebook in a conda environment with
+    matplotlib 3.3.3 installed produces a figure as expected; when matplotlib
+    3.5.3 is installed, however, this notebook produces an uglier-looking figure.
+    (A warning is also produced resembling
+    [this one](https://github.com/matplotlib/matplotlib/issues/13430#issuecomment-463401327).)
+  - I don't have time to figure out the source of this problem
+    right now (sorry), but if you run into similar problems when generating
+    figures you may want to check the matplotlib version installed.
+  - (I'm aware that it would have been a good idea to wrap everything here in a
+    Docker container; I apologize for not having done that from the beginning!)
+
 ### Additional analyses that use the strainFlye pipeline code directly (`sf-analyses`)
 
 **Why does this folder exist?**
