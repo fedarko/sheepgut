@@ -7,18 +7,8 @@ CGDIR=/Poppy/mfedarko/chicken-gut-meta
 strainFlye fdr estimate \
     --contigs $CGDIR/sf/contigs.fasta \
     --bam $CGDIR/sf/aln/final.bam \
-    --bcf $CGDIR/sf/call-r-minr3/naive-calls.bcf \
-    --diversity-indices $CGDIR/sf/call-r-minr3/diversity-indices.tsv \
-    --decoy-contexts Full \
-    --decoy-contexts CP2 \
-    --decoy-contexts Tv \
-    --decoy-contexts Nonsyn \
-    --decoy-contexts Nonsense \
-    --decoy-contexts CP2Tv \
-    --decoy-contexts CP2Nonsyn \
-    --decoy-contexts CP2Nonsense \
-    --decoy-contexts TvNonsyn \
-    --decoy-contexts TvNonsense \
-    --decoy-contexts CP2TVNonsense \
+    --bcf $CGDIR/sf/call-p-minp100/naive-calls.bcf \
+    --diversity-indices $CGDIR/sf/call-p-minp100/diversity-indices.tsv \
+    --decoy-contexts Everything \
     --decoy-min-average-coverage 100 \
-    --output-dir $CGDIR/sf/fdr-estimate-dmac100x/
+    --output-dir $CGDIR/sf/fdr-estimate-dmac100x-p/
