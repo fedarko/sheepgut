@@ -18,18 +18,16 @@ focus on a later analysis we performed of a chicken gut metagenome dataset
 ## The strainFlye pipeline
 
 **Please note** that many of the analyses shown here (alignment, mutation
-calling, FDR estimation, hotspot / coldspot finding, smoothed read creation and
-assembly) have been ported to the
-[strainFlye](https://github.com/fedarko/strainFlye) repository.
+calling and diversity index computation, FDR estimation,
+hotspot / coldspot finding, smoothed read creation / assembly,
+link graph creation, mutation matrices, coverage vs. skew plots)
+have been ported to the [strainFlye](https://github.com/fedarko/strainFlye)
+repository.
 
 strainFlye's code should be easier to use and more well-tested than the code
 here -- so, if you would like to replicate these sorts of analyses on another
 dataset, I recommend using strainFlye instead of this messy code if possible.
-
-(These instructions are primarily here for the sake of reproducibility, and
-because as of writing the code for
-link graphs + mutation matrices + growth dynamics are not ported over to
-strainFlye yet.)
+(These instructions are primarily here for the sake of reproducibility.)
 
 ## Reproducing these analyses on your own system
 
