@@ -3,7 +3,8 @@
 [![Analysis Code CI](https://github.com/fedarko/sheepgut/actions/workflows/main.yml/badge.svg)](https://github.com/fedarko/sheepgut/actions/workflows/main.yml)
 
 This repository contains various code and data files used in the strainFlye
-paper.
+paper (**now published in _Genome Research_ as
+[Fedarko _et al._, 2022](https://genome.cshlp.org/content/32/11-12/2119)**).
 
 ## Datasets
 
